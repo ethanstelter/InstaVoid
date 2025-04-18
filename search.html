@@ -47,7 +47,6 @@
       margin-bottom: 0.5rem;
     }
 
-    .result,
     .achievement-tile {
       border: 1px solid #333;
       background-color: #1a1a1a;
@@ -56,7 +55,6 @@
       margin-bottom: 0.8rem;
     }
 
-    .result strong,
     .achievement-tile strong {
       display: block;
       margin-bottom: 0.3rem;
@@ -66,6 +64,19 @@
     .achievement-tile.glow {
       border: 1px solid #00bfff;
       box-shadow: 0 0 8px #00bfff55;
+    }
+
+    .result {
+      border: 1px solid #333;
+      background-color: #1a1a1a;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 0.8rem;
+    }
+
+    .result a {
+      color: #00bfff;
+      text-decoration: none;
     }
 
     .leaderboard-entry {
@@ -119,16 +130,21 @@
 </head>
 <body>
   <header>Search the Void</header>
+
   <div class="container">
     <input type="text" id="searchInput" placeholder="Search achievements or accounts..." />
+
     <div class="section-title">Achievements</div>
     <div id="achievementResults"></div>
     <button id="showAllBtn">Show all achievements</button>
+
     <div class="section-title">Accounts</div>
     <div id="userResults"></div>
+
     <div class="section-title">Leaderboard</div>
     <div id="leaderboard"></div>
   </div>
+
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
     <a href="search.html">🔍</a>
@@ -136,27 +152,33 @@
     <a href="reels.html">🎞️</a>
     <a href="profile.html">👤</a>
   </div>
+
   <script>
+    // 50 achievements (load from localStorage or fallback to empty array)
     const fullAchievements = JSON.parse(localStorage.getItem("achievementList")) || [];
+    const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
+
     const fakeUsernames = [
       "void_vibes", "scroller3000", "ghostfeed", "lostinloop",
       "tapmaster", "doomposter", "feed.exe", "no_signal",
       "lurkerbot", "user_0000"
     ];
-    const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
+
     const achievementResults = document.getElementById("achievementResults");
-    const searchInput = document.getElementById("searchInput");
-    const userResults = document.getElementById("userResults");
-    const leaderboard = document.getElementById("leaderboard");
     const showAllBtn = document.getElementById("showAllBtn");
+    const userResults = document.getElementById("userResults");
+    const searchInput = document.getElementById("searchInput");
+    const leaderboard = document.getElementById("leaderboard");
 
     function renderAchievements(showAll = false) {
       achievementResults.innerHTML = "";
       const list = showAll ? fullAchievements : fullAchievements.slice(0, 4);
       list.forEach(ach => {
         const div = document.createElement("div");
-        div.className = "achievement-tile";
-        if (unlocked.includes(ach.key)) div.classList.add("glow");
+        div.classList.add("achievement-tile");
+        if (unlocked.includes(ach.key)) {
+          div.classList.add("glow");
+        }
         div.innerHTML = `<strong>${ach.name}</strong>${ach.desc}`;
         achievementResults.appendChild(div);
       });
@@ -169,7 +191,9 @@
 
     function renderSearch(query = "") {
       const q = query.toLowerCase();
+
       renderAchievements(true);
+
       if (q) {
         const matches = fullAchievements.filter(ach =>
           ach.name.toLowerCase().includes(q) || ach.desc.toLowerCase().includes(q)
@@ -177,8 +201,10 @@
         achievementResults.innerHTML = "";
         matches.forEach(ach => {
           const div = document.createElement("div");
-          div.className = "achievement-tile";
-          if (unlocked.includes(ach.key)) div.classList.add("glow");
+          div.classList.add("achievement-tile");
+          if (unlocked.includes(ach.key)) {
+            div.classList.add("glow");
+          }
           div.innerHTML = `<strong>${ach.name}</strong>${ach.desc}`;
           achievementResults.appendChild(div);
         });
@@ -216,6 +242,7 @@
     const fakeStats = fakeUsernames.map(name => randomStats(name));
     const allUsers = [yourStats, ...fakeStats];
     allUsers.sort((a, b) => b.minutes - a.minutes);
+
     allUsers.forEach(user => {
       const div = document.createElement("div");
       div.className = "leaderboard-entry";
