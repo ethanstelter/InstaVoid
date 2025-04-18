@@ -119,51 +119,53 @@
     <a href="profile.html">👤</a>
   </div>
 
-<script>
-  // ✅ Updated full achievement list (matches profile page now)
-  const achievementsList = {
-    doomscroll: { name: "Doomscrolled", desc: "Wasted over 1 minute." },
-    liker: { name: "You Liked That", desc: "Gave 10 meaningless likes." },
-    voidpro: { name: "Void Professional", desc: "Spent 5 minutes in the void." },
-    scroller: { name: "Scroller Supreme", desc: "Scrolled 100 times." }
-  };
-
-  const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
-  const grid = document.getElementById("achievementGrid");
-  const preview = document.getElementById("preview");
-
-  let selectedKey = null;
-
-  // ✅ Render grid of only unlocked ones
-  unlocked.forEach(key => {
-    const ach = achievementsList[key];
-    if (!ach) return; // skip if somehow undefined
-    const tile = document.createElement("div");
-    tile.className = "achievement-tile";
-    tile.innerHTML = `<strong>${ach.name}</strong><br>${ach.desc}`;
-    tile.onclick = () => {
-      document.querySelectorAll(".achievement-tile").forEach(el => el.classList.remove("selected"));
-      tile.classList.add("selected");
-      selectedKey = key;
+  <script>
+    // ✅ FULL list of achievements (this matches the profile page exactly)
+    const achievementsList = {
+      doomscroll: { name: "Doomscrolled", desc: "Wasted over 1 minute." },
+      liker: { name: "You Liked That", desc: "Gave 10 meaningless likes." },
+      voidpro: { name: "Void Professional", desc: "Spent 5 minutes in the void." },
+      scroller: { name: "Scroller Supreme", desc: "Scrolled 100 times." }
     };
-    grid.appendChild(tile);
-  });
 
-  function publish() {
-    if (!selectedKey) {
+    const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
+    const grid = document.getElementById("achievementGrid");
+    const preview = document.getElementById("preview");
+
+    let selectedKey = null;
+
+    // Render grid of only unlocked achievements
+    unlocked.forEach(key => {
+      if (!(key in achievementsList)) return; // skip unknown keys
+
+      const ach = achievementsList[key];
+      const tile = document.createElement("div");
+      tile.className = "achievement-tile";
+      tile.innerHTML = `<strong>${ach.name}</strong><br>${ach.desc}`;
+      tile.onclick = () => {
+        document.querySelectorAll(".achievement-tile").forEach(el => el.classList.remove("selected"));
+        tile.classList.add("selected");
+        selectedKey = key;
+      };
+      grid.appendChild(tile);
+    });
+
+    function publish() {
+      if (!selectedKey) {
+        preview.style.display = "block";
+        preview.textContent = "Please select an achievement.";
+        return;
+      }
+
+      const ach = achievementsList[selectedKey];
+      const postText = `${ach.name} – ${ach.desc}`;
+      const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
+      posts.unshift(postText);
+      localStorage.setItem("sharedPosts", JSON.stringify(posts));
+
       preview.style.display = "block";
-      preview.textContent = "Please select an achievement.";
-      return;
+      preview.textContent = postText;
     }
-
-    const postText = `${achievementsList[selectedKey].name} – ${achievementsList[selectedKey].desc}`;
-    const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
-    posts.unshift(postText);
-    localStorage.setItem("sharedPosts", JSON.stringify(posts));
-
-    preview.style.display = "block";
-    preview.textContent = postText;
-  }
-</script>
+  </script>
 </body>
 </html>
