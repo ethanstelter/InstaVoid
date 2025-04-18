@@ -19,6 +19,13 @@
       background-color: #1a1a1a;
     }
 
+    header a {
+      color: #888;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-size: 0.9rem;
+    }
+
     main {
       padding: 2rem;
       text-align: center;
@@ -81,6 +88,7 @@
   <header>
     <h1>InstaVoid</h1>
     <p>Welcome back, scroller. The void missed you.</p>
+    <a href="profile.html">View Profile</a>
   </header>
 
   <main id="feed">
@@ -94,16 +102,9 @@
     const feed = document.getElementById("feed");
 
     const fakeUsernames = [
-      "void_vibes",
-      "scroller3000",
-      "ghostfeed",
-      "lostinloop",
-      "tapmaster",
-      "doomposter",
-      "feed.exe",
-      "no_signal",
-      "lurkerbot",
-      "user_0000"
+      "void_vibes", "scroller3000", "ghostfeed", "lostinloop",
+      "tapmaster", "doomposter", "feed.exe", "no_signal",
+      "lurkerbot", "user_0000"
     ];
 
     const fakeMessages = [
@@ -117,7 +118,19 @@
       "[ Just one more... nothing. ]"
     ];
 
-    // Local storage: Likes
+    // Time tracking
+    const counter = document.getElementById("waste-counter");
+    let secondsWasted = parseInt(localStorage.getItem("secondsWasted")) || 0;
+    counter.textContent = `Minutes of life wasted here: ${Math.floor(secondsWasted / 60)}`;
+
+    setInterval(() => {
+      secondsWasted++;
+      const minutes = Math.floor(secondsWasted / 60);
+      counter.textContent = `Minutes of life wasted here: ${minutes}`;
+      localStorage.setItem("secondsWasted", secondsWasted);
+    }, 1000);
+
+    // Likes tracking
     let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
     const likeCounter = document.getElementById("like-counter");
     likeCounter.textContent = `Likes given: ${likesGiven}`;
@@ -149,6 +162,7 @@
         setTimeout(() => {
           likeBtn.textContent = "❤️ Like";
         }, 1500);
+        checkAchievements();
       });
     }
 
@@ -168,17 +182,28 @@
       }
     });
 
-    // Local storage: Time tracking
-    const counter = document.getElementById("waste-counter");
-    let secondsWasted = parseInt(localStorage.getItem("secondsWasted")) || 0;
-    counter.textContent = `Minutes of life wasted here: ${Math.floor(secondsWasted / 60)}`;
+    // Fake stat post
+    const statPost = document.createElement("div");
+    statPost.className = "post";
+    statPost.innerHTML = `<div>@you</div><div>I’ve wasted ${Math.floor(secondsWasted / 60)} minutes of my life here.</div>`;
+    feed.appendChild(statPost);
 
-    setInterval(() => {
-      secondsWasted++;
-      const minutes = Math.floor(secondsWasted / 60);
-      counter.textContent = `Minutes of life wasted here: ${minutes}`;
-      localStorage.setItem("secondsWasted", secondsWasted);
-    }, 1000);
+    // Achievement system
+    function checkAchievements() {
+      let achieved = JSON.parse(localStorage.getItem("achievements")) || [];
+
+      if (likesGiven >= 10 && !achieved.includes("Validation Machine")) {
+        achieved.push("Validation Machine");
+        alert("Achievement Unlocked: Validation Machine (10 Likes)");
+      }
+
+      if (secondsWasted >= 600 && !achieved.includes("Doomscrolled")) {
+        achieved.push("Doomscrolled");
+        alert("Achievement Unlocked: Doomscrolled (10 Minutes Wasted)");
+      }
+
+      localStorage.setItem("achievements", JSON.stringify(achieved));
+    }
   </script>
 </body>
 </html>
