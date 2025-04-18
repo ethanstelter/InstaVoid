@@ -12,7 +12,6 @@
       margin: 0;
       padding: 0;
     }
-
     header {
       display: flex;
       align-items: center;
@@ -21,34 +20,29 @@
       background-color: #1a1a1a;
       border-bottom: 1px solid #333;
     }
-
     .logo {
       font-size: 1.4rem;
       font-weight: bold;
       letter-spacing: 1px;
       color: #fff;
     }
-
     .nav-icons {
       display: flex;
       align-items: center;
       gap: 15px;
     }
-
     .nav-icons img {
       width: 24px;
       height: 24px;
       cursor: pointer;
       filter: invert(60%);
     }
-
     .stories {
       display: flex;
       overflow-x: auto;
       padding: 1rem;
       border-bottom: 1px solid #333;
     }
-
     .story {
       flex: 0 0 auto;
       width: 60px;
@@ -58,12 +52,10 @@
       margin-right: 10px;
       border: 2px solid #f44;
     }
-
     main {
       padding: 1rem;
       padding-bottom: 4rem;
     }
-
     .post {
       background-color: #1c1c1c;
       border: 1px solid #333;
@@ -72,38 +64,32 @@
       max-width: 400px;
       color: #fff;
     }
-
     .post-header {
       display: flex;
       align-items: center;
       padding: 10px;
     }
-
     .post-header img {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       margin-right: 10px;
     }
-
     .post-header span {
       font-weight: bold;
       color: #ccc;
     }
-
     .post-content {
       padding: 10px;
       font-size: 1rem;
       color: #aaa;
       text-align: center;
     }
-
     .post-actions {
       display: flex;
       justify-content: space-around;
       padding: 10px;
     }
-
     .post-actions button {
       background: none;
       border: none;
@@ -111,7 +97,6 @@
       color: #ccc;
       font-size: 1.1rem;
     }
-
     #waste-counter,
     #like-counter {
       position: fixed;
@@ -123,17 +108,14 @@
       border: 1px solid #333;
       z-index: 999;
     }
-
     #waste-counter {
       bottom: 50px;
       right: 10px;
     }
-
     #like-counter {
       bottom: 50px;
       left: 10px;
     }
-
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -144,7 +126,6 @@
       justify-content: space-around;
       padding: 0.5rem 0;
     }
-
     .bottom-nav a {
       color: #888;
       text-decoration: none;
@@ -177,9 +158,9 @@
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
-    <a href="#">🔍</a>
-    <a href="#">➕</a>
-    <a href="#">🎞️</a>
+    <a href="search.html">🔍</a>
+    <a href="publish.html">➕</a>
+    <a href="reels.html">🎞️</a>
     <a href="profile.html">👤</a>
   </div>
 
@@ -264,22 +245,18 @@
       }
     });
 
-    // Achievements
     function checkAchievements() {
       const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
-
       const addAchievement = (key) => {
         if (!unlocked.includes(key)) {
           unlocked.push(key);
           localStorage.setItem("achievements", JSON.stringify(unlocked));
         }
       };
-
       if (secondsWasted >= 60) addAchievement("doomscroll");
       if (likesGiven >= 10) addAchievement("liker");
       if (secondsWasted >= 300) addAchievement("voidpro");
       if (scrollCount >= 100) addAchievement("scroller");
-
       setTimeout(checkAchievements, 5000);
     }
 
