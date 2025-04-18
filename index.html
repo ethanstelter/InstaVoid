@@ -12,84 +12,66 @@
       margin: 0;
       padding: 0;
     }
+
     header {
       display: flex;
+      justify-content: center;
       align-items: center;
-      justify-content: space-between;
       padding: 1rem;
       background-color: #1a1a1a;
       border-bottom: 1px solid #333;
     }
+
     .logo {
       font-size: 1.4rem;
       font-weight: bold;
-      letter-spacing: 1px;
       color: #fff;
     }
-    .nav-icons {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    .nav-icons img {
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-      filter: invert(60%);
-    }
-    .stories {
-      display: flex;
-      overflow-x: auto;
-      padding: 1rem;
-      border-bottom: 1px solid #333;
-    }
-    .story {
-      flex: 0 0 auto;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background-color: #444;
-      margin-right: 10px;
-      border: 2px solid #f44;
-    }
+
     main {
       padding: 1rem;
-      padding-bottom: 4rem;
     }
+
     .post {
       background-color: #1c1c1c;
       border: 1px solid #333;
-      margin: 2rem auto;
+      margin: 1.5rem auto;
       width: 100%;
       max-width: 400px;
       color: #fff;
     }
+
     .post-header {
       display: flex;
       align-items: center;
       padding: 10px;
     }
+
     .post-header img {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       margin-right: 10px;
     }
+
     .post-header span {
       font-weight: bold;
       color: #ccc;
     }
+
     .post-content {
       padding: 10px;
       font-size: 1rem;
       color: #aaa;
       text-align: center;
     }
+
     .post-actions {
       display: flex;
       justify-content: space-around;
       padding: 10px;
     }
+
     .post-actions button {
       background: none;
       border: none;
@@ -97,6 +79,7 @@
       color: #ccc;
       font-size: 1.1rem;
     }
+
     #waste-counter,
     #like-counter {
       position: fixed;
@@ -108,14 +91,17 @@
       border: 1px solid #333;
       z-index: 999;
     }
+
     #waste-counter {
-      bottom: 50px;
+      bottom: 10px;
       right: 10px;
     }
+
     #like-counter {
-      bottom: 50px;
+      bottom: 10px;
       left: 10px;
     }
+
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -126,6 +112,7 @@
       justify-content: space-around;
       padding: 0.5rem 0;
     }
+
     .bottom-nav a {
       color: #888;
       text-decoration: none;
@@ -136,20 +123,7 @@
 <body>
   <header>
     <div class="logo">InstaVoid</div>
-    <div class="nav-icons">
-      <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" alt="new post" />
-      <img src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="messages" />
-    </div>
   </header>
-
-  <div class="stories">
-    <div class="story"></div>
-    <div class="story"></div>
-    <div class="story"></div>
-    <div class="story"></div>
-    <div class="story"></div>
-    <div class="story"></div>
-  </div>
 
   <main id="feed"></main>
 
@@ -165,14 +139,79 @@
   </div>
 
   <script>
-    const feed = document.getElementById("feed");
-
-    const fakeUsernames = [
-      "void_vibes", "scroller3000", "ghostfeed", "lostinloop",
-      "tapmaster", "doomposter", "feed.exe", "no_signal",
-      "lurkerbot", "user_0000"
+    // ✅ 1. SET ACHIEVEMENT LIST IF NOT ALREADY SET
+    const fullAchievementList = [
+      { key: "doomscroll", name: "Doomscrolled", desc: "Wasted over 1 minute." },
+      { key: "voidpro", name: "Void Professional", desc: "Spent 5 minutes in the void." },
+      { key: "youlikedthat", name: "You Liked That", desc: "Gave 10 meaningless likes." },
+      { key: "scrollersupreme", name: "Scroller Supreme", desc: "Scrolled 100 times." },
+      { key: "darkmodeonly", name: "Light is a Lie", desc: "Tried to turn on Light Mode." },
+      { key: "neverending", name: "Infinite Scroller", desc: "Scrolled 500 times." },
+      { key: "touchgrass", name: "Still Inside", desc: "Used app for 20 minutes straight." },
+      { key: "nosignal", name: "Offline Vibes", desc: "Used app while offline." },
+      { key: "chronicposter", name: "Stat Addict", desc: "Posted 5 stat updates." },
+      { key: "ghosted", name: "Typed then erased comment", desc: "Commented and disappeared." },
+      { key: "meaningless100", name: "💯% Meaningless", desc: "Hit 100 total actions." },
+      { key: "commitmentissues", name: "Back Again?", desc: "Opened app 3 times in a day." },
+      { key: "achievementspam", name: "Trophy Hunter", desc: "Earned 10 achievements." },
+      { key: "feedloop", name: "Lost in the Feed", desc: "Reached bottom… and kept scrolling." },
+      { key: "distractiongod", name: "Master of Distraction", desc: "Switched to another tab mid-session." },
+      { key: "followerzero", name: "Social Elite", desc: "Followed 0. Followed by 0." },
+      { key: "longtimevoid", name: "One Hour Gone", desc: "Wasted 60 minutes total." },
+      { key: "likeaboss", name: "Void Validator", desc: "Gave 100 likes." },
+      { key: "commentless", name: "You Have No Voice", desc: "Never commented once." },
+      { key: "lurkerlife", name: "The Lurker", desc: "Spent 30 minutes and did nothing." },
+      { key: "nevernoton", name: "No Breaks", desc: "Used app 7 days in a row." },
+      { key: "infinitepoints", name: "Prestige Scroller", desc: "Reached 1,000 scrolls." },
+      { key: "voidenthusiast", name: "Embraced the Void", desc: "Shared 3 achievements." },
+      { key: "glitchseeker", name: "Found a Glitch(?)", desc: "Clicked a broken thing." },
+      { key: "tapfrenzy", name: "Finger Gym", desc: "Tapped 500 times." },
+      { key: "scrollfever", name: "Gotta Scroll Fast", desc: "50 scrolls in 1 minute." },
+      { key: "ghostverified", name: "Certified Nobody", desc: "Tried to verify your profile." },
+      { key: "archivist", name: "Stat Hoarder", desc: "Viewed profile 10+ times." },
+      { key: "fullcircle", name: "Endgame", desc: "Got all 50 achievements." },
+      { key: "attemptescape", name: "You Tried to Leave", desc: "Left and came back within 10 sec." },
+      { key: "blurmode", name: "Pixel Master", desc: "Toggled visual glitch mode." },
+      { key: "invisible", name: "No Footprint", desc: "Used app without logging in." },
+      { key: "bughunter", name: "Beta Tester", desc: "Used an early version of the app." },
+      { key: "reelvoid", name: "Watched a Reel(?)", desc: "Entered Reels page." },
+      { key: "shadowscroll", name: "Scrolled in the Shadows", desc: "Used app at 3am." },
+      { key: "accidental", name: "Button Masher", desc: "Tapped a random nav 5 times." },
+      { key: "zeroeffort", name: "True Minimalist", desc: "Never changed a thing." },
+      { key: "voidbeliever", name: "Existential Explorer", desc: "Read the full About page." },
+      { key: "nothingmatters", name: "Nihilist Mode", desc: "Reached 0 mood." },
+      { key: "backscroll", name: "Retro Doom", desc: "Used outdated version." },
+      { key: "easteregg", name: "The Chosen One", desc: "Found a secret." },
+      { key: "reloadloop", name: "Reload Addict", desc: "Refreshed the page 10+ times." },
+      { key: "scrollchain", name: "10 Scroll Combo", desc: "10 scrolls in 10 seconds." },
+      { key: "voidemoji", name: "Reacted with Void ❤️", desc: "Used the like button 1 time." },
+      { key: "proudwaster", name: "Publicly Wasted Time", desc: "Shared time stat post." },
+      { key: "selfaware", name: "Mirror Mirror", desc: "Visited your profile." },
+      { key: "glitchmaster", name: "UI Warper", desc: "Glitched layout on purpose." },
+      { key: "addicted", name: "You Are Still Here", desc: "Used app for 2 hours total." },
+      { key: "voidlife", name: "Fully Committed", desc: "Used every feature once." },
+      { key: "blankachievement", name: "Unlock Nothing", desc: "Got an achievement for nothing." }
     ];
 
+    if (!localStorage.getItem("achievementList")) {
+      localStorage.setItem("achievementList", JSON.stringify(fullAchievementList));
+    }
+
+    // ⏱️ TIME TRACKER
+    let secondsWasted = parseInt(localStorage.getItem("secondsWasted")) || 0;
+    setInterval(() => {
+      secondsWasted++;
+      document.getElementById("waste-counter").textContent = `Minutes of life wasted here: ${Math.floor(secondsWasted / 60)}`;
+      localStorage.setItem("secondsWasted", secondsWasted);
+    }, 1000);
+
+    // ❤️ LIKE TRACKER
+    let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
+    document.getElementById("like-counter").textContent = `Likes given: ${likesGiven}`;
+
+    // 📄 FAKE POSTS
+    const feed = document.getElementById("feed");
+    const fakeUsernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster"];
     const fakeMessages = [
       "[ Empty Post ]",
       "[ You’re still here? ]",
@@ -184,42 +223,11 @@
       "[ Just one more... nothing. ]"
     ];
 
-    const counter = document.getElementById("waste-counter");
-    let secondsWasted = parseInt(localStorage.getItem("secondsWasted")) || 0;
-    counter.textContent = `Minutes of life wasted here: ${Math.floor(secondsWasted / 60)}`;
-
-    setInterval(() => {
-      secondsWasted++;
-      counter.textContent = `Minutes of life wasted here: ${Math.floor(secondsWasted / 60)}`;
-      localStorage.setItem("secondsWasted", secondsWasted);
-    }, 1000);
-
-    let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
-    const likeCounter = document.getElementById("like-counter");
-    likeCounter.textContent = `Likes given: ${likesGiven}`;
-
-    let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
-
-window.addEventListener("scroll", () => {
-  scrollCount++;
-  localStorage.setItem("scrollCount", scrollCount);
-
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
-    for (let i = 0; i < 5; i++) {
-      const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-      createPost(msg);
-    }
-  }
-});
-
-
     function createPost(message) {
       const post = document.createElement("div");
       post.className = "post";
-
       const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
       const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
-
       post.innerHTML = `
         <div class="post-header">
           <img src="${avatarUrl}" alt="avatar">
@@ -233,14 +241,7 @@ window.addEventListener("scroll", () => {
           <button>🔖</button>
         </div>
       `;
-
       feed.appendChild(post);
-    }
-
-    function handleLike() {
-      likesGiven++;
-      localStorage.setItem("likesGiven", likesGiven);
-      likeCounter.textContent = `Likes given: ${likesGiven}`;
     }
 
     for (let i = 0; i < 10; i++) {
@@ -248,8 +249,13 @@ window.addEventListener("scroll", () => {
       createPost(msg);
     }
 
+    function handleLike() {
+      likesGiven++;
+      localStorage.setItem("likesGiven", likesGiven);
+      document.getElementById("like-counter").textContent = `Likes given: ${likesGiven}`;
+    }
+
     window.addEventListener("scroll", () => {
-      scrollCount++;
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
         for (let i = 0; i < 5; i++) {
           const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
@@ -257,23 +263,6 @@ window.addEventListener("scroll", () => {
         }
       }
     });
-
-    function checkAchievements() {
-      const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
-      const addAchievement = (key) => {
-        if (!unlocked.includes(key)) {
-          unlocked.push(key);
-          localStorage.setItem("achievements", JSON.stringify(unlocked));
-        }
-      };
-      if (secondsWasted >= 60) addAchievement("doomscroll");
-      if (likesGiven >= 10) addAchievement("liker");
-      if (secondsWasted >= 300) addAchievement("voidpro");
-      if (scrollCount >= 100) addAchievement("scroller");
-      setTimeout(checkAchievements, 5000);
-    }
-
-    checkAchievements();
   </script>
 </body>
 </html>
