@@ -119,21 +119,16 @@
 </head>
 <body>
   <header>Search the Void</header>
-
   <div class="container">
     <input type="text" id="searchInput" placeholder="Search achievements or accounts..." />
-
     <div class="section-title">Achievements</div>
     <div id="achievementResults"></div>
     <button id="showAllBtn">Show all achievements</button>
-
     <div class="section-title">Accounts</div>
     <div id="userResults"></div>
-
     <div class="section-title">Leaderboard</div>
     <div id="leaderboard"></div>
   </div>
-
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
     <a href="search.html">🔍</a>
@@ -141,40 +136,27 @@
     <a href="reels.html">🎞️</a>
     <a href="profile.html">👤</a>
   </div>
-
   <script>
-    const achievementsList = [
-      { key: "doomscroll", name: "Doomscrolled", desc: "Wasted over 1 minute." },
-      { key: "liker", name: "You Liked That", desc: "Gave 10 meaningless likes." },
-      { key: "voidpro", name: "Void Professional", desc: "Spent 5 minutes in the void." },
-      { key: "scroller", name: "Scroller Supreme", desc: "Scrolled 100 times." }
-    ];
-
+    const fullAchievements = JSON.parse(localStorage.getItem("achievementList")) || [];
     const fakeUsernames = [
       "void_vibes", "scroller3000", "ghostfeed", "lostinloop",
       "tapmaster", "doomposter", "feed.exe", "no_signal",
       "lurkerbot", "user_0000"
     ];
-
-    const searchInput = document.getElementById("searchInput");
+    const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
     const achievementResults = document.getElementById("achievementResults");
+    const searchInput = document.getElementById("searchInput");
     const userResults = document.getElementById("userResults");
     const leaderboard = document.getElementById("leaderboard");
     const showAllBtn = document.getElementById("showAllBtn");
 
-    const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
-
     function renderAchievements(showAll = false) {
       achievementResults.innerHTML = "";
-
-      const list = showAll ? achievementsList : achievementsList.slice(0, 4);
-
+      const list = showAll ? fullAchievements : fullAchievements.slice(0, 4);
       list.forEach(ach => {
         const div = document.createElement("div");
         div.className = "achievement-tile";
-        if (unlocked.includes(ach.key)) {
-          div.classList.add("glow");
-        }
+        if (unlocked.includes(ach.key)) div.classList.add("glow");
         div.innerHTML = `<strong>${ach.name}</strong>${ach.desc}`;
         achievementResults.appendChild(div);
       });
@@ -187,11 +169,9 @@
 
     function renderSearch(query = "") {
       const q = query.toLowerCase();
-
-      // Filter achievements
       renderAchievements(true);
       if (q) {
-        const matches = achievementsList.filter(ach =>
+        const matches = fullAchievements.filter(ach =>
           ach.name.toLowerCase().includes(q) || ach.desc.toLowerCase().includes(q)
         );
         achievementResults.innerHTML = "";
@@ -205,7 +185,6 @@
         showAllBtn.style.display = "none";
       }
 
-      // Filter users
       userResults.innerHTML = "";
       fakeUsernames.forEach(user => {
         if (user.toLowerCase().includes(q)) {
@@ -217,7 +196,6 @@
       });
     }
 
-    // Leaderboard Setup
     const yourStats = {
       username: "you",
       minutes: Math.floor((parseInt(localStorage.getItem("secondsWasted")) || 0) / 60),
@@ -237,15 +215,11 @@
 
     const fakeStats = fakeUsernames.map(name => randomStats(name));
     const allUsers = [yourStats, ...fakeStats];
-
-    // Sort leaderboard by time wasted
     allUsers.sort((a, b) => b.minutes - a.minutes);
-
     allUsers.forEach(user => {
       const div = document.createElement("div");
       div.className = "leaderboard-entry";
       if (user.username === "you") div.classList.add("you");
-
       div.innerHTML = `
         <strong><a href="${user.username === 'you' ? 'profile.html' : `user.html?username=${user.username}`}">@${user.username}</a></strong>
         <span>Minutes Wasted: ${user.minutes}</span>
@@ -255,14 +229,9 @@
       leaderboard.appendChild(div);
     });
 
-    // Initial render
     renderAchievements(false);
     renderSearch();
-
-    // Live search
-    searchInput.addEventListener("input", e => {
-      renderSearch(e.target.value);
-    });
+    searchInput.addEventListener("input", e => renderSearch(e.target.value));
   </script>
 </body>
 </html>
