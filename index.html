@@ -93,14 +93,24 @@
     }
   });
     // Time tracking
-  let secondsWasted = 0;
-  const counter = document.getElementById("waste-counter");
+    const counter = document.getElementById("waste-counter");
 
+  // Load saved time from local storage or start at 0
+  let secondsWasted = parseInt(localStorage.getItem("secondsWasted")) || 0;
+
+  // Show starting time
+  counter.textContent = `Minutes of life wasted here: ${Math.floor(secondsWasted / 60)}`;
+
+  // Update every second
   setInterval(() => {
     secondsWasted++;
     const minutes = Math.floor(secondsWasted / 60);
     counter.textContent = `Minutes of life wasted here: ${minutes}`;
+    
+    // Save to local storage
+    localStorage.setItem("secondsWasted", secondsWasted);
   }, 1000);
+
 </script>
 </body>
 </html>
