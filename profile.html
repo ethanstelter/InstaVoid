@@ -9,43 +9,135 @@
       background-color: #0f0f0f;
       color: #fff;
       font-family: Arial, sans-serif;
-      padding: 2rem;
+      padding: 0;
+      margin: 0;
     }
+
+    header {
+      padding: 1rem;
+      border-bottom: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+      margin: 0;
+    }
+
     a {
       color: #888;
       text-decoration: none;
-      display: block;
-      margin-bottom: 1rem;
+      font-size: 0.9rem;
     }
+
+    .profile {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .profile img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #444;
+    }
+
+    .stats {
+      display: flex;
+      gap: 1rem;
+    }
+
     .stat {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
+      text-align: center;
     }
+
+    .stat strong {
+      display: block;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    .bio {
+      padding: 0 1.5rem 1rem;
+      color: #aaa;
+    }
+
     .achievements {
-      margin-top: 2rem;
+      padding: 1rem 1.5rem;
     }
+
     .achievements h2 {
-      font-size: 1.2rem;
+      font-size: 1rem;
       margin-bottom: 0.5rem;
     }
+
     .achievements ul {
       list-style: none;
-      padding-left: 0;
+      padding: 0;
     }
+
     .achievements li {
-      margin-bottom: 0.5rem;
-      color: #aaa;
+      color: #ccc;
+      margin-bottom: 0.4rem;
+    }
+
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background-color: #333;
+    }
+
+    .post-grid div {
+      background-color: #1c1c1c;
+      aspect-ratio: 1 / 1;
     }
   </style>
 </head>
 <body>
-  <a href="index.html">← Back to Feed</a>
-  <h1>Your Void Profile</h1>
-  <div class="stat" id="timeStat"></div>
-  <div class="stat" id="likeStat"></div>
+  <header>
+    <h1>@you</h1>
+    <a href="index.html">← Back</a>
+  </header>
+
+  <div class="profile">
+    <img src="https://api.dicebear.com/7.x/personas/svg?seed=you" alt="avatar">
+    <div class="stats">
+      <div class="stat">
+        <strong id="postCount">0</strong>
+        posts
+      </div>
+      <div class="stat">
+        <strong>0</strong>
+        followers
+      </div>
+      <div class="stat">
+        <strong>0</strong>
+        following
+      </div>
+    </div>
+  </div>
+
+  <div class="bio">
+    Just wasting time on purpose.
+  </div>
+
   <div class="achievements">
     <h2>Achievements</h2>
     <ul id="achievementList"></ul>
+  </div>
+
+  <div class="post-grid">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
 
   <script>
@@ -53,8 +145,7 @@
     const likes = parseInt(localStorage.getItem("likesGiven")) || 0;
     const achievements = JSON.parse(localStorage.getItem("achievements")) || [];
 
-    document.getElementById("timeStat").textContent = `Minutes wasted: ${Math.floor(time / 60)}`;
-    document.getElementById("likeStat").textContent = `Likes given: ${likes}`;
+    document.getElementById("postCount").textContent = "1";
 
     const list = document.getElementById("achievementList");
     if (achievements.length === 0) {
@@ -69,4 +160,3 @@
   </script>
 </body>
 </html>
-
