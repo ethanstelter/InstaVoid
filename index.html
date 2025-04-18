@@ -22,19 +22,41 @@
       border-bottom: 1px solid #333;
     }
 
-    .nav-icons img {
-      width: 24px;
-      height: 24px;
-      margin-left: 15px;
-      cursor: pointer;
-      filter: invert(60%);
-    }
-
     .logo {
       font-size: 1.4rem;
       font-weight: bold;
       letter-spacing: 1px;
       color: #fff;
+    }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-icons a {
+      display: inline-block;
+      padding: 6px 12px;
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-right: 12px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .nav-icons a:hover {
+      background-color: #3a3a3a;
+    }
+
+    .nav-icons img {
+      width: 24px;
+      height: 24px;
+      margin-left: 10px;
+      cursor: pointer;
+      filter: invert(60%);
     }
 
     .stories {
@@ -131,13 +153,13 @@
 </head>
 <body>
   <header>
-  <div class="logo">InstaVoid</div>
-  <div class="nav-icons">
-    <a href="profile.html" style="color: #888; font-size: 0.9rem; margin-right: 10px; text-decoration: none;">Profile</a>
-    <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" alt="new post" />
-    <img src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="messages" />
-  </div>
-</header>
+    <div class="logo">InstaVoid</div>
+    <div class="nav-icons">
+      <a href="profile.html">Profile</a>
+      <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" alt="new post" />
+      <img src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="messages" />
+    </div>
+  </header>
 
   <div class="stories">
     <div class="story"></div>
