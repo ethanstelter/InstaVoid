@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Post to the Void</title>
+  <title>Publish to Void</title>
   <style>
     body {
       background-color: #0f0f0f;
@@ -23,43 +23,61 @@
     }
 
     .container {
-      padding: 2rem 1rem 6rem;
-      max-width: 500px;
+      padding: 1rem;
+      padding-bottom: 6rem;
+      max-width: 600px;
       margin: auto;
+      text-align: center;
     }
 
-    label, select, button {
-      display: block;
-      width: 100%;
-      margin-bottom: 1rem;
-      font-size: 1rem;
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 8px;
+      margin-top: 1rem;
     }
 
-    select, button {
-      background-color: #1a1a1a;
-      color: #fff;
-      padding: 0.7rem;
-      border: 1px solid #444;
-      border-radius: 6px;
+    .achievement-tile {
+      background-color: #1c1c1c;
+      border: 2px solid #333;
+      padding: 0.8rem;
+      aspect-ratio: 1/1;
+      font-size: 0.75rem;
+      color: #ccc;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .achievement-tile:hover {
+      border-color: #666;
+    }
+
+    .achievement-tile.selected {
+      border-color: #00bfff;
+      box-shadow: 0 0 8px #00bfff55;
     }
 
     button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.2rem;
+      background-color: #1a1a1a;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.2s ease;
     }
 
-    button:hover {
-      background-color: #222;
-    }
-
-    .post-preview {
+    .preview {
       margin-top: 2rem;
-      border: 1px solid #333;
       background-color: #1c1c1c;
-      padding: 1.2rem;
-      border-radius: 8px;
+      border: 1px solid #333;
+      padding: 1rem;
+      border-radius: 6px;
       color: #aaa;
-      text-align: center;
     }
 
     .bottom-nav {
@@ -81,17 +99,16 @@
   </style>
 </head>
 <body>
-  <header>New Void Post</header>
+  <header>Publish an Achievement</header>
 
   <div class="container">
-    <label for="achievementSelect">Select an Achievement:</label>
-    <select id="achievementSelect">
-      <option value="">-- choose one --</option>
-    </select>
+    <p>Select one of your unlocked achievements below:</p>
 
-    <button onclick="publish()">Publish</button>
+    <div class="achievements-grid" id="achievementGrid"></div>
 
-    <div id="preview" class="post-preview" style="display:none;"></div>
+    <button onclick="publish()">Post to the Void</button>
+
+    <div class="preview" id="preview" style="display:none;"></div>
   </div>
 
   <div class="bottom-nav">
@@ -104,39 +121,46 @@
 
   <script>
     const achievementsList = {
-      doomscroll: "Doomscrolled – Wasted over 1 minute.",
-      liker: "You Liked That – Gave 10 meaningless likes.",
-      voidpro: "Void Professional – Spent 5 minutes in the void.",
-      scroller: "Scroller Supreme – Scrolled 100 times."
+      doomscroll: { name: "Doomscrolled", desc: "Wasted over 1 minute." },
+      liker: { name: "You Liked That", desc: "Gave 10 meaningless likes." },
+      voidpro: { name: "Void Professional", desc: "Spent 5 minutes in the void." },
+      scroller: { name: "Scroller Supreme", desc: "Scrolled 100 times." }
     };
 
     const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
-    const select = document.getElementById("achievementSelect");
+    const grid = document.getElementById("achievementGrid");
     const preview = document.getElementById("preview");
 
+    let selectedKey = null;
+
+    // Render grid of unlocked achievements
     unlocked.forEach(key => {
-      const option = document.createElement("option");
-      option.value = key;
-      option.textContent = achievementsList[key];
-      select.appendChild(option);
+      const ach = achievementsList[key];
+      const tile = document.createElement("div");
+      tile.className = "achievement-tile";
+      tile.innerHTML = `<strong>${ach.name}</strong><br>${ach.desc}`;
+      tile.onclick = () => {
+        document.querySelectorAll(".achievement-tile").forEach(el => el.classList.remove("selected"));
+        tile.classList.add("selected");
+        selectedKey = key;
+      };
+      grid.appendChild(tile);
     });
 
     function publish() {
-      const selected = select.value;
-      if (!selected) {
+      if (!selectedKey) {
         preview.style.display = "block";
-        preview.textContent = "You must choose an achievement first.";
+        preview.textContent = "Please select an achievement.";
         return;
       }
 
-      const postText = achievementsList[selected];
+      const postText = `${achievementsList[selectedKey].name} – ${achievementsList[selectedKey].desc}`;
       const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
       posts.unshift(postText);
       localStorage.setItem("sharedPosts", JSON.stringify(posts));
 
       preview.style.display = "block";
       preview.textContent = postText;
-      select.value = "";
     }
   </script>
 </body>
