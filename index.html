@@ -179,45 +179,70 @@ if (!localStorage.getItem("achievementList")) {
 }
 
 const feed = document.getElementById("feed");
-
-const fakeUsernames = [
-"void_vibes", "scroller3000", "ghostfeed", "lostinloop",
-"tapmaster", "doomposter", "feed.exe", "no_signal",
-"lurkerbot", "user_0000"
-];
-
+const fakeUsernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter", "feed.exe", "no_signal", "lurkerbot", "user_0000"];
 const fakeMessages = [
-"[ Empty Post ]",
-"[ You’re still here? ]",
-"[ This means nothing. ]",
-"[ The feed is feeding itself. ]",
-"[ Keep going. Or don’t. ]",
-"[ Static. Again. ]",
-"[ Are you okay? ]",
-"[ Just one more... nothing. ]"
+  "[ Empty Post ]",
+  "[ You’re still here? ]",
+  "[ This means nothing. ]",
+  "[ The feed is feeding itself. ]",
+  "[ Keep going. Or don’t. ]",
+  "[ Static. Again. ]",
+  "[ Are you okay? ]",
+  "[ Just one more... nothing. ]"
 ];
 
 const counter = document.getElementById("waste-counter");
 let secondsWasted = parseInt(localStorage.getItem("secondsWasted")) || 0;
 counter.textContent = `Minutes of life wasted here: ${Math.floor(secondsWasted / 60)}`;
-
 setInterval(() => {
-secondsWasted++;
-counter.textContent = `Minutes of life wasted here: ${Math.floor(secondsWasted / 60)}`;
-localStorage.setItem("secondsWasted", secondsWasted);
+  secondsWasted++;
+  counter.textContent = `Minutes of life wasted here: ${Math.floor(secondsWasted / 60)}`;
+  localStorage.setItem("secondsWasted", secondsWasted);
 }, 1000);
 
 let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
 const likeCounter = document.getElementById("like-counter");
 likeCounter.textContent = `Likes given: ${likesGiven}`;
 
-    let scrollCount = 0;
-    let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
+let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
 
+function createPost(message) {
+  const post = document.createElement("div");
+  post.className = "post";
+  const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
+  const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+  post.innerHTML = `
+    <div class="post-header">
+      <img src="${avatarUrl}" alt="avatar">
+      <span>@${username}</span>
+    </div>
+    <div class="post-content">${message}</div>
+    <div class="post-actions">
+      <button onclick="handleLike()">❤️</button>
+      <button>💬</button>
+      <button>🔁</button>
+      <button>🔖</button>
+    </div>
+  `;
+  feed.appendChild(post);
+}
+
+function handleLike() {
+  likesGiven++;
+  localStorage.setItem("likesGiven", likesGiven);
+  likeCounter.textContent = `Likes given: ${likesGiven}`;
+}
+
+// Create initial posts on load
+for (let i = 0; i < 10; i++) {
+  const msg = fakeMessages[i % fakeMessages.length];
+  createPost(msg);
+}
+
+// Load more on scroll
 window.addEventListener("scroll", () => {
   scrollCount++;
   localStorage.setItem("scrollCount", scrollCount);
-
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
     for (let i = 0; i < 5; i++) {
       const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
@@ -226,67 +251,20 @@ window.addEventListener("scroll", () => {
   }
 });
 
-
-function createPost(message) {
-const post = document.createElement("div");
-post.className = "post";
-
-const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
-const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
-
-post.innerHTML = `
-       <div class="post-header">
-         <img src="${avatarUrl}" alt="avatar">
-         <span>@${username}</span>
-       </div>
-       <div class="post-content">${message}</div>
-       <div class="post-actions">
-         <button onclick="handleLike()">❤️</button>
-         <button>💬</button>
-         <button>🔁</button>
-         <button>🔖</button>
-       </div>
-     `;
-
-feed.appendChild(post);
-}
-
-function handleLike() {
-likesGiven++;
-localStorage.setItem("likesGiven", likesGiven);
-likeCounter.textContent = `Likes given: ${likesGiven}`;
-}
-
-for (let i = 0; i < 10; i++) {
-const msg = fakeMessages[i % fakeMessages.length];
-createPost(msg);
-}
-
-window.addEventListener("scroll", () => {
-scrollCount++;
-if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
-for (let i = 0; i < 5; i++) {
-const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-createPost(msg);
-}
-}
-});
-
 function checkAchievements() {
-const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
-const addAchievement = (key) => {
-if (!unlocked.includes(key)) {
-unlocked.push(key);
-localStorage.setItem("achievements", JSON.stringify(unlocked));
+  const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
+  const addAchievement = (key) => {
+    if (!unlocked.includes(key)) {
+      unlocked.push(key);
+      localStorage.setItem("achievements", JSON.stringify(unlocked));
+    }
+  };
+  if (secondsWasted >= 60) addAchievement("doomscroll");
+  if (likesGiven >= 10) addAchievement("liker");
+  if (secondsWasted >= 300) addAchievement("voidpro");
+  if (scrollCount >= 100) addAchievement("scroller");
+  setTimeout(checkAchievements, 5000);
 }
-};
-if (secondsWasted >= 60) addAchievement("doomscroll");
-if (likesGiven >= 10) addAchievement("liker");
-if (secondsWasted >= 300) addAchievement("voidpro");
-if (scrollCount >= 100) addAchievement("scroller");
-setTimeout(checkAchievements, 5000);
-}
-
 checkAchievements();
 </script>
 </body>
