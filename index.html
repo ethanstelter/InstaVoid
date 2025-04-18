@@ -217,6 +217,8 @@
     const likeCounter = document.getElementById("like-counter");
     likeCounter.textContent = `Likes given: ${likesGiven}`;
 
+    let scrollCount = 0;
+
     function createPost(message) {
       const post = document.createElement("div");
       post.className = "post";
@@ -231,7 +233,7 @@
         </div>
         <div class="post-content">${message}</div>
         <div class="post-actions">
-          <button>❤️</button>
+          <button onclick="handleLike()">❤️</button>
           <button>💬</button>
           <button>🔁</button>
           <button>🔖</button>
@@ -241,12 +243,19 @@
       feed.appendChild(post);
     }
 
+    function handleLike() {
+      likesGiven++;
+      localStorage.setItem("likesGiven", likesGiven);
+      likeCounter.textContent = `Likes given: ${likesGiven}`;
+    }
+
     for (let i = 0; i < 10; i++) {
       const msg = fakeMessages[i % fakeMessages.length];
       createPost(msg);
     }
 
     window.addEventListener("scroll", () => {
+      scrollCount++;
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
         for (let i = 0; i < 5; i++) {
           const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
@@ -254,6 +263,27 @@
         }
       }
     });
+
+    // Achievements
+    function checkAchievements() {
+      const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
+
+      const addAchievement = (key) => {
+        if (!unlocked.includes(key)) {
+          unlocked.push(key);
+          localStorage.setItem("achievements", JSON.stringify(unlocked));
+        }
+      };
+
+      if (secondsWasted >= 60) addAchievement("doomscroll");
+      if (likesGiven >= 10) addAchievement("liker");
+      if (secondsWasted >= 300) addAchievement("voidpro");
+      if (scrollCount >= 100) addAchievement("scroller");
+
+      setTimeout(checkAchievements, 5000);
+    }
+
+    checkAchievements();
   </script>
 </body>
 </html>
