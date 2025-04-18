@@ -134,9 +134,9 @@
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
-    <a href="#">🔍</a>
-    <a href="#">➕</a>
-    <a href="#">🎞️</a>
+    <a href="search.html">🔍</a>
+    <a href="publish.html">➕</a>
+    <a href="reels.html">🎞️</a>
     <a href="profile.html">👤</a>
   </div>
 
@@ -151,12 +151,10 @@
     const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
     const grid = document.getElementById("achievementGrid");
 
-    // Newest unlocked shows first
     const all = [...unlocked].reverse().map(k => {
       return achievementsList.find(a => a.key === k);
     });
 
-    // Add locked ones at the end
     achievementsList.forEach(ach => {
       if (!unlocked.includes(ach.key)) all.push(ach);
     });
