@@ -69,9 +69,9 @@
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
-    <a href="#">🔍</a>
+    <a href="search.html">🔍</a>
     <a href="publish.html">➕</a>
-    <a href="#">🎞️</a>
+    <a href="reels.html">🎞️</a>
     <a href="profile.html">👤</a>
   </div>
 
@@ -103,7 +103,7 @@
       }
 
       const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
-      posts.unshift(achievementsList[selected]); // latest first
+      posts.unshift(achievementsList[selected]);
       localStorage.setItem("sharedPosts", JSON.stringify(posts));
 
       msg.textContent = "Your achievement has been posted to the void.";
@@ -112,4 +112,3 @@
   </script>
 </body>
 </html>
-
