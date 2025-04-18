@@ -198,7 +198,20 @@
     const likeCounter = document.getElementById("like-counter");
     likeCounter.textContent = `Likes given: ${likesGiven}`;
 
-    let scrollCount = 0;
+    let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
+
+window.addEventListener("scroll", () => {
+  scrollCount++;
+  localStorage.setItem("scrollCount", scrollCount);
+
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+    for (let i = 0; i < 5; i++) {
+      const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+      createPost(msg);
+    }
+  }
+});
+
 
     function createPost(message) {
       const post = document.createElement("div");
