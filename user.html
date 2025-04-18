@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Void User</title>
   <style>
     body {
@@ -14,36 +14,72 @@
     }
 
     header {
-      text-align: center;
-      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.8rem 1rem;
       background-color: #1a1a1a;
       border-bottom: 1px solid #333;
+    }
+
+    .username {
       font-size: 1.2rem;
       font-weight: bold;
+      color: #fff;
     }
 
-    .container {
-      padding: 2rem 1rem 6rem;
-      max-width: 600px;
-      margin: auto;
-      text-align: center;
+    .profile {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
     }
 
-    img {
+    .profile img {
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
-      width: 100px;
-      height: 100px;
-      margin-bottom: 1rem;
       background-color: #444;
     }
 
-    .stat-block {
-      margin: 1rem auto;
+    .stats {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    .bio {
+      padding: 0 1.5rem 1rem;
+      color: #aaa;
+    }
+
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background-color: #333;
+    }
+
+    .post-grid div {
       background-color: #1c1c1c;
-      padding: 1rem;
-      border: 1px solid #333;
-      border-radius: 8px;
+      aspect-ratio: 1 / 1;
       color: #ccc;
+      font-size: 0.8rem;
+      padding: 0.5rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
 
     .bottom-nav {
@@ -65,17 +101,31 @@
   </style>
 </head>
 <body>
-  <header>Void User</header>
+  <header>
+    <div class="username" id="username">@user</div>
+  </header>
 
-  <div class="container">
-    <img id="avatar" src="" alt="avatar">
-    <h2 id="username">@ghost</h2>
-    <div id="bio">Just scrolling endlessly...</div>
-
-    <div class="stat-block" id="stats">
-      Loading stats...
+  <div class="profile">
+    <img id="avatar" src="" alt="avatar" />
+    <div class="stats">
+      <div class="stat">
+        <strong id="postCount">0</strong>
+        posts
+      </div>
+      <div class="stat">
+        <strong id="followers">0</strong>
+        followers
+      </div>
+      <div class="stat">
+        <strong id="following">0</strong>
+        following
+      </div>
     </div>
   </div>
+
+  <div class="bio" id="bio">Just another soul in the scroll.</div>
+
+  <div class="post-grid" id="postGrid"></div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -86,27 +136,48 @@
   </div>
 
   <script>
-    // Get username from URL
     const params = new URLSearchParams(window.location.search);
-    const username = params.get("username") || "unknown";
+    const username = params.get("username") || "ghost";
 
     document.getElementById("username").textContent = `@${username}`;
     document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+    document.getElementById("bio").textContent = "Just another soul in the scroll.";
 
-    // Generate fake stats using consistent seed
-    const base = username.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-    const minutes = Math.floor((base * 3) % 100);
-    const likes = Math.floor((base * 7) % 50);
-    const scrolls = Math.floor((base * 13) % 200);
+    // Generate stats based on seed
+    const seed = username.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    const posts = (seed * 3) % 12 + 1;
+    const followers = (seed * 17) % 500 + 10;
+    const following = (seed * 11) % 200;
 
-    document.getElementById("stats").innerHTML = `
-      <strong>Void Metrics:</strong><br>
-      Minutes Wasted: ${minutes}<br>
-      Likes Given: ${likes}<br>
-      Scrolls: ${scrolls}<br>
-      <br><em>This account is as empty as the feed itself.</em>
-    `;
+    document.getElementById("postCount").textContent = posts;
+    document.getElementById("followers").textContent = followers;
+    document.getElementById("following").textContent = following;
+
+    // Generate fake achievement posts
+    const fakeAchievements = [
+      "Master of Nothing",
+      "Infinite Feed Scroller",
+      "Zero Impact Poster",
+      "Echo Chamber Certified",
+      "Wasted Potential Lv.1",
+      "Void Approved",
+      "Disengagement King",
+      "Scroll Champion",
+      "Like Collector",
+      "Chronically Online",
+      "Reality Escape Artist",
+      "Achievement Unlocked: Regret"
+    ];
+
+    const shuffled = [...fakeAchievements].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, posts);
+
+    const grid = document.getElementById("postGrid");
+    selected.forEach(name => {
+      const div = document.createElement("div");
+      div.innerHTML = `<strong>${name}</strong>`;
+      grid.appendChild(div);
+    });
   </script>
 </body>
 </html>
-
