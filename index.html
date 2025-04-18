@@ -47,6 +47,20 @@
   border: 1px solid #333;
   z-index: 999;
 }
+    .like-button {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background-color: #2a2a2a;
+  color: #f44;
+  border: 1px solid #444;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.like-button:hover {
+  background-color: #3a3a3a;
+}
+
   </style>
 </head>
 <body>
@@ -92,14 +106,21 @@ function createPost(message) {
   const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 
   post.innerHTML = `
-    <div style="display: flex; align-items: center; margin-bottom: 10px; gap: 10px;">
-      <img src="${avatarUrl}" alt="avatar" style="width: 40px; height: 40px; border-radius: 50%;">
-      <span style="font-weight: bold; color: #aaa;">@${username}</span>
-    </div>
-    <div>${message}</div>
-  `;
+  <div style="display: flex; align-items: center; margin-bottom: 10px; gap: 10px;">
+    <img src="${avatarUrl}" alt="avatar" style="width: 40px; height: 40px; border-radius: 50%;">
+    <span style="font-weight: bold; color: #aaa;">@${username}</span>
+  </div>
+  <div>${message}</div>
+  <button class="like-button">❤️ Like</button>
+`;
 
   feed.appendChild(post);
+
+  const likeBtn = post.querySelector(".like-button");
+likeBtn.addEventListener("click", () => {
+  alert("This did nothing.");
+});
+
 }
 
   // Generate initial posts
