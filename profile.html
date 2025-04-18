@@ -151,7 +151,17 @@
     const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
     const grid = document.getElementById("achievementGrid");
 
+    // Newest unlocked shows first
+    const all = [...unlocked].reverse().map(k => {
+      return achievementsList.find(a => a.key === k);
+    });
+
+    // Add locked ones at the end
     achievementsList.forEach(ach => {
+      if (!unlocked.includes(ach.key)) all.push(ach);
+    });
+
+    all.forEach(ach => {
       const div = document.createElement("div");
       const isUnlocked = unlocked.includes(ach.key);
       div.className = isUnlocked ? "" : "locked";
