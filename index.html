@@ -165,6 +165,19 @@ font-size: 1.3rem;
 </div>
 
 <script>
+// Inject 50 achievements only if not set
+if (!localStorage.getItem("achievementList")) {
+  const list = [];
+  for (let i = 1; i <= 50; i++) {
+    list.push({
+      key: `ach${i}`,
+      name: `Achievement ${i}`,
+      desc: `This is your ${i === 1 ? 'very first' : `${i}th`} meaningless milestone.`
+    });
+  }
+  localStorage.setItem("achievementList", JSON.stringify(list));
+}
+
 const feed = document.getElementById("feed");
 
 const fakeUsernames = [
