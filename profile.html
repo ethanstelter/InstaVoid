@@ -9,8 +9,8 @@
       background-color: #0f0f0f;
       color: #fff;
       font-family: Arial, sans-serif;
-      padding: 0;
       margin: 0;
+      padding: 0;
     }
 
     header {
@@ -35,7 +35,7 @@
     }
 
     .spacer {
-      width: 24px; /* matches arrow size to center username */
+      width: 24px;
     }
 
     .profile {
@@ -102,6 +102,23 @@
       background-color: #1c1c1c;
       aspect-ratio: 1 / 1;
     }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+    }
+
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
   </style>
 </head>
 <body>
@@ -145,6 +162,14 @@
     <div></div>
     <div></div>
     <div></div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html">🏠</a>
+    <a href="#">🔍</a>
+    <a href="#">➕</a>
+    <a href="#">❤️</a>
+    <a href="profile.html">👤</a>
   </div>
 
   <script>
