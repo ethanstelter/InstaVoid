@@ -1,3 +1,4 @@
+<!-- publish.html (cleaned, full version with auto-check system) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,97 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Publish to Void</title>
   <style>
-    body {
-      background-color: #0f0f0f;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      text-align: center;
-      padding: 1rem;
-      border-bottom: 1px solid #333;
-      background-color: #1a1a1a;
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-
-    .container {
-      padding: 1rem;
-      padding-bottom: 6rem;
-      max-width: 600px;
-      margin: auto;
-      text-align: center;
-    }
-
-    .achievements-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 8px;
-      margin-top: 1rem;
-    }
-
-    .achievement-tile {
-      background-color: #1c1c1c;
-      border: 2px solid #333;
-      padding: 0.8rem;
-      aspect-ratio: 1/1;
-      font-size: 0.75rem;
-      color: #ccc;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .achievement-tile:hover {
-      border-color: #666;
-    }
-
-    .achievement-tile.selected {
-      border-color: #00bfff;
-      box-shadow: 0 0 8px #00bfff55;
-    }
-
-    button {
-      margin-top: 1.5rem;
-      padding: 0.7rem 1.2rem;
-      background-color: #1a1a1a;
-      color: #fff;
-      border: 1px solid #444;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .preview {
-      margin-top: 2rem;
-      background-color: #1c1c1c;
-      border: 1px solid #333;
-      padding: 1rem;
-      border-radius: 6px;
-      color: #aaa;
-    }
-
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: #1a1a1a;
-      border-top: 1px solid #333;
-      display: flex;
-      justify-content: space-around;
-      padding: 0.5rem 0;
-    }
-
-    .bottom-nav a {
-      color: #888;
-      text-decoration: none;
-      font-size: 1.3rem;
-    }
+    /* (Same styling as before) */
+    body { background-color: #0f0f0f; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header { text-align: center; padding: 1rem; border-bottom: 1px solid #333; background-color: #1a1a1a; font-weight: bold; font-size: 1.2rem; }
+    .container { padding: 1rem; padding-bottom: 6rem; max-width: 600px; margin: auto; text-align: center; }
+    .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 1rem; }
+    .achievement-tile { background-color: #1c1c1c; border: 2px solid #333; padding: 0.8rem; aspect-ratio: 1/1; font-size: 0.75rem; color: #ccc; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; }
+    .achievement-tile:hover { border-color: #666; }
+    .achievement-tile.selected { border-color: #00bfff; box-shadow: 0 0 8px #00bfff55; }
+    button { margin-top: 1.5rem; padding: 0.7rem 1.2rem; background-color: #1a1a1a; color: #fff; border: 1px solid #444; border-radius: 6px; cursor: pointer; }
+    .preview { margin-top: 2rem; background-color: #1c1c1c; border: 1px solid #333; padding: 1rem; border-radius: 6px; color: #aaa; }
+    .bottom-nav { position: fixed; bottom: 0; width: 100%; background-color: #1a1a1a; border-top: 1px solid #333; display: flex; justify-content: space-around; padding: 0.5rem 0; }
+    .bottom-nav a { color: #888; text-decoration: none; font-size: 1.3rem; }
   </style>
 </head>
 <body>
@@ -103,11 +25,8 @@
 
   <div class="container">
     <p>Select one of your unlocked achievements below:</p>
-
     <div class="achievements-grid" id="achievementGrid"></div>
-
     <button onclick="publish()">Post to the Void</button>
-
     <div class="preview" id="preview" style="display:none;"></div>
   </div>
 
@@ -120,7 +39,6 @@
   </div>
 
   <script>
-    // ✅ FULL list of achievements (this matches the profile page exactly)
     const achievementsList = {
       doomscroll: { name: "Doomscrolled", desc: "Wasted over 1 minute." },
       liker: { name: "You Liked That", desc: "Gave 10 meaningless likes." },
@@ -128,16 +46,33 @@
       scroller: { name: "Scroller Supreme", desc: "Scrolled 100 times." }
     };
 
+    function checkAchievements() {
+      const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
+      const likes = parseInt(localStorage.getItem("likesGiven")) || 0;
+      const time = parseInt(localStorage.getItem("secondsWasted")) || 0;
+      const scrolls = parseInt(localStorage.getItem("scrollCount")) || 0;
+
+      const award = key => {
+        if (!unlocked.includes(key)) unlocked.push(key);
+      };
+
+      if (time >= 60) award("doomscroll");
+      if (likes >= 10) award("liker");
+      if (time >= 300) award("voidpro");
+      if (scrolls >= 100) award("scroller");
+
+      localStorage.setItem("achievements", JSON.stringify(unlocked));
+    }
+
+    checkAchievements();
+
     const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
     const grid = document.getElementById("achievementGrid");
     const preview = document.getElementById("preview");
-
     let selectedKey = null;
 
-    // Render grid of only unlocked achievements
-    unlocked.forEach(key => {
-      if (!(key in achievementsList)) return; // skip unknown keys
-
+    Object.keys(achievementsList).forEach(key => {
+      if (!unlocked.includes(key)) return;
       const ach = achievementsList[key];
       const tile = document.createElement("div");
       tile.className = "achievement-tile";
@@ -162,7 +97,6 @@
       const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
       posts.unshift(postText);
       localStorage.setItem("sharedPosts", JSON.stringify(posts));
-
       preview.style.display = "block";
       preview.textContent = postText;
     }
