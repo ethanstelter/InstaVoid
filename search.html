@@ -61,6 +61,11 @@
       color: #00bfff;
     }
 
+    .result a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+
     .leaderboard-entry {
       background-color: #1a1a1a;
       padding: 0.8rem;
@@ -162,7 +167,12 @@
         if (user.toLowerCase().includes(q)) {
           const div = document.createElement("div");
           div.className = "result";
-          div.innerHTML = `<strong>@${user}</strong>This account is void.`;
+          div.innerHTML = `
+            <strong>
+              <a href="user.html?username=${user}">@${user}</a>
+            </strong>
+            This account is void.
+          `;
           userResults.appendChild(div);
         }
       });
@@ -200,7 +210,7 @@
       if (user.username === "you") div.classList.add("you");
 
       div.innerHTML = `
-        <strong>@${user.username}</strong>
+        <strong><a href="${user.username === 'you' ? 'profile.html' : `user.html?username=${user.username}`}">@${user.username}</a></strong>
         <span>Minutes Wasted: ${user.minutes}</span>
         <span>Likes Given: ${user.likes}</span>
         <span>Scrolls: ${user.scrolls}</span>
