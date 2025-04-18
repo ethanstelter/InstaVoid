@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Void User</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 1rem;
+      background-color: #1a1a1a;
+      border-bottom: 1px solid #333;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 2rem 1rem 6rem;
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+    }
+
+    img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      margin-bottom: 1rem;
+      background-color: #444;
+    }
+
+    .stat-block {
+      margin: 1rem auto;
+      background-color: #1c1c1c;
+      padding: 1rem;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #ccc;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+    }
+
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
+  </style>
+</head>
+<body>
+  <header>Void User</header>
+
+  <div class="container">
+    <img id="avatar" src="" alt="avatar">
+    <h2 id="username">@ghost</h2>
+    <div id="bio">Just scrolling endlessly...</div>
+
+    <div class="stat-block" id="stats">
+      Loading stats...
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html">🏠</a>
+    <a href="search.html">🔍</a>
+    <a href="publish.html">➕</a>
+    <a href="reels.html">🎞️</a>
+    <a href="profile.html">👤</a>
+  </div>
+
+  <script>
+    // Get username from URL
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username") || "unknown";
+
+    document.getElementById("username").textContent = `@${username}`;
+    document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+
+    // Generate fake stats using consistent seed
+    const base = username.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+    const minutes = Math.floor((base * 3) % 100);
+    const likes = Math.floor((base * 7) % 50);
+    const scrolls = Math.floor((base * 13) % 200);
+
+    document.getElementById("stats").innerHTML = `
+      <strong>Void Metrics:</strong><br>
+      Minutes Wasted: ${minutes}<br>
+      Likes Given: ${likes}<br>
+      Scrolls: ${scrolls}<br>
+      <br><em>This account is as empty as the feed itself.</em>
+    `;
+  </script>
+</body>
+</html>
 
