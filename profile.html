@@ -62,25 +62,6 @@
       color: #aaa;
     }
 
-    .achievements {
-      padding: 1rem 1.5rem;
-    }
-
-    .achievements h2 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .achievements ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .achievements li {
-      color: #ccc;
-      margin-bottom: 0.4rem;
-    }
-
     .post-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -91,6 +72,19 @@
     .post-grid div {
       background-color: #1c1c1c;
       aspect-ratio: 1 / 1;
+      color: #ccc;
+      font-size: 0.8rem;
+      padding: 0.5rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .locked {
+      background-color: #111;
+      color: #444;
     }
 
     .bottom-nav {
@@ -120,7 +114,7 @@
     <img src="https://api.dicebear.com/7.x/personas/svg?seed=you" alt="avatar">
     <div class="stats">
       <div class="stat">
-        <strong id="postCount">0</strong>
+        <strong id="postCount">4</strong>
         posts
       </div>
       <div class="stat">
@@ -136,15 +130,7 @@
 
   <div class="bio">Just wasting time on purpose.</div>
 
-  <div class="achievements">
-    <h2>Achievements</h2>
-    <ul id="achievementList"></ul>
-  </div>
-
-  <div class="post-grid">
-    <div></div><div></div><div></div>
-    <div></div><div></div><div></div>
-  </div>
+  <div class="post-grid" id="achievementGrid"></div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -155,22 +141,23 @@
   </div>
 
   <script>
-    const time = parseInt(localStorage.getItem("secondsWasted")) || 0;
-    const likes = parseInt(localStorage.getItem("likesGiven")) || 0;
-    const achievements = JSON.parse(localStorage.getItem("achievements")) || [];
+    const achievementsList = [
+      { key: "doomscroll", name: "Doomscrolled", desc: "Wasted over 1 minute." },
+      { key: "liker", name: "You Liked That", desc: "Gave 10 meaningless likes." },
+      { key: "voidpro", name: "Void Professional", desc: "Spent 5 minutes in the void." },
+      { key: "scroller", name: "Scroller Supreme", desc: "Scrolled 100 times." }
+    ];
 
-    document.getElementById("postCount").textContent = "1";
+    const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
+    const grid = document.getElementById("achievementGrid");
 
-    const list = document.getElementById("achievementList");
-    if (achievements.length === 0) {
-      list.innerHTML = "<li>None... yet.</li>";
-    } else {
-      achievements.forEach(ach => {
-        const li = document.createElement("li");
-        li.textContent = ach;
-        list.appendChild(li);
-      });
-    }
+    achievementsList.forEach(ach => {
+      const div = document.createElement("div");
+      const isUnlocked = unlocked.includes(ach.key);
+      div.className = isUnlocked ? "" : "locked";
+      div.innerHTML = `<strong>${ach.name}</strong><br>${ach.desc}`;
+      grid.appendChild(div);
+    });
   </script>
 </body>
 </html>
