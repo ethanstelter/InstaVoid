@@ -32,6 +32,8 @@
   justify-content: center;
   font-size: 1.2rem;
   color: #888;
+  flex-direction: column;
+  padding: 1rem;
 }
     #waste-counter {
   position: fixed;
@@ -58,6 +60,18 @@
 <div id="waste-counter">Minutes of life wasted here: 0</div>
 <script>
   const feed = document.getElementById("feed");
+const fakeUsernames = [
+  "void_vibes",
+  "scroller3000",
+  "ghostfeed",
+  "lostinloop",
+  "tapmaster",
+  "doomposter",
+  "feed.exe",
+  "no_signal",
+  "lurkerbot",
+  "user_0000"
+];
 
   const fakeMessages = [
     "[ Empty Post ]",
@@ -70,11 +84,20 @@
     "[ Just one more... nothing. ]"
   ];
 
-  function createPost(message) {
-    const post = document.createElement("div");
-    post.className = "post";
-    post.textContent = message;
-    feed.appendChild(post);
+ function createPost(message) {
+  const post = document.createElement("div");
+  post.className = "post";
+
+  const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
+
+  post.innerHTML = `
+    <div style="font-weight: bold; color: #aaa; margin-bottom: 10px;">@${username}</div>
+    <div>${message}</div>
+  `;
+
+  feed.appendChild(post);
+}
+
   }
 
   // Generate initial posts
