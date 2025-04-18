@@ -1,42 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Publish to Void</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post to the Void</title>
   <style>
     body {
       background-color: #0f0f0f;
       color: #fff;
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 1.5rem;
-      text-align: center;
+      padding: 0;
     }
 
-    h1 {
-      font-size: 1.5rem;
+    header {
+      text-align: center;
+      padding: 1rem;
+      border-bottom: 1px solid #333;
+      background-color: #1a1a1a;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .container {
+      padding: 2rem 1rem 6rem;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    label, select, button {
+      display: block;
+      width: 100%;
       margin-bottom: 1rem;
+      font-size: 1rem;
     }
 
     select, button {
-      padding: 0.6rem 1rem;
-      margin: 1rem 0;
-      font-size: 1rem;
       background-color: #1a1a1a;
       color: #fff;
+      padding: 0.7rem;
       border: 1px solid #444;
-      border-radius: 4px;
+      border-radius: 6px;
     }
 
     button {
       cursor: pointer;
+      transition: background-color 0.2s ease;
     }
 
-    .confirmation {
-      margin-top: 1rem;
+    button:hover {
+      background-color: #222;
+    }
+
+    .post-preview {
+      margin-top: 2rem;
+      border: 1px solid #333;
+      background-color: #1c1c1c;
+      padding: 1.2rem;
+      border-radius: 8px;
       color: #aaa;
-      font-style: italic;
+      text-align: center;
     }
 
     .bottom-nav {
@@ -58,14 +81,18 @@
   </style>
 </head>
 <body>
-  <h1>Publish an Achievement</h1>
+  <header>New Void Post</header>
 
-  <select id="achievementSelect">
-    <option value="">-- Select one --</option>
-  </select>
-  <br>
-  <button onclick="publishAchievement()">Post to the Void</button>
-  <div class="confirmation" id="confirmationMsg"></div>
+  <div class="container">
+    <label for="achievementSelect">Select an Achievement:</label>
+    <select id="achievementSelect">
+      <option value="">-- choose one --</option>
+    </select>
+
+    <button onclick="publish()">Publish</button>
+
+    <div id="preview" class="post-preview" style="display:none;"></div>
+  </div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -85,6 +112,7 @@
 
     const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
     const select = document.getElementById("achievementSelect");
+    const preview = document.getElementById("preview");
 
     unlocked.forEach(key => {
       const option = document.createElement("option");
@@ -93,20 +121,21 @@
       select.appendChild(option);
     });
 
-    function publishAchievement() {
+    function publish() {
       const selected = select.value;
-      const msg = document.getElementById("confirmationMsg");
-
       if (!selected) {
-        msg.textContent = "Please select an achievement first.";
+        preview.style.display = "block";
+        preview.textContent = "You must choose an achievement first.";
         return;
       }
 
+      const postText = achievementsList[selected];
       const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
-      posts.unshift(achievementsList[selected]);
+      posts.unshift(postText);
       localStorage.setItem("sharedPosts", JSON.stringify(posts));
 
-      msg.textContent = "Your achievement has been posted to the void.";
+      preview.style.display = "block";
+      preview.textContent = postText;
       select.value = "";
     }
   </script>
