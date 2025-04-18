@@ -84,14 +84,18 @@ const fakeUsernames = [
     "[ Just one more... nothing. ]"
   ];
 
- function createPost(message) {
+function createPost(message) {
   const post = document.createElement("div");
   post.className = "post";
 
   const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
+  const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 
   post.innerHTML = `
-    <div style="font-weight: bold; color: #aaa; margin-bottom: 10px;">@${username}</div>
+    <div style="display: flex; align-items: center; margin-bottom: 10px; gap: 10px;">
+      <img src="${avatarUrl}" alt="avatar" style="width: 40px; height: 40px; border-radius: 50%;">
+      <span style="font-weight: bold; color: #aaa;">@${username}</span>
+    </div>
     <div>${message}</div>
   `;
 
