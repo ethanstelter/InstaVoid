@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Void Profile</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    a {
+      color: #888;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .stat {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .achievements {
+      margin-top: 2rem;
+    }
+    .achievements h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .achievements ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .achievements li {
+      margin-bottom: 0.5rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html">← Back to Feed</a>
+  <h1>Your Void Profile</h1>
+  <div class="stat" id="timeStat"></div>
+  <div class="stat" id="likeStat"></div>
+  <div class="achievements">
+    <h2>Achievements</h2>
+    <ul id="achievementList"></ul>
+  </div>
+
+  <script>
+    const time = parseInt(localStorage.getItem("secondsWasted")) || 0;
+    const likes = parseInt(localStorage.getItem("likesGiven")) || 0;
+    const achievements = JSON.parse(localStorage.getItem("achievements")) || [];
+
+    document.getElementById("timeStat").textContent = `Minutes wasted: ${Math.floor(time / 60)}`;
+    document.getElementById("likeStat").textContent = `Likes given: ${likes}`;
+
+    const list = document.getElementById("achievementList");
+    if (achievements.length === 0) {
+      list.innerHTML = "<li>None... yet.</li>";
+    } else {
+      achievements.forEach(ach => {
+        const li = document.createElement("li");
+        li.textContent = ach;
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
 
