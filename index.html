@@ -30,12 +30,33 @@ header {
   display: flex;
   align-items: center;
   gap: 15px;
+  position: relative;
 }
 .nav-icons img {
   width: 24px;
   height: 24px;
   cursor: pointer;
   filter: invert(60%);
+}
+#notificationDropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  padding: 0.5rem;
+  border-radius: 6px;
+  width: 250px;
+  display: none;
+  z-index: 1000;
+  box-shadow: 0 0 10px #000;
+}
+#notificationDropdown p {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
 }
 .stories {
   display: flex;
@@ -190,18 +211,15 @@ main {
 <header>
   <div class="logo">InstaVoid</div>
   <div class="nav-icons">
-    <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" alt="new post" />
-    <img src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="messages" />
+    <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
+    <div id="notificationDropdown"></div>
   </div>
 </header>
 
 <div class="stories" id="storiesBar"></div>
-
 <main id="feed"></main>
-
 <div id="waste-counter">Minutes of life wasted here: 0</div>
 <div id="like-counter">Likes given: 0</div>
-
 <div class="bottom-nav">
   <a href="index.html">🏠</a>
   <a href="search.html">🔍</a>
@@ -209,7 +227,6 @@ main {
   <a href="reels.html">🎞️</a>
   <a href="profile.html">👤</a>
 </div>
-
 <script>
 if (!localStorage.getItem("achievementList")) {
   const list = [];
@@ -225,6 +242,8 @@ if (!localStorage.getItem("achievementList")) {
 
 const feed = document.getElementById("feed");
 const storiesBar = document.getElementById("storiesBar");
+const notifDropdown = document.getElementById("notificationDropdown");
+const notifIcon = document.getElementById("notifIcon");
 const fakeUsernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
 const fakeMessages = [
   "Empty Post",
@@ -259,7 +278,7 @@ const likeCounter = document.getElementById("like-counter");
 likeCounter.textContent = `Likes given: ${likesGiven}`;
 
 let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
-
+let notifications = [];
 function createPost(message) {
   const post = document.createElement("div");
   post.className = "post";
@@ -289,7 +308,6 @@ function handleLike(btn) {
   likesGiven++;
   localStorage.setItem("likesGiven", likesGiven);
   likeCounter.textContent = `Likes given: ${likesGiven}`;
-
   const popup = document.createElement("div");
   popup.className = "like-popup";
   const funny = ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."];
@@ -315,6 +333,28 @@ function submitFakeComment(button) {
     }, 600);
   }
 }
+
+notifIcon.addEventListener("click", () => {
+  notifDropdown.style.display = notifDropdown.style.display === "block" ? "none" : "block";
+  notifDropdown.innerHTML = notifications.length === 0 ? "<p>No new notifications.</p>" : notifications.map(n => `<p>${n}</p>`).join("");
+});
+
+function pushRandomNotification() {
+  const phrases = [
+    "You earned nothing!",
+    "Someone might've seen your post. Maybe.",
+    "A ghost viewed your profile.",
+    "You scrolled too far.",
+    "Your like meant nothing."
+  ];
+  const note = phrases[Math.floor(Math.random() * phrases.length)];
+  notifications.unshift(note);
+  if (notifications.length > 5) notifications.pop();
+  if (notifDropdown.style.display === "block") {
+    notifDropdown.innerHTML = notifications.map(n => `<p>${n}</p>`).join("");
+  }
+}
+setInterval(() => Math.random() < 0.25 && pushRandomNotification(), 15000);
 
 for (let i = 0; i < 10; i++) {
   const msg = fakeMessages[i % fakeMessages.length];
