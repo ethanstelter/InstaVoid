@@ -42,9 +42,21 @@
       background-color: #1c1c1c;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: center;
+      align-items: center;
       padding: 1rem;
       position: relative;
+    }
+
+    .caption-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 1rem;
+      color: #aaa;
+      max-width: 80%;
     }
 
     .user-info {
@@ -69,12 +81,6 @@
       color: #ccc;
     }
 
-    .caption {
-      font-size: 0.85rem;
-      color: #aaa;
-      margin-top: 4px;
-    }
-
     .actions {
       position: absolute;
       bottom: 80px;
@@ -94,11 +100,12 @@
 
     .comment-box {
       position: absolute;
-      bottom: 10px;
+      bottom: 58px;
       left: 10px;
       right: 10px;
-      display: flex;
+      display: none;
       gap: 10px;
+      z-index: 10;
     }
 
     .comment-box input {
@@ -195,12 +202,10 @@
       inner.className = "reel-inner";
 
       inner.innerHTML = `
+        <div class="caption-center">${caption}</div>
         <div class="user-info">
           <img src="${avatar}" alt="avatar">
-          <div>
-            <div class="username">@${username}</div>
-            <div class="caption">${caption}</div>
-          </div>
+          <div class="username">@${username}</div>
         </div>
         <div class="actions">
           <button onclick="handlePopup(this, 'This like did nothing.')">❤️</button>
