@@ -1,1 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Void Reels</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+
+    header {
+      text-align: center;
+      padding: 1rem;
+      background-color: #1a1a1a;
+      border-bottom: 1px solid #333;
+      font-weight: bold;
+      font-size: 1.2rem;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .reel {
+      scroll-snap-align: start;
+      height: 100vh;
+      background-color: #1c1c1c;
+      border-bottom: 1px solid #222;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.95rem;
+      color: #aaa;
+      position: relative;
+      overflow: hidden;
+      animation: flicker 3s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.5;
+      }
+    }
+
+    .reel::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        45deg,
+        #222 0px,
+        #222 20px,
+        #111 20px,
+        #111 40px
+      );
+      opacity: 0.15;
+    }
+
+    .username {
+      font-weight: bold;
+      color: #ccc;
+      margin-bottom: 0.5rem;
+      z-index: 2;
+    }
+
+    .caption {
+      text-align: center;
+      z-index: 2;
+    }
+
+    .views {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 0.8rem;
+      color: #666;
+      z-index: 2;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+      z-index: 1000;
+    }
+
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
+  </style>
+</head>
+<body>
+  <header>Void Reels</header>
+
+  <div id="reelContainer"></div>
+
+  <div class="bottom-nav">
+    <a href="index.html">🏠</a>
+    <a href="search.html">🔍</a>
+    <a href="publish.html">➕</a>
+    <a href="reels.html">🎞️</a>
+    <a href="profile.html">👤</a>
+  </div>
+
+  <script>
+    const fakeUsernames = [
+      "voidvision", "doomfeed", "reelvoid", "flickerfade", "ghostwatch"
+    ];
+
+    const fakeCaptions = [
+      "You're watching nothing.",
+      "Keep staring... it's not real.",
+      "Every frame is the same.",
+      "This video changed nothing.",
+      "Still scrolling?", 
+      "Now in 4K: pure void.",
+      "You could stop. But you won’t."
+    ];
+
+    const reelContainer = document.getElementById("reelContainer");
+
+    function createReel() {
+      const reel = document.createElement("div");
+      reel.className = "reel";
+
+      const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
+      const caption = fakeCaptions[Math.floor(Math.random() * fakeCaptions.length)];
+      const views = (Math.floor(Math.random() * 10000) + 1).toLocaleString() + " fake views";
+
+      reel.innerHTML = `
+        <div class="username">@${username}</div>
+        <div class="caption">${caption}</div>
+        <div class="views">${views}</div>
+      `;
+
+      reelContainer.appendChild(reel);
+    }
+
+    for (let i = 0; i < 12; i++) {
+      createReel();
+    }
+  </script>
+</body>
+</html>
 
