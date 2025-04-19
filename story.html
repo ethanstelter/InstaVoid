@@ -1,1 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Void Story</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      border: 2px solid #f44;
+    }
+
+    .username {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #ccc;
+    }
+
+    .message {
+      font-size: 1rem;
+      color: #aaa;
+      margin-bottom: 2rem;
+    }
+
+    .back {
+      text-decoration: none;
+      color: #888;
+      font-size: 0.9rem;
+      border: 1px solid #444;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <img id="avatar" class="avatar" src="" alt="avatar">
+  <div id="username" class="username">@someone</div>
+  <div class="message">This story is entirely meaningless.</div>
+  <a class="back" href="index.html">← Back to Feed</a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const user = params.get('user') || 'ghostuser';
+    document.getElementById("username").textContent = `@${user}`;
+    document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${user}`;
+  </script>
+</body>
+</html>
 
