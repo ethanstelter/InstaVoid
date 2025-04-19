@@ -41,31 +41,8 @@
       color: #aaa;
       position: relative;
       overflow: hidden;
-      animation: flicker 3s infinite;
-    }
-
-    @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        opacity: 1;
-      }
-      20%, 24%, 55% {
-        opacity: 0.5;
-      }
-    }
-
-    .reel::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        45deg,
-        #222 0px,
-        #222 20px,
-        #111 20px,
-        #111 40px
-      );
-      opacity: 0.15;
+      padding: 1rem;
+      box-sizing: border-box;
     }
 
     .username {
@@ -78,15 +55,29 @@
     .caption {
       text-align: center;
       z-index: 2;
+      margin-bottom: 1rem;
     }
 
     .views {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
       font-size: 0.8rem;
       color: #666;
-      z-index: 2;
+      margin-bottom: 1rem;
+    }
+
+    .post-actions {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      max-width: 240px;
+      margin-bottom: 1rem;
+    }
+
+    .post-actions button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #ccc;
+      font-size: 1.1rem;
     }
 
     .bottom-nav {
@@ -138,6 +129,14 @@
 
     const reelContainer = document.getElementById("reelContainer");
 
+    let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
+
+    function handleLike(btn) {
+      likesGiven++;
+      localStorage.setItem("likesGiven", likesGiven);
+      btn.textContent = "❤️";
+    }
+
     function createReel() {
       const reel = document.createElement("div");
       reel.className = "reel";
@@ -150,6 +149,12 @@
         <div class="username">@${username}</div>
         <div class="caption">${caption}</div>
         <div class="views">${views}</div>
+        <div class="post-actions">
+          <button onclick="handleLike(this)">🤍</button>
+          <button>💬</button>
+          <button>🔁</button>
+          <button>🔖</button>
+        </div>
       `;
 
       reelContainer.appendChild(reel);
@@ -161,4 +166,3 @@
   </script>
 </body>
 </html>
-
