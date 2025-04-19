@@ -1,97 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Void Reels</title>
   <style>
-    html, body {
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
       margin: 0;
-      padding: 0;
-      background-color: #000;
+      background-color: #0f0f0f;
       font-family: Arial, sans-serif;
-      overflow: hidden;
+      color: #fff;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+    }
+
+    .reel {
       height: 100vh;
+      scroll-snap-align: start;
+      background-color: #000;
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    .reel-container {
-      position: relative;
-      width: 360px;
-      height: 640px;
-      background-color: #111;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 10px #000;
-    }
-
-    .reel {
+    .reel-inner {
       width: 100%;
+      max-width: 360px;
       height: 100%;
-      background-size: cover;
-      background-position: center;
+      background-color: #1c1c1c;
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       padding: 1rem;
-      position: relative;
     }
 
     .user-info {
       position: absolute;
-      bottom: 70px;
-      left: 1rem;
+      bottom: 80px;
+      left: 10px;
       display: flex;
       align-items: center;
-      gap: 10px;
     }
 
     .user-info img {
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      margin-right: 10px;
       border: 2px solid #f44;
     }
 
-    .user-info span {
+    .username {
       font-weight: bold;
-      font-size: 0.95rem;
-      color: #fff;
+      font-size: 0.9rem;
+      color: #ccc;
     }
 
     .caption {
-      position: absolute;
-      bottom: 50px;
-      left: 1rem;
       font-size: 0.85rem;
-      color: #ccc;
+      color: #aaa;
+      margin-top: 4px;
     }
 
     .actions {
       position: absolute;
-      bottom: 70px;
-      right: 1rem;
+      bottom: 80px;
+      right: 10px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
+      gap: 15px;
     }
 
     .actions button {
       background: none;
       border: none;
-      font-size: 1.5rem;
-      color: #fff;
+      color: #ccc;
+      font-size: 1.4rem;
       cursor: pointer;
     }
 
     .comment-box {
       position: absolute;
       bottom: 10px;
-      left: 1rem;
-      right: 1rem;
+      left: 10px;
+      right: 10px;
       display: flex;
       gap: 10px;
     }
@@ -101,22 +99,22 @@
       padding: 0.5rem;
       background-color: #111;
       border: 1px solid #444;
-      color: #ccc;
       border-radius: 4px;
+      color: #ccc;
     }
 
     .comment-box button {
       padding: 0.5rem 0.8rem;
       background-color: #222;
       border: 1px solid #444;
-      color: #ccc;
       border-radius: 4px;
+      color: #ccc;
       cursor: pointer;
     }
 
     .popup {
       position: absolute;
-      bottom: 150px;
+      bottom: 140px;
       left: 50%;
       transform: translateX(-50%);
       background-color: #1a1a1a;
@@ -128,7 +126,7 @@
       opacity: 0;
       animation: fadePop 2.5s forwards;
       pointer-events: none;
-      z-index: 10;
+      z-index: 2;
     }
 
     @keyframes fadePop {
@@ -136,49 +134,93 @@
       20% { opacity: 1; }
       100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
     }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+      z-index: 1000;
+    }
+
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
   </style>
 </head>
 <body>
-  <div class="reel-container" id="reelContainer"></div>
+
+  <div id="reelContainer"></div>
+
+  <div class="bottom-nav">
+    <a href="index.html">🏠</a>
+    <a href="search.html">🔍</a>
+    <a href="publish.html">➕</a>
+    <a href="reels.html">🎞️</a>
+    <a href="profile.html">👤</a>
+  </div>
 
   <script>
     const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
     const captions = [
-      "You’re watching... nothing.",
-      "Reel #203984. Unseen.",
-      "Simulated video, simulated joy.",
-      "Scroll harder. It won’t help.",
-      "No meaning detected.",
-      "Endless entertainment... not."
+      "You're watching nothing.",
+      "Keep staring... it's not real.",
+      "Every frame is the same.",
+      "This video changed nothing.",
+      "Still scrolling?",
+      "Now in 4K: pure void."
     ];
 
-    const reelContainer = document.getElementById("reelContainer");
+    const container = document.getElementById("reelContainer");
 
-    function showPopup(el, text) {
+    function createReel(username, caption) {
+      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+      const reel = document.createElement("div");
+      reel.className = "reel";
+
+      const inner = document.createElement("div");
+      inner.className = "reel-inner";
+
+      inner.innerHTML = `
+        <div class="user-info">
+          <img src="${avatar}" alt="avatar">
+          <div>
+            <div class="username">@${username}</div>
+            <div class="caption">${caption}</div>
+          </div>
+        </div>
+        <div class="actions">
+          <button onclick="handlePopup(this, 'This like did nothing.')">❤️</button>
+          <button onclick="toggleCommentBox(this)">💬</button>
+          <button onclick="handlePopup(this, 'Echoed into the abyss.')">🔁</button>
+          <button onclick="handlePopup(this, '📌 Marked meaningless.')">📌</button>
+        </div>
+        <div class="comment-box">
+          <input type="text" placeholder="Say something...">
+          <button onclick="submitFakeComment(this)">➤</button>
+        </div>
+      `;
+
+      reel.appendChild(inner);
+      container.appendChild(reel);
+    }
+
+    function handlePopup(el, text) {
       const popup = document.createElement("div");
       popup.className = "popup";
       popup.textContent = text;
-      el.closest(".reel-container").appendChild(popup);
+      el.closest(".reel-inner").appendChild(popup);
       setTimeout(() => popup.remove(), 2500);
     }
 
-    function handleLike(btn) {
-      const messages = ["This like did nothing.", "Validation denied.", "+0 dopamine.", "Why tho?", "Still empty."];
-      showPopup(btn, messages[Math.floor(Math.random() * messages.length)]);
-    }
-
-    function handleRepost(btn) {
-      const messages = ["Void reshared.", "Echoed into the abyss.", "+0 reach.", "Copied to nowhere."];
-      showPopup(btn, messages[Math.floor(Math.random() * messages.length)]);
-    }
-
-    function handleBookmark(btn) {
-      const messages = ["Pinned for no reason.", "Saved into the void.", "📌 Marked meaningless.", "Archived. Sort of."];
-      showPopup(btn, messages[Math.floor(Math.random() * messages.length)]);
-    }
-
     function toggleCommentBox(btn) {
-      const box = btn.closest(".reel-container").querySelector(".comment-box");
+      const box = btn.closest(".reel-inner").querySelector(".comment-box");
       box.style.display = box.style.display === "flex" ? "none" : "flex";
     }
 
@@ -195,42 +237,12 @@
       }
     }
 
-    function renderReel(index) {
-      const user = usernames[index % usernames.length];
-      const caption = captions[index % captions.length];
-      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${user}`;
-      const views = `${Math.floor(Math.random() * 10000)} fake views`;
-
-      reelContainer.innerHTML = `
-        <div class="reel" style="background-image: url('${avatar}');">
-          <div class="user-info">
-            <img src="${avatar}" alt="avatar">
-            <span>@${user}</span>
-          </div>
-          <div class="caption">${caption}<br><small>${views}</small></div>
-          <div class="actions">
-            <button onclick="handleLike(this)">❤️</button>
-            <button onclick="toggleCommentBox(this)">💬</button>
-            <button onclick="handleRepost(this)">🔁</button>
-            <button onclick="handleBookmark(this)">📌</button>
-          </div>
-          <div class="comment-box">
-            <input type="text" placeholder="Say something...">
-            <button onclick="submitFakeComment(this)">➤</button>
-          </div>
-        </div>
-      `;
+    // Generate fake reels
+    for (let i = 0; i < 10; i++) {
+      const user = usernames[i % usernames.length];
+      const cap = captions[i % captions.length];
+      createReel(user, cap);
     }
-
-    let currentIndex = 0;
-    renderReel(currentIndex);
-
-    window.addEventListener("wheel", (e) => {
-      if (e.deltaY > 0) currentIndex++;
-      else currentIndex--;
-      if (currentIndex < 0) currentIndex = usernames.length - 1;
-      renderReel(currentIndex);
-    });
   </script>
 </body>
 </html>
