@@ -106,16 +106,28 @@ main {
   font-size: 1.1rem;
 }
 .comment-box {
-  padding: 0 1rem 1rem;
+  padding: 0.5rem 1rem 1rem;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  display: none;
 }
 .comment-box input {
-  width: 100%;
+  flex: 1;
   padding: 0.5rem;
   background-color: #111;
   border: 1px solid #444;
   color: #ccc;
   border-radius: 4px;
   font-size: 0.9rem;
+}
+.comment-box button {
+  padding: 0.5rem 0.8rem;
+  background-color: #222;
+  border: 1px solid #444;
+  color: #ccc;
+  border-radius: 4px;
+  cursor: pointer;
 }
 .like-popup {
   position: absolute;
@@ -124,13 +136,14 @@ main {
   transform: translateX(-50%);
   background-color: #1a1a1a;
   border: 1px solid #444;
-  padding: 4px 10px;
-  border-radius: 4px;
+  padding: 8px 14px;
+  border-radius: 6px;
   color: #bbb;
-  font-size: 0.8rem;
+  font-size: 1rem;
   opacity: 0;
-  animation: fadePop 1.5s forwards;
+  animation: fadePop 2.5s forwards;
   pointer-events: none;
+  z-index: 2;
 }
 @keyframes fadePop {
   0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
@@ -264,8 +277,9 @@ function createPost(message) {
       <button>🔁</button>
       <button>🔖</button>
     </div>
-    <div class="comment-box" style="display:none">
+    <div class="comment-box">
       <input type="text" placeholder="Say something...">
+      <button onclick="submitFakeComment(this)">➤</button>
     </div>
   `;
   feed.appendChild(post);
@@ -281,25 +295,25 @@ function handleLike(btn) {
   const funny = ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."];
   popup.textContent = funny[Math.floor(Math.random() * funny.length)];
   btn.closest(".post").appendChild(popup);
-  setTimeout(() => popup.remove(), 1500);
+  setTimeout(() => popup.remove(), 2500);
 }
 
 function toggleCommentBox(btn) {
   const box = btn.closest(".post").querySelector(".comment-box");
-  const input = box.querySelector("input");
-  box.style.display = "block";
-  input.focus();
-  input.onkeydown = (e) => {
-    if (e.key === "Enter" && input.value.trim() !== "") {
-      input.style.transition = "opacity 0.5s ease";
-      input.style.opacity = 0;
-      setTimeout(() => {
-        input.value = "";
-        input.style.opacity = 1;
-        box.style.display = "none";
-      }, 600);
-    }
-  };
+  box.style.display = box.style.display === "flex" ? "none" : "flex";
+}
+
+function submitFakeComment(button) {
+  const input = button.previousElementSibling;
+  if (input.value.trim() !== "") {
+    input.style.transition = "opacity 0.5s ease";
+    input.style.opacity = 0;
+    setTimeout(() => {
+      input.value = "";
+      input.style.opacity = 1;
+      input.closest(".comment-box").style.display = "none";
+    }, 600);
+  }
 }
 
 for (let i = 0; i < 10; i++) {
