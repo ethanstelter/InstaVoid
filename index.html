@@ -65,6 +65,7 @@ main {
   width: 100%;
   max-width: 400px;
   color: #fff;
+  position: relative;
 }
 .post-header {
   display: flex;
@@ -103,6 +104,38 @@ main {
   cursor: pointer;
   color: #ccc;
   font-size: 1.1rem;
+}
+.comment-box {
+  padding: 0 1rem 1rem;
+}
+.comment-box input {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #111;
+  border: 1px solid #444;
+  color: #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.like-popup {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1a1a1a;
+  border: 1px solid #444;
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: #bbb;
+  font-size: 0.8rem;
+  opacity: 0;
+  animation: fadePop 1.5s forwards;
+  pointer-events: none;
+}
+@keyframes fadePop {
+  0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
 #waste-counter,
 #like-counter {
@@ -226,19 +259,47 @@ function createPost(message) {
     </div>
     <div class="post-image">${message}</div>
     <div class="post-actions">
-      <button onclick="handleLike()">❤️</button>
-      <button>💬</button>
+      <button onclick="handleLike(this)">❤️</button>
+      <button onclick="toggleCommentBox(this)">💬</button>
       <button>🔁</button>
       <button>🔖</button>
+    </div>
+    <div class="comment-box" style="display:none">
+      <input type="text" placeholder="Say something...">
     </div>
   `;
   feed.appendChild(post);
 }
 
-function handleLike() {
+function handleLike(btn) {
   likesGiven++;
   localStorage.setItem("likesGiven", likesGiven);
   likeCounter.textContent = `Likes given: ${likesGiven}`;
+
+  const popup = document.createElement("div");
+  popup.className = "like-popup";
+  const funny = ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."];
+  popup.textContent = funny[Math.floor(Math.random() * funny.length)];
+  btn.closest(".post").appendChild(popup);
+  setTimeout(() => popup.remove(), 1500);
+}
+
+function toggleCommentBox(btn) {
+  const box = btn.closest(".post").querySelector(".comment-box");
+  const input = box.querySelector("input");
+  box.style.display = "block";
+  input.focus();
+  input.onkeydown = (e) => {
+    if (e.key === "Enter" && input.value.trim() !== "") {
+      input.style.transition = "opacity 0.5s ease";
+      input.style.opacity = 0;
+      setTimeout(() => {
+        input.value = "";
+        input.style.opacity = 1;
+        box.style.display = "none";
+      }, 600);
+    }
+  };
 }
 
 for (let i = 0; i < 10; i++) {
