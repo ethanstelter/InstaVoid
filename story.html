@@ -3,20 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Void Story</title>
+  <title>Void Stories</title>
   <style>
     body {
       margin: 0;
       background-color: #0f0f0f;
       color: #fff;
       font-family: Arial, sans-serif;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      display: flex;
+      height: 100vh;
+    }
+
+    .story-slide {
+      scroll-snap-align: start;
+      flex: 0 0 100%;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      height: 100vh;
-      padding: 1rem;
+      align-items: center;
       text-align: center;
+      padding: 2rem;
+      box-sizing: border-box;
     }
 
     .avatar {
@@ -30,8 +39,8 @@
     .username {
       font-size: 1.1rem;
       font-weight: bold;
-      margin-bottom: 1rem;
       color: #ccc;
+      margin-bottom: 1rem;
     }
 
     .message {
@@ -40,28 +49,55 @@
       margin-bottom: 2rem;
     }
 
-    .back {
+    .back-button {
       text-decoration: none;
       color: #888;
       font-size: 0.9rem;
       border: 1px solid #444;
       padding: 0.5rem 1rem;
       border-radius: 6px;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 999;
     }
   </style>
 </head>
 <body>
-  <img id="avatar" class="avatar" src="" alt="avatar">
-  <div id="username" class="username">@someone</div>
-  <div class="message">This story is entirely meaningless.</div>
-  <a class="back" href="index.html">← Back to Feed</a>
+  <a class="back-button" href="index.html">← Back to Feed</a>
+
+  <div id="storyWrapper"></div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const user = params.get('user') || 'ghostuser';
-    document.getElementById("username").textContent = `@${user}`;
-    document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${user}`;
+    const usernames = [
+      "void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"
+    ];
+
+    const messages = [
+      "This story is entirely meaningless.",
+      "Nothing to see here.",
+      "Still wasting time, huh?",
+      "You've made it to another void.",
+      "One more swipe. Or five.",
+      "Fake story. Real regret."
+    ];
+
+    const storyWrapper = document.getElementById("storyWrapper");
+
+    usernames.forEach((username, i) => {
+      const message = messages[i % messages.length];
+      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+
+      const slide = document.createElement("div");
+      slide.className = "story-slide";
+      slide.innerHTML = `
+        <img class="avatar" src="${avatar}" alt="avatar">
+        <div class="username">@${username}</div>
+        <div class="message">${message}</div>
+      `;
+
+      storyWrapper.appendChild(slide);
+    });
   </script>
 </body>
 </html>
-
