@@ -46,6 +46,7 @@
       align-items: center;
       padding: 1rem;
       position: relative;
+      transition: transform 0.3s ease;
     }
 
     .caption-center {
@@ -54,8 +55,10 @@
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
-      font-size: 1rem;
-      color: #aaa;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #f0f0f0;
+      text-shadow: 0 0 6px #000;
       max-width: 80%;
     }
 
@@ -65,6 +68,7 @@
       left: 10px;
       display: flex;
       align-items: center;
+      transition: transform 0.3s ease;
     }
 
     .user-info img {
@@ -88,6 +92,7 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
+      transition: transform 0.3s ease;
     }
 
     .actions button {
@@ -232,8 +237,15 @@
     }
 
     function toggleCommentBox(btn) {
-      const box = btn.closest(".reel-inner").querySelector(".comment-box");
-      box.style.display = box.style.display === "flex" ? "none" : "flex";
+      const inner = btn.closest(".reel-inner");
+      const box = inner.querySelector(".comment-box");
+      const userInfo = inner.querySelector(".user-info");
+      const actions = inner.querySelector(".actions");
+
+      const isOpen = box.style.display === "flex";
+      box.style.display = isOpen ? "none" : "flex";
+      userInfo.style.transform = isOpen ? "translateY(0)" : "translateY(-30px)";
+      actions.style.transform = isOpen ? "translateY(0)" : "translateY(-30px)";
     }
 
     function submitFakeComment(button) {
@@ -245,6 +257,9 @@
           input.value = "";
           input.style.opacity = 1;
           input.closest(".comment-box").style.display = "none";
+          const inner = input.closest(".reel-inner");
+          inner.querySelector(".user-info").style.transform = "translateY(0)";
+          inner.querySelector(".actions").style.transform = "translateY(0)";
         }, 600);
       }
     }
