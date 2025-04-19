@@ -5,39 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Void Reels</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
     body {
       margin: 0;
       background-color: #000;
       font-family: Arial, sans-serif;
       color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       overflow: hidden;
     }
+
+    .reel-frame {
+      width: 360px;
+      height: 640px;
+      background-color: #000;
+      border: 2px solid #222;
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      box-shadow: 0 0 10px #111;
+    }
+
     .reel {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100vh;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      background-color: #000;
       padding: 1rem;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .overlay {
       position: relative;
-      z-index: 1;
     }
 
     .user-info {
       position: absolute;
-      bottom: 70px;
+      bottom: 80px;
       left: 1rem;
     }
 
@@ -54,25 +59,23 @@
 
     .actions {
       position: absolute;
-      bottom: 70px;
+      bottom: 80px;
       right: 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 1rem;
-      z-index: 2;
     }
 
     .actions button {
       background: none;
       border: none;
       color: #fff;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       cursor: pointer;
     }
 
     .comment-box {
-      display: none;
       position: absolute;
       bottom: 20px;
       left: 1rem;
@@ -125,61 +128,45 @@
   </style>
 </head>
 <body>
-  <div id="reelContainer"></div>
+  <div class="reel-frame">
+    <div class="reel" id="reel"></div>
+  </div>
 
   <script>
-    const usernames = [
-      "void_vibes", "scroller3000", "ghostfeed", "lostinloop",
-      "tapmaster", "doomposter"
-    ];
-
+    const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop"];
     const captions = [
       "You’re still here?",
       "This means nothing.",
       "Another moment wasted.",
       "Fake video. Real time loss.",
-      "Like it matters.",
-      "Content? Nah."
     ];
-
-    const container = document.getElementById("reelContainer");
 
     let currentIndex = 0;
 
-    function createReel(index) {
+    const reelContainer = document.getElementById("reel");
+
+    function renderReel(index) {
       const username = usernames[index % usernames.length];
       const caption = captions[index % captions.length];
       const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 
-      const reel = document.createElement("div");
-      reel.className = "reel";
-      reel.style.backgroundImage = `url('${avatarUrl}')`; // pretend it's a video frame
-
-      reel.innerHTML = `
-        <div class="overlay">
-          <div class="user-info">
-            <span>@${username}</span>
-            <div class="caption">${caption}</div>
-          </div>
-          <div class="actions">
-            <button onclick="handleLike(this)">❤️</button>
-            <button onclick="toggleCommentBox(this)">💬</button>
-            <button onclick="handleRepost(this)">🔁</button>
-            <button onclick="handleBookmark(this)">📌</button>
-          </div>
-          <div class="comment-box">
-            <input type="text" placeholder="Say something..." />
-            <button onclick="submitFakeComment(this)">➤</button>
-          </div>
+      reelContainer.style.backgroundImage = `url('${avatarUrl}')`;
+      reelContainer.innerHTML = `
+        <div class="user-info">
+          <span>@${username}</span>
+          <div class="caption">${caption}</div>
+        </div>
+        <div class="actions">
+          <button onclick="handleLike(this)">❤️</button>
+          <button onclick="toggleCommentBox(this)">💬</button>
+          <button onclick="handleRepost(this)">🔁</button>
+          <button onclick="handleBookmark(this)">📌</button>
+        </div>
+        <div class="comment-box">
+          <input type="text" placeholder="Say something..." />
+          <button onclick="submitFakeComment(this)">➤</button>
         </div>
       `;
-
-      return reel;
-    }
-
-    function loadReel(index) {
-      container.innerHTML = "";
-      container.appendChild(createReel(index));
     }
 
     function handleLike(btn) {
@@ -187,7 +174,7 @@
       popup.className = "like-popup";
       const funny = ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."];
       popup.textContent = funny[Math.floor(Math.random() * funny.length)];
-      btn.closest(".reel").appendChild(popup);
+      reelContainer.appendChild(popup);
       setTimeout(() => popup.remove(), 2500);
     }
 
@@ -196,7 +183,7 @@
       popup.className = "like-popup";
       const msgs = ["Reposted to the void.", "Echo chamber engaged.", "No one saw it.", "Void approved!"];
       popup.textContent = msgs[Math.floor(Math.random() * msgs.length)];
-      btn.closest(".reel").appendChild(popup);
+      reelContainer.appendChild(popup);
       setTimeout(() => popup.remove(), 2500);
     }
 
@@ -205,7 +192,7 @@
       popup.className = "like-popup";
       const msgs = ["Saved for no reason.", "Marked for future regret.", "Pinned. For what?", "You'll forget this."];
       popup.textContent = msgs[Math.floor(Math.random() * msgs.length)];
-      btn.closest(".reel").appendChild(popup);
+      reelContainer.appendChild(popup);
       setTimeout(() => popup.remove(), 2500);
     }
 
@@ -227,36 +214,33 @@
       }
     }
 
-    function handleScroll(e) {
-      if (e.deltaY > 0 && currentIndex < usernames.length - 1) {
-        currentIndex++;
-        loadReel(currentIndex);
-      } else if (e.deltaY < 0 && currentIndex > 0) {
-        currentIndex--;
-        loadReel(currentIndex);
-      }
+    function nextReel() {
+      currentIndex = (currentIndex + 1) % usernames.length;
+      renderReel(currentIndex);
     }
 
-    loadReel(currentIndex);
-    window.addEventListener("wheel", handleScroll);
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchend", handleTouchEnd);
+    function previousReel() {
+      currentIndex = (currentIndex - 1 + usernames.length) % usernames.length;
+      renderReel(currentIndex);
+    }
+
+    window.addEventListener("wheel", (e) => {
+      if (e.deltaY > 0) nextReel();
+      else previousReel();
+    });
+
+    window.addEventListener("touchstart", (e) => {
+      touchStartY = e.changedTouches[0].screenY;
+    });
+
+    window.addEventListener("touchend", (e) => {
+      const deltaY = touchStartY - e.changedTouches[0].screenY;
+      if (deltaY > 50) nextReel();
+      else if (deltaY < -50) previousReel();
+    });
 
     let touchStartY = 0;
-    function handleTouchStart(e) {
-      touchStartY = e.changedTouches[0].screenY;
-    }
-
-    function handleTouchEnd(e) {
-      const deltaY = touchStartY - e.changedTouches[0].screenY;
-      if (deltaY > 50 && currentIndex < usernames.length - 1) {
-        currentIndex++;
-        loadReel(currentIndex);
-      } else if (deltaY < -50 && currentIndex > 0) {
-        currentIndex--;
-        loadReel(currentIndex);
-      }
-    }
+    renderReel(currentIndex);
   </script>
 </body>
 </html>
