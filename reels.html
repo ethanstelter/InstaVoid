@@ -9,35 +9,42 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
       background-color: #0f0f0f;
       font-family: Arial, sans-serif;
       color: #fff;
-      overflow-y: scroll;
       scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+
+    #reelContainer {
+      height: 100%;
+      width: 100%;
     }
 
     .reel {
-      height: 100vh;
       scroll-snap-align: start;
+      height: 100vh;
       background-color: #000;
-      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
 
     .reel-inner {
-      width: 100%;
-      max-width: 360px;
+      width: 90%;
+      max-width: 540px;
       height: 100%;
       background-color: #1c1c1c;
-      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       padding: 1rem;
+      position: relative;
     }
 
     .user-info {
@@ -237,8 +244,7 @@
       }
     }
 
-    // Generate fake reels
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 12; i++) {
       const user = usernames[i % usernames.length];
       const cap = captions[i % captions.length];
       createReel(user, cap);
