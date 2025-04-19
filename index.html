@@ -157,12 +157,12 @@ main {
   transform: translateX(-50%);
   background-color: #1a1a1a;
   border: 1px solid #444;
-  padding: 8px 14px;
+  padding: 10px 18px;
   border-radius: 6px;
   color: #bbb;
-  font-size: 1rem;
+  font-size: 1.1rem;
   opacity: 0;
-  animation: fadePop 2.5s forwards;
+  animation: fadePop 3s forwards;
   pointer-events: none;
   z-index: 2;
 }
@@ -228,22 +228,11 @@ main {
   <a href="profile.html">👤</a>
 </div>
 <script>
-if (!localStorage.getItem("achievementList")) {
-  const list = [];
-  for (let i = 1; i <= 50; i++) {
-    list.push({
-      key: `ach${i}`,
-      name: `Achievement ${i}`,
-      desc: `This is your ${i === 1 ? 'very first' : `${i}th`} meaningless milestone.`
-    });
-  }
-  localStorage.setItem("achievementList", JSON.stringify(list));
-}
-
 const feed = document.getElementById("feed");
 const storiesBar = document.getElementById("storiesBar");
 const notifDropdown = document.getElementById("notificationDropdown");
 const notifIcon = document.getElementById("notifIcon");
+
 const fakeUsernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
 const fakeMessages = [
   "Empty Post",
@@ -264,8 +253,12 @@ fakeUsernames.forEach(username => {
   storiesBar.appendChild(story);
 });
 
-const counter = document.getElementById("waste-counter");
 let secondsWasted = parseInt(localStorage.getItem("secondsWasted")) || 0;
+let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
+let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
+let notifications = [];
+
+const counter = document.getElementById("waste-counter");
 counter.textContent = `Minutes of life wasted here: ${Math.floor(secondsWasted / 60)}`;
 setInterval(() => {
   secondsWasted++;
@@ -273,12 +266,9 @@ setInterval(() => {
   localStorage.setItem("secondsWasted", secondsWasted);
 }, 1000);
 
-let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
 const likeCounter = document.getElementById("like-counter");
 likeCounter.textContent = `Likes given: ${likesGiven}`;
 
-let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
-let notifications = [];
 function createPost(message) {
   const post = document.createElement("div");
   post.className = "post";
@@ -293,8 +283,8 @@ function createPost(message) {
     <div class="post-actions">
       <button onclick="handleLike(this)">❤️</button>
       <button onclick="toggleCommentBox(this)">💬</button>
-      <button>🔁</button>
-      <button>🔖</button>
+      <button onclick="handleRepost(this)">🔁</button>
+      <button onclick="handleBookmark(this)">📌</button>
     </div>
     <div class="comment-box">
       <input type="text" placeholder="Say something...">
@@ -308,12 +298,23 @@ function handleLike(btn) {
   likesGiven++;
   localStorage.setItem("likesGiven", likesGiven);
   likeCounter.textContent = `Likes given: ${likesGiven}`;
+  showPopup(btn, ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."]);
+}
+
+function handleRepost(btn) {
+  showPopup(btn, ["You reposted into the void.", "Your repost was ignored.", "Echoes of repost... heard by no one."]);
+}
+
+function handleBookmark(btn) {
+  showPopup(btn, ["This post is now... saved?", "Marked for future disappointment.", "Pinned to forget."]);
+}
+
+function showPopup(btn, messages) {
   const popup = document.createElement("div");
   popup.className = "like-popup";
-  const funny = ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."];
-  popup.textContent = funny[Math.floor(Math.random() * funny.length)];
+  popup.textContent = messages[Math.floor(Math.random() * messages.length)];
   btn.closest(".post").appendChild(popup);
-  setTimeout(() => popup.remove(), 2500);
+  setTimeout(() => popup.remove(), 3000);
 }
 
 function toggleCommentBox(btn) {
