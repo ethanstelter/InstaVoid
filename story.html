@@ -8,115 +8,133 @@
     body {
       margin: 0;
       background-color: #0f0f0f;
-      font-family: Arial, sans-serif;
       color: #fff;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      overflow: hidden;
       position: relative;
     }
 
-    .story-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .story-box {
-      width: 480px; /* Increased width */
+    .story-slide {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
       height: 100vh;
       background-color: #1c1c1c;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #000;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      position: relative;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
     }
 
-    .profile {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    .story-slide.active {
+      opacity: 1;
+      z-index: 1;
     }
 
-    .profile img {
-      width: 40px;
-      height: 40px;
+    .avatar {
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       border: 2px solid #f44;
+      position: absolute;
+      top: 10px;
+      left: 10px;
     }
 
-    .profile span {
+    .username {
+      position: absolute;
+      top: 15px;
+      left: 80px;
       font-weight: bold;
+      font-size: 1rem;
       color: #ccc;
-      font-size: 0.95rem;
     }
 
     .message {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       font-weight: bold;
-      color: #eee;
-      max-width: 80%;
+      text-align: center;
+      color: #f0f0f0;
+      padding: 1rem;
+      text-shadow: 0 0 6px #000;
+    }
+
+    .back-button {
+      text-decoration: none;
+      color: #888;
+      font-size: 0.9rem;
+      border: 1px solid #444;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 999;
     }
 
     .arrow-button {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
       font-size: 2rem;
+      color: #ccc;
       background-color: #1a1a1a;
-      color: #aaa;
       border: 1px solid #444;
       border-radius: 50%;
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      z-index: 10;
-      user-select: none;
+      z-index: 999;
     }
 
-    .back-to-feed {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 0.9rem;
-      padding: 0.4rem 1rem;
-      border-radius: 6px;
-      background-color: #1a1a1a;
-      border: 1px solid #444;
-      color: #aaa;
-      text-decoration: none;
-      z-index: 10;
+    .next-button {
+      right: calc(50% - 170px);
     }
+
+    .prev-button {
+      left: calc(50% - 170px);
+    }
+
+    .live-counter {
+      position: fixed;
+      font-size: 0.9rem;
+      color: #666;
+      background-color: #1a1a1a;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      z-index: 999;
+      right: 10px;
+    }
+
+    #story-counter { bottom: 50px; }
+    #scroll-counter { bottom: 80px; }
   </style>
 </head>
 <body>
-  <a class="back-to-feed" href="index.html">← Back</a>
+  <a class="back-button" href="index.html">← Back</a>
+  <div class="arrow-button prev-button" onclick="prevStory()">‹</div>
+  <div class="arrow-button next-button" onclick="nextStory()">›</div>
 
-  <div class="story-wrapper">
-    <div class="arrow-button" onclick="prevStory()">‹</div>
+  <div id="storyWrapper"></div>
 
-    <div class="story-box" id="storyBox">
-      <!-- Story content gets injected here -->
-    </div>
-
-    <div class="arrow-button" onclick="nextStory()">›</div>
-  </div>
+  <div id="story-counter" class="live-counter"></div>
+  <div id="scroll-counter" class="live-counter"></div>
 
   <script>
-    const usernames = [
-      "void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"
-    ];
-
+    const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
     const messages = [
       "This story is entirely meaningless.",
       "Nothing to see here.",
@@ -126,33 +144,65 @@
       "Fake story. Real regret."
     ];
 
-    let currentIndex = 0;
-    const storyBox = document.getElementById("storyBox");
+    let storiesViewed = parseInt(localStorage.getItem("storiesViewed")) || 0;
+    let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
 
-    function renderStory(index) {
-      const username = usernames[index];
-      const message = messages[index % messages.length];
-      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
-      storyBox.innerHTML = `
-        <div class="profile">
-          <img src="${avatar}" alt="avatar">
-          <span>@${username}</span>
-        </div>
-        <div class="message">${message}</div>
-      `;
+    const storyWrapper = document.getElementById("storyWrapper");
+    const storyCounter = document.getElementById("story-counter");
+    const scrollCounter = document.getElementById("scroll-counter");
+
+    let currentIndex = 0;
+    const slides = [];
+
+    function updateCounters() {
+      storyCounter.textContent = `Stories viewed: ${storiesViewed}`;
+      scrollCounter.textContent = `Scrolls done: ${scrollCount}`;
+    }
+
+    function createSlides() {
+      usernames.forEach((username, i) => {
+        const message = messages[i % messages.length];
+        const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+
+        const slide = document.createElement("div");
+        slide.className = "story-slide";
+        if (i === 0) slide.classList.add("active");
+
+        slide.innerHTML = `
+          <img class="avatar" src="${avatar}" alt="avatar">
+          <div class="username">@${username}</div>
+          <div class="message">${message}</div>
+        `;
+
+        storyWrapper.appendChild(slide);
+        slides.push(slide);
+      });
     }
 
     function nextStory() {
-      currentIndex = (currentIndex + 1) % usernames.length;
-      renderStory(currentIndex);
+      slides[currentIndex].classList.remove("active");
+      currentIndex = (currentIndex + 1) % slides.length;
+      slides[currentIndex].classList.add("active");
+
+      storiesViewed++;
+      scrollCount++;
+      localStorage.setItem("storiesViewed", storiesViewed);
+      localStorage.setItem("scrollCount", scrollCount);
+      updateCounters();
     }
 
     function prevStory() {
-      currentIndex = (currentIndex - 1 + usernames.length) % usernames.length;
-      renderStory(currentIndex);
+      slides[currentIndex].classList.remove("active");
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      slides[currentIndex].classList.add("active");
+
+      scrollCount++;
+      localStorage.setItem("scrollCount", scrollCount);
+      updateCounters();
     }
 
-    renderStory(currentIndex);
+    createSlides();
+    updateCounters();
   </script>
 </body>
 </html>
