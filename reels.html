@@ -316,9 +316,12 @@
       localStorage.setItem("scrollCount", scrollCount);
       updateCounters();
 
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-        loadReelsLoop();
-      }
+     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 5) {
+  setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' }); // jump to top instantly
+  }, 300); // short delay so the user sees the last reel for a moment
+}
+
     });
 
     updateCounters();
