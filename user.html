@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Void User</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fake Profile</title>
   <style>
     body {
       background-color: #0f0f0f;
@@ -62,14 +62,14 @@
       color: #aaa;
     }
 
-    .post-grid {
+    .stat-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1px;
       background-color: #333;
     }
 
-    .post-grid div {
+    .stat-grid div {
       background-color: #1c1c1c;
       aspect-ratio: 1 / 1;
       color: #ccc;
@@ -102,30 +102,30 @@
 </head>
 <body>
   <header>
-    <div class="username" id="username">@user</div>
+    <div class="username" id="usernameDisplay">@fakeuser</div>
   </header>
 
   <div class="profile">
-    <img id="avatar" src="" alt="avatar" />
+    <img id="avatar" src="" alt="avatar">
     <div class="stats">
       <div class="stat">
-        <strong id="postCount">0</strong>
+        <strong id="postCount">??</strong>
         posts
       </div>
       <div class="stat">
-        <strong id="followers">0</strong>
+        <strong>??</strong>
         followers
       </div>
       <div class="stat">
-        <strong id="following">0</strong>
+        <strong>??</strong>
         following
       </div>
     </div>
   </div>
 
-  <div class="bio" id="bio">Just another soul in the scroll.</div>
+  <div class="bio" id="bioText">Just vibing in the void.</div>
 
-  <div class="post-grid" id="postGrid"></div>
+  <div class="stat-grid" id="statGrid"></div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -136,48 +136,31 @@
   </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const username = params.get("username") || "ghost";
-
-    document.getElementById("username").textContent = `@${username}`;
-    document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
-    document.getElementById("bio").textContent = "Just another soul in the scroll.";
-
-    // Generate stats based on seed
-    const seed = username.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
-    const posts = (seed * 3) % 12 + 1;
-    const followers = (seed * 17) % 500 + 10;
-    const following = (seed * 11) % 200;
-
-    document.getElementById("postCount").textContent = posts;
-    document.getElementById("followers").textContent = followers;
-    document.getElementById("following").textContent = following;
-
-    // Generate fake achievement posts
-    const fakeAchievements = [
-      "Master of Nothing",
-      "Infinite Feed Scroller",
-      "Zero Impact Poster",
-      "Echo Chamber Certified",
-      "Wasted Potential Lv.1",
-      "Void Approved",
-      "Disengagement King",
-      "Scroll Champion",
-      "Like Collector",
-      "Chronically Online",
-      "Reality Escape Artist",
-      "Achievement Unlocked: Regret"
+    const statGrid = document.getElementById("statGrid");
+    const username = new URLSearchParams(window.location.search).get("user") || "ghostfeed";
+    const stats = [
+      { key: "minutesWasted", label: "Minutes Wasted", get: () => Math.floor(Math.random() * 1000) },
+      { key: "likesGiven", label: "Likes Given", get: () => Math.floor(Math.random() * 500) + " 🤍" },
+      { key: "scrollsDone", label: "Scrolls Done", get: () => Math.floor(Math.random() * 1000) + " flicks" },
+      { key: "reelsViewed", label: "Reels Viewed", get: () => Math.floor(Math.random() * 300) + " reels" },
+      { key: "storiesViewed", label: "Stories Viewed", get: () => Math.floor(Math.random() * 100) + " weird tales" },
+      { key: "commentsGiven", label: "Comments Given", get: () => Math.floor(Math.random() * 200) + " yaps" },
+      { key: "repostsDone", label: "Reposts Done", get: () => Math.floor(Math.random() * 100) + " echoes" },
+      { key: "postsBookmarked", label: "Bookmarks", get: () => Math.floor(Math.random() * 50) + " saved for nothing" },
+      { key: "profilesVisited", label: "Profiles Visited", get: () => Math.floor(Math.random() * 300) + " ghosts" },
+      { key: "postsPosted", label: "Posts Posted", get: () => Math.floor(Math.random() * 100) + " fakes" }
     ];
 
-    const shuffled = [...fakeAchievements].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, posts);
+    document.getElementById("usernameDisplay").textContent = `@${username}`;
+    document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 
-    const grid = document.getElementById("postGrid");
-    selected.forEach(name => {
+    stats.forEach(stat => {
       const div = document.createElement("div");
-      div.innerHTML = `<strong>${name}</strong>`;
-      grid.appendChild(div);
+      div.innerHTML = `<strong>${stat.get()}</strong>${stat.label}`;
+      statGrid.appendChild(div);
     });
+
+    document.getElementById("postCount").textContent = Math.floor(Math.random() * 100);
   </script>
 </body>
 </html>
