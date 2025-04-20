@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Void Reels</title>
   <style>
     * { box-sizing: border-box; }
@@ -17,6 +17,7 @@
       overflow-y: scroll;
     }
     #reelContainer {
+      height: 100%;
       width: 100%;
     }
     .reel {
@@ -39,6 +40,7 @@
       align-items: center;
       padding: 1rem;
       position: relative;
+      transition: transform 0.3s ease;
     }
     .caption-center {
       position: absolute;
@@ -58,6 +60,7 @@
       left: 10px;
       display: flex;
       align-items: center;
+      transition: transform 0.3s ease;
     }
     .user-info img {
       width: 40px;
@@ -78,6 +81,7 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
+      transition: transform 0.3s ease;
     }
     .actions button {
       background: none;
@@ -148,34 +152,10 @@
       text-decoration: none;
       font-size: 1.3rem;
     }
-    .live-counter {
-      position: fixed;
-      font-size: 0.9rem;
-      color: #666;
-      background-color: #1a1a1a;
-      padding: 6px 10px;
-      border-radius: 6px;
-      border: 1px solid #333;
-      z-index: 999;
-      right: 10px;
-    }
-    #reel-counter { bottom: 50px; }
-    #scroll-counter { bottom: 80px; }
-    #like-counter { bottom: 110px; }
-    #comment-counter { bottom: 140px; }
-    #repost-counter { bottom: 170px; }
-    #bookmark-counter { bottom: 200px; }
   </style>
 </head>
 <body>
   <div id="reelContainer"></div>
-
-  <div id="reel-counter" class="live-counter"></div>
-  <div id="scroll-counter" class="live-counter"></div>
-  <div id="like-counter" class="live-counter"></div>
-  <div id="comment-counter" class="live-counter"></div>
-  <div id="repost-counter" class="live-counter"></div>
-  <div id="bookmark-counter" class="live-counter"></div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -197,29 +177,14 @@
     ];
 
     const container = document.getElementById("reelContainer");
-    let reelCount = parseInt(localStorage.getItem("reelsViewed")) || 0;
-    let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
-    let likes = parseInt(localStorage.getItem("likesGiven")) || 0;
-    let comments = parseInt(localStorage.getItem("commentsGiven")) || 0;
-    let reposts = parseInt(localStorage.getItem("repostsDone")) || 0;
-    let bookmarks = parseInt(localStorage.getItem("postsBookmarked")) || 0;
-
-    function updateCounters() {
-      document.getElementById("reel-counter").textContent = `Reels viewed: ${reelCount}`;
-      document.getElementById("scroll-counter").textContent = `Scrolls done: ${scrollCount}`;
-      document.getElementById("like-counter").textContent = `Likes given: ${likes}`;
-      document.getElementById("comment-counter").textContent = `Comments given: ${comments}`;
-      document.getElementById("repost-counter").textContent = `Reposts done: ${reposts}`;
-      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${bookmarks}`;
-    }
 
     function createReel(username, caption) {
       const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
       const reel = document.createElement("div");
       reel.className = "reel";
+
       const inner = document.createElement("div");
       inner.className = "reel-inner";
-
       inner.innerHTML = `
         <div class="caption-center">${caption}</div>
         <div class="user-info">
@@ -227,44 +192,18 @@
           <div class="username">@${username}</div>
         </div>
         <div class="actions">
-          <button onclick="handleLike(this)">❤️</button>
+          <button onclick="handlePopup(this, 'This like did nothing.')">❤️</button>
           <button onclick="toggleCommentBox(this)">💬</button>
-          <button onclick="handleRepost(this)">🔁</button>
-          <button onclick="handleBookmark(this)">📌</button>
+          <button onclick="handlePopup(this, 'Echoed into the abyss.')">🔁</button>
+          <button onclick="handlePopup(this, '📌 Marked meaningless.')">📌</button>
         </div>
         <div class="comment-box">
           <input type="text" placeholder="Say something...">
           <button onclick="submitFakeComment(this)">➤</button>
-        </div>
-      `;
+        </div>`;
 
       reel.appendChild(inner);
       container.appendChild(reel);
-
-      reelCount++;
-      localStorage.setItem("reelsViewed", reelCount);
-      updateCounters();
-    }
-
-    function handleLike(btn) {
-      likes++;
-      localStorage.setItem("likesGiven", likes);
-      updateCounters();
-      handlePopup(btn, "This like did nothing.");
-    }
-
-    function handleRepost(btn) {
-      reposts++;
-      localStorage.setItem("repostsDone", reposts);
-      updateCounters();
-      handlePopup(btn, "Echoed into the abyss.");
-    }
-
-    function handleBookmark(btn) {
-      bookmarks++;
-      localStorage.setItem("postsBookmarked", bookmarks);
-      updateCounters();
-      handlePopup(btn, "📌 Marked meaningless.");
     }
 
     function handlePopup(el, text) {
@@ -290,20 +229,20 @@
     function submitFakeComment(button) {
       const input = button.previousElementSibling;
       if (input.value.trim() !== "") {
-        comments++;
-        localStorage.setItem("commentsGiven", comments);
-        updateCounters();
         input.style.transition = "opacity 0.5s ease";
         input.style.opacity = 0;
         setTimeout(() => {
           input.value = "";
           input.style.opacity = 1;
           input.closest(".comment-box").style.display = "none";
+          const inner = input.closest(".reel-inner");
+          inner.querySelector(".user-info").style.transform = "translateY(0)";
+          inner.querySelector(".actions").style.transform = "translateY(0)";
         }, 600);
       }
     }
 
-    function loadReelsLoop(count = 6) {
+    function loadReels(count = 12) {
       for (let i = 0; i < count; i++) {
         const user = usernames[i % usernames.length];
         const cap = captions[i % captions.length];
@@ -311,21 +250,14 @@
       }
     }
 
+    loadReels();
+
     window.addEventListener("scroll", () => {
-      scrollCount++;
-      localStorage.setItem("scrollCount", scrollCount);
-      updateCounters();
-
-     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 5) {
-  setTimeout(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' }); // jump to top instantly
-  }, 300); // short delay so the user sees the last reel for a moment
-}
-
+      const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 5;
+      if (nearBottom) {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
     });
-
-    updateCounters();
-    loadReelsLoop(12);
   </script>
 </body>
 </html>
