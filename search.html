@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,56 +130,83 @@
         <div class="desc">Just wasting time on purpose.</div>
       </div>
     </a>
-    <a href="user.html?user=scrollqueen" class="account">
-      <img src="https://api.dicebear.com/7.x/personas/svg?seed=scrollqueen">
-      <div class="account-info">
-        <div class="name">@scrollqueen</div>
-        <div class="desc">Still scrolling... queen style.</div>
-      </div>
-    </a>
-    <a href="user.html?user=doomqueen" class="account">
-      <img src="https://api.dicebear.com/7.x/personas/svg?seed=doomqueen">
-      <div class="account-info">
-        <div class="name">@doomqueen</div>
-        <div class="desc">Likes the darkness.</div>
-      </div>
-    </a>
-    <a href="user.html?user=taplord" class="account">
-      <img src="https://api.dicebear.com/7.x/personas/svg?seed=taplord">
-      <div class="account-info">
-        <div class="name">@taplord</div>
-        <div class="desc">Taps everything. All the time.</div>
-      </div>
-    </a>
-    <a href="user.html?user=tapbot" class="account">
-      <img src="https://api.dicebear.com/7.x/personas/svg?seed=tapbot">
-      <div class="account-info">
-        <div class="name">@tapbot</div>
-        <div class="desc">Probably not human.</div>
-      </div>
-    </a>
-    <a href="user.html?user=glitchlord" class="account">
-      <img src="https://api.dicebear.com/7.x/personas/svg?seed=glitchlord">
-      <div class="account-info">
-        <div class="name">@glitchlord</div>
-        <div class="desc">Exists between frames.</div>
-      </div>
-    </a>
+
+    <!-- FAKE ACCOUNTS -->
+    <script>
+      const fakeAccounts = [
+        { name: "scrollqueen", desc: "Still scrolling... queen style." },
+        { name: "doomqueen", desc: "Likes the darkness." },
+        { name: "taplord", desc: "Taps everything. All the time." },
+        { name: "tapbot", desc: "Probably not human." },
+        { name: "glitchlord", desc: "Exists between frames." },
+        { name: "noiserider", desc: "Tunes into static only." },
+        { name: "pixelpirate", desc: "Stealing screen space." },
+        { name: "feedghost", desc: "Lurks and vanishes." },
+        { name: "drainwave", desc: "Drained and proud." }
+      ];
+
+      fakeAccounts.forEach(account => {
+        const div = document.createElement("a");
+        div.className = "account";
+        div.href = `user.html?user=${account.name}`;
+        div.innerHTML = `
+          <img src="https://api.dicebear.com/7.x/personas/svg?seed=${account.name}">
+          <div class="account-info">
+            <div class="name">@${account.name}</div>
+            <div class="desc">${account.desc}</div>
+          </div>`;
+        document.querySelector(".container").appendChild(div);
+      });
+    </script>
 
     <h2>Leaderboard</h2>
-    <div class="leaderboard-item highlight">
-      <img src="https://api.dicebear.com/7.x/personas/svg?seed=you">
-      <div class="leaderboard-info">
-        <div class="name"><span class="medal">🥇</span>@you</div>
-        <div class="stat-columns">
-          <div>Reels: 123</div><div>Stories: 43</div><div>Likes: 87</div>
-          <div>Comments: 14</div><div>Reposts: 6</div><div>Bookmarks: 10</div>
-          <div>Scrolls: 322</div><div>Profiles: 15</div><div>Posts: 8</div><div>Time: 119m</div>
-        </div>
-      </div>
-    </div>
+    <script>
+      const stats = [
+        "Reels", "Stories", "Likes", "Comments", "Reposts",
+        "Bookmarks", "Scrolls", "Profiles", "Posts", "Time"
+      ];
+
+      const leaderboardUsers = [
+        { name: "you", highlight: true, values: [123, 43, 87, 14, 6, 10, 322, 15, 8, 119] },
+        { name: "scrollqueen", values: [90, 35, 120, 8, 2, 5, 300, 10, 4, 100] },
+        { name: "doomqueen", values: [60, 28, 100, 12, 3, 9, 270, 18, 6, 92] },
+        { name: "taplord", values: [85, 40, 150, 7, 5, 6, 310, 14, 9, 111] },
+        { name: "tapbot", values: [100, 25, 95, 10, 6, 7, 290, 9, 5, 87] },
+        { name: "glitchlord", values: [72, 30, 130, 9, 4, 4, 280, 12, 6, 98] },
+        { name: "noiserider", values: [50, 22, 65, 5, 2, 3, 210, 8, 3, 70] },
+        { name: "pixelpirate", values: [98, 41, 155, 11, 7, 8, 340, 20, 10, 134] },
+        { name: "feedghost", values: [76, 29, 102, 6, 3, 6, 260, 13, 5, 90] },
+        { name: "drainwave", values: [83, 33, 111, 9, 4, 5, 285, 11, 7, 101] }
+      ];
+
+      const container = document.querySelector(".container");
+
+      leaderboardUsers.forEach((user, i) => {
+        const div = document.createElement("div");
+        div.className = `leaderboard-item${user.highlight ? " highlight" : ""}`;
+        div.onclick = () => {
+          if (user.name === "you") {
+            window.location.href = "profile.html";
+          } else {
+            window.location.href = `user.html?user=${user.name}`;
+          }
+        };
+        const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
+
+        div.innerHTML = `
+          <img src="https://api.dicebear.com/7.x/personas/svg?seed=${user.name}">
+          <div class="leaderboard-info">
+            <div class="name"><span class="medal">${medal}</span>@${user.name}</div>
+            <div class="stat-columns">
+              ${user.values.map((val, idx) => `<div>${stats[idx]}: ${val}</div>`).join("")}
+            </div>
+          </div>`;
+        container.appendChild(div);
+      });
+    </script>
   </div>
 
+  <!-- Live Stats -->
   <div id="scroll-counter" class="live-counter"></div>
   <div id="like-counter" class="live-counter"></div>
   <div id="comment-counter" class="live-counter"></div>
