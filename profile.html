@@ -45,13 +45,10 @@
     .stats {
       display: flex;
       gap: 1rem;
-      flex-wrap: wrap;
     }
 
     .stat {
       text-align: center;
-      flex: 1 0 120px;
-      margin-bottom: 0.8rem;
     }
 
     .stat strong {
@@ -63,6 +60,26 @@
     .bio {
       padding: 0 1.5rem 1rem;
       color: #aaa;
+    }
+
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background-color: #333;
+    }
+
+    .post-grid div {
+      background-color: #1c1c1c;
+      aspect-ratio: 1 / 1;
+      color: #ccc;
+      font-size: 0.8rem;
+      padding: 0.5rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
 
     .bottom-nav {
@@ -92,49 +109,23 @@
     <img src="https://api.dicebear.com/7.x/personas/svg?seed=you" alt="avatar">
     <div class="stats">
       <div class="stat">
-        <strong id="posts">0</strong>
+        <strong id="postCount">0</strong>
         posts
       </div>
       <div class="stat">
-        <strong id="likes">0</strong>
-        likes
+        <strong>0</strong>
+        followers
       </div>
       <div class="stat">
-        <strong id="minutes">0</strong>
-        minutes wasted
-      </div>
-      <div class="stat">
-        <strong id="scrolls">0</strong>
-        scrolls
-      </div>
-      <div class="stat">
-        <strong id="comments">0</strong>
-        comments given
-      </div>
-      <div class="stat">
-        <strong id="reposts">0</strong>
-        reposts done
-      </div>
-      <div class="stat">
-        <strong id="bookmarks">0</strong>
-        bookmarks
-      </div>
-      <div class="stat">
-        <strong id="reels">0</strong>
-        reels viewed
-      </div>
-      <div class="stat">
-        <strong id="stories">0</strong>
-        stories viewed
-      </div>
-      <div class="stat">
-        <strong id="profiles">0</strong>
-        profiles visited
+        <strong>0</strong>
+        following
       </div>
     </div>
   </div>
 
   <div class="bio">Just wasting time on purpose.</div>
+
+  <div class="post-grid" id="statGrid"></div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -145,38 +136,42 @@
   </div>
 
   <script>
-    const stats = [
-      'postsPosted',
-      'likesGiven',
-      'secondsWasted',
-      'scrollCount',
-      'commentsGiven',
-      'repostsDone',
-      'postsBookmarked',
-      'reelsViewed',
-      'storiesViewed',
-      'profilesVisited'
-    ];
-
-    const map = {
-      postsPosted: 'posts',
-      likesGiven: 'likes',
-      secondsWasted: 'minutes',
-      scrollCount: 'scrolls',
-      commentsGiven: 'comments',
-      repostsDone: 'reposts',
-      postsBookmarked: 'bookmarks',
-      reelsViewed: 'reels',
-      storiesViewed: 'stories',
-      profilesVisited: 'profiles'
+    const stats = {
+      likesGiven: parseInt(localStorage.getItem("likesGiven")) || 0,
+      secondsWasted: parseInt(localStorage.getItem("secondsWasted")) || 0,
+      scrollCount: parseInt(localStorage.getItem("scrollCount")) || 0,
+      commentsGiven: parseInt(localStorage.getItem("commentsGiven")) || 0,
+      repostsDone: parseInt(localStorage.getItem("repostsDone")) || 0,
+      bookmarks: parseInt(localStorage.getItem("bookmarks")) || 0,
+      reelsViewed: parseInt(localStorage.getItem("reelsViewed")) || 0,
+      storiesViewed: parseInt(localStorage.getItem("storiesViewed")) || 0,
+      profilesVisited: parseInt(localStorage.getItem("profilesVisited")) || 0,
+      postsPosted: parseInt(localStorage.getItem("postsPosted")) || 0
     };
 
-    stats.forEach(stat => {
-      let val = parseInt(localStorage.getItem(stat)) || 0;
-      if (stat === 'secondsWasted') val = Math.floor(val / 60);
-      const el = document.getElementById(map[stat]);
-      if (el) el.textContent = val;
+    const statGrid = document.getElementById("statGrid");
+    const postCount = document.getElementById("postCount");
+
+    const statItems = [
+      { label: "Minutes Wasted", value: Math.floor(stats.secondsWasted / 60) },
+      { label: "Likes Given", value: stats.likesGiven },
+      { label: "Scrolls Done", value: stats.scrollCount },
+      { label: "Comments Given", value: stats.commentsGiven },
+      { label: "Reposts Done", value: stats.repostsDone },
+      { label: "Bookmarked Posts", value: stats.bookmarks },
+      { label: "Reels Viewed", value: stats.reelsViewed },
+      { label: "Stories Viewed", value: stats.storiesViewed },
+      { label: "Profiles Visited", value: stats.profilesVisited },
+      { label: "Posts Made", value: stats.postsPosted }
+    ];
+
+    statItems.forEach(stat => {
+      const div = document.createElement("div");
+      div.innerHTML = `<strong>${stat.value}</strong>${stat.label}`;
+      statGrid.appendChild(div);
     });
+
+    postCount.textContent = stats.postsPosted;
   </script>
 </body>
 </html>
