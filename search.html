@@ -12,83 +12,84 @@
       margin: 0;
       padding: 0;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
     }
 
-    .phone-screen {
+    .container {
       width: 90%;
       max-width: 540px;
-      padding-bottom: 6rem;
     }
 
     header {
       text-align: center;
       padding: 1rem;
       font-size: 1.5rem;
-      font-weight: bold;
       background-color: #1a1a1a;
       border-bottom: 1px solid #333;
     }
 
-    section {
-      margin: 2rem 0;
-    }
-
-    .section-title {
+    h2 {
+      margin-top: 2rem;
       font-size: 1.2rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      padding-left: 1rem;
+      color: #f0f0f0;
     }
 
     .account, .leaderboard-entry {
       background-color: #1c1c1c;
-      margin: 0.5rem 1rem;
-      padding: 1rem;
       border: 1px solid #333;
+      margin: 0.5rem 0;
+      padding: 1rem;
       border-radius: 6px;
+    }
+
+    .account.highlight, .leaderboard-entry.highlight {
+      box-shadow: 0 0 10px #4af;
+      border-color: #4af;
+    }
+
+    .account a, .leader-info a {
+      color: #66ccff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .leader-info {
       display: flex;
       align-items: center;
       gap: 10px;
-      cursor: pointer;
     }
 
-    .highlight {
-      border: 2px solid gold;
-    }
-
-    .account img, .leaderboard-entry img {
-      width: 40px;
-      height: 40px;
+    .leader-info img {
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
+      border: 2px solid #f44;
     }
 
-    .account .info, .leaderboard-entry .info {
-      flex-grow: 1;
+    .rank-number {
+      font-weight: bold;
+      margin-right: 5px;
     }
 
-    .account .info p, .leaderboard-entry .info p {
-      margin: 0;
-    }
-
-    .leaderboard-entry .stats {
-      font-size: 0.8rem;
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px 10px;
+      margin-top: 6px;
+      font-size: 0.85rem;
       color: #aaa;
-      margin-top: 0.5rem;
     }
 
-    .medal {
-      font-size: 1.5rem;
-      margin-right: 8px;
-    }
-
-    .show-more {
-      text-align: center;
-      margin-top: 1rem;
-      color: #999;
+    .load-more {
+      background-color: #222;
+      color: #ccc;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
       cursor: pointer;
-      font-size: 0.9rem;
+      text-align: center;
+      margin: 1rem auto;
+      display: block;
     }
 
     .bottom-nav {
@@ -108,26 +109,22 @@
       font-size: 1.3rem;
     }
 
-    .leaderboard-spacer {
-      height: 80px;
+    .spacer {
+      height: 60px;
     }
   </style>
 </head>
 <body>
-  <div class="phone-screen">
+  <div class="container">
     <header>Search</header>
 
-    <section id="account-section">
-      <div class="section-title">Accounts</div>
-      <div id="accountList"></div>
-      <div id="showMoreBtn" class="show-more" onclick="showMoreAccounts()">Show More</div>
-    </section>
+    <h2>Accounts</h2>
+    <div id="accountList"></div>
+    <div class="load-more" onclick="loadMoreAccounts()">Load More</div>
 
-    <section id="leaderboard-section">
-      <div class="section-title">Leaderboard</div>
-      <div id="leaderboard"></div>
-      <div class="leaderboard-spacer"></div>
-    </section>
+    <h2>Leaderboard</h2>
+    <div id="leaderboard"></div>
+    <div class="spacer"></div>
   </div>
 
   <div class="bottom-nav">
@@ -139,95 +136,112 @@
   </div>
 
   <script>
-    const userStats = [
-      'Reels viewed', 'Stories viewed', 'Comments given', 'Reposts done', 'Posts bookmarked',
-      'Scrolls done', 'Profiles visited', 'Posts posted', 'Likes given', 'Minutes wasted'
+    const realUser = "you";
+    const messages = [
+      "This account is void.",
+      "Just vibes and nothing else.",
+      "Endlessly scrolling.",
+      "Trapped in the algorithm.",
+      "Zero posts, zero regrets.",
+      "Posting into the void.",
+      "Who even is this?",
+      "Online... forever."
     ];
 
-    const funnyBios = [
-      "Still figuring out the void.",
-      "Reposting into nothingness.",
-      "Chronically online and proud.",
-      "Professional doomscroller.",
-      "Exists mostly in simulation.",
-      "Tapped the void too hard."
-    ];
+    const users = Array.from({ length: 20 }, (_, i) => {
+      const username = `user${i + 1}`;
+      return {
+        username,
+        avatar: `https://api.dicebear.com/7.x/personas/svg?seed=${username}`,
+        message: messages[Math.floor(Math.random() * messages.length)],
+        reelsViewed: Math.floor(Math.random() * 300),
+        storiesViewed: Math.floor(Math.random() * 200),
+        commentsGiven: Math.floor(Math.random() * 150),
+        repostsDone: Math.floor(Math.random() * 100),
+        postsBookmarked: Math.floor(Math.random() * 120),
+        scrollsDone: Math.floor(Math.random() * 1000),
+        profilesVisited: Math.floor(Math.random() * 50),
+        postsPosted: Math.floor(Math.random() * 20),
+        likesGiven: Math.floor(Math.random() * 500),
+        minutesWasted: Math.floor(Math.random() * 999)
+      };
+    });
+
+    users.splice(5, 0, {
+      username: realUser,
+      avatar: `https://api.dicebear.com/7.x/personas/svg?seed=you`,
+      message: "Creator of the void.",
+      reelsViewed: parseInt(localStorage.getItem("reelsViewed")) || 0,
+      storiesViewed: parseInt(localStorage.getItem("storiesViewed")) || 0,
+      commentsGiven: parseInt(localStorage.getItem("commentsGiven")) || 0,
+      repostsDone: parseInt(localStorage.getItem("repostsDone")) || 0,
+      postsBookmarked: parseInt(localStorage.getItem("postsBookmarked")) || 0,
+      scrollsDone: parseInt(localStorage.getItem("scrollCount")) || 0,
+      profilesVisited: parseInt(localStorage.getItem("profilesVisited")) || 0,
+      postsPosted: parseInt(localStorage.getItem("postsPosted")) || 0,
+      likesGiven: parseInt(localStorage.getItem("likesGiven")) || 0,
+      minutesWasted: parseInt(localStorage.getItem("secondsWasted")) ? Math.floor(parseInt(localStorage.getItem("secondsWasted")) / 60) : 0
+    });
 
     const accountList = document.getElementById("accountList");
-    const leaderboard = document.getElementById("leaderboard");
-    const showMoreBtn = document.getElementById("showMoreBtn");
+    let visibleAccounts = 0;
 
-    const realUser = {
-      name: "@you",
-      avatar: `https://api.dicebear.com/7.x/personas/svg?seed=you`,
-      highlight: true,
-      stats: userStats.map(() => Math.floor(Math.random() * 100))
-    };
-
-    let accounts = [realUser];
-    for (let i = 1; i <= 20; i++) {
-      accounts.push({
-        name: `@fakeuser${i}`,
-        avatar: `https://api.dicebear.com/7.x/personas/svg?seed=fakeuser${i}`,
-        highlight: false,
-        stats: userStats.map(() => Math.floor(Math.random() * 100))
-      });
-    }
-
-    let visibleCount = 6;
-
-    function renderAccounts() {
-      accountList.innerHTML = "";
-      accounts.slice(0, visibleCount).forEach(user => {
+    function loadMoreAccounts() {
+      const slice = users.slice(visibleAccounts, visibleAccounts + 6);
+      slice.forEach(user => {
         const div = document.createElement("div");
-        div.className = `account${user.highlight ? ' highlight' : ''}`;
-        div.onclick = () => window.location.href = `user.html?user=${user.name.substring(1)}`;
+        div.className = `account ${user.username === realUser ? "highlight" : ""}`;
         div.innerHTML = `
-          <img src="${user.avatar}" alt="avatar">
-          <div class="info">
-            <p><strong>${user.name}</strong></p>
-            <p>${funnyBios[Math.floor(Math.random() * funnyBios.length)]}</p>
-          </div>
+          <a href="user.html?user=${user.username}">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <img src="${user.avatar}" alt="avatar" style="width:40px;height:40px;border-radius:50%;border:2px solid #f44;">
+              <span>@${user.username}</span>
+            </div>
+          </a>
+          <p style="margin-top:0.5rem;color:#aaa;font-size:0.9rem;">${user.message}</p>
         `;
         accountList.appendChild(div);
       });
-    }
-
-    function showMoreAccounts() {
-      visibleCount += 6;
-      renderAccounts();
-      if (visibleCount >= accounts.length) {
-        showMoreBtn.style.display = "none";
-      }
+      visibleAccounts += 6;
     }
 
     function renderLeaderboard() {
-      const sorted = [...accounts].sort((a, b) => {
-        const sumA = a.stats.reduce((acc, n) => acc + n, 0);
-        const sumB = b.stats.reduce((acc, n) => acc + n, 0);
-        return sumB - sumA;
-      }).slice(0, 10);
+      const sorted = [...users].sort((a, b) => {
+        const totalA = a.reelsViewed + a.storiesViewed + a.commentsGiven + a.repostsDone + a.postsBookmarked + a.scrollsDone + a.profilesVisited + a.postsPosted + a.likesGiven + a.minutesWasted;
+        const totalB = b.reelsViewed + b.storiesViewed + b.commentsGiven + b.repostsDone + b.postsBookmarked + b.scrollsDone + b.profilesVisited + b.postsPosted + b.likesGiven + b.minutesWasted;
+        return totalB - totalA;
+      });
 
-      sorted.forEach((user, index) => {
-        const div = document.createElement("div");
-        div.className = `leaderboard-entry${user.highlight ? ' highlight' : ''}`;
-        div.onclick = () => window.location.href = `user.html?user=${user.name.substring(1)}`;
-        const rank = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
-        div.innerHTML = `
-          <div class="medal">${rank}</div>
-          <img src="${user.avatar}" alt="avatar">
-          <div class="info">
-            <p><strong>${user.name}</strong></p>
-            <div class="stats">
-              ${user.stats.map((val, i) => `${userStats[i]}: ${val}`).join('<br>')}
-            </div>
+      const top10 = sorted.slice(0, 10);
+      const leaderboard = document.getElementById("leaderboard");
+
+      top10.forEach((user, index) => {
+        const entry = document.createElement("div");
+        entry.className = `leaderboard-entry ${user.username === realUser ? "highlight" : ""}`;
+        entry.innerHTML = `
+          <div class="leader-info">
+            ${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `<span class="rank-number">${index + 1}</span>`}
+            <img src="${user.avatar}" alt="avatar">
+            <a href="user.html?user=${user.username}">@${user.username}</a>
+          </div>
+          <div class="stats-grid">
+            <div>Reels viewed: ${user.reelsViewed}</div>
+            <div>Stories viewed: ${user.storiesViewed}</div>
+            <div>Comments given: ${user.commentsGiven}</div>
+            <div>Reposts done: ${user.repostsDone}</div>
+            <div>Posts bookmarked: ${user.postsBookmarked}</div>
+            <div>Scrolls done: ${user.scrollsDone}</div>
+            <div>Profiles visited: ${user.profilesVisited}</div>
+            <div>Posts posted: ${user.postsPosted}</div>
+            <div>Likes given: ${user.likesGiven}</div>
+            <div>Minutes wasted: ${user.minutesWasted}</div>
           </div>
         `;
-        leaderboard.appendChild(div);
+        leaderboard.appendChild(entry);
       });
     }
 
-    renderAccounts();
+    loadMoreAccounts();
     renderLeaderboard();
   </script>
 </body>
