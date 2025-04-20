@@ -1,258 +1,221 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Void Search</title>
-<style>
-body {
-  background-color: #0f0f0f;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.phone-screen {
-  width: 90%;
-  max-width: 810px;
-  padding-bottom: 6rem;
-}
-header {
-  text-align: center;
-  margin: 1.5rem 0 1rem;
-  padding: 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  background-color: #1a1a1a;
-  border-bottom: 1px solid #333;
-}
-.section-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  padding-left: 1rem;
-}
-.account, .leaderboard-entry {
-  background-color: #1c1c1c;
-  margin: 0.5rem 1rem;
-  padding: 0.8rem;
-  border: 1px solid #333;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: #fff;
-  transition: background-color 0.2s;
-}
-.account:hover, .leaderboard-entry:hover {
-  background-color: #292929;
-  cursor: pointer;
-}
-.account.highlight, .leaderboard-entry.highlight {
-  background-color: #333399;
-  border: 2px solid gold;
-}
-.account img, .leaderboard-entry img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-.account-info, .leaderboard-info {
-  display: flex;
-  flex-direction: column;
-}
-.leaderboard-position {
-  font-size: 1.2rem;
-  width: 30px;
-  text-align: center;
-}
-.leaderboard-row {
-  display: flex;
-  align-items: center;
-}
-.leaderboard-entry .stats {
-  font-size: 0.8rem;
-  color: #aaa;
-  margin-top: 0.5rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.2rem 1rem;
-}
-.medal {
-  font-size: 1.5rem;
-  margin-right: 8px;
-}
-.show-more {
-  text-align: center;
-  margin-top: 1rem;
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  color: #fff;
-  padding: 0.6rem;
-  display: block;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
-}
-.leaderboard-spacer {
-  height: 120px;
-}
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #1a1a1a;
-  border-top: 1px solid #333;
-  display: flex;
-  justify-content: space-around;
-  padding: 0.5rem 0;
-}
-.bottom-nav a {
-  color: #888;
-  text-decoration: none;
-  font-size: 1.3rem;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Void Search</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 540px;
+      width: 100%;
+      padding: 1rem;
+    }
+
+    h2 {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      border-bottom: 1px solid #333;
+      padding-bottom: 0.5rem;
+    }
+
+    .account, .leaderboard-item {
+      background-color: #1c1c1c;
+      border: 1px solid #333;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .highlight {
+      box-shadow: 0 0 10px 2px #f44;
+    }
+
+    .account img, .leaderboard-item img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #444;
+    }
+
+    .account-info, .leaderboard-info {
+      flex: 1;
+    }
+
+    .account-info .name, .leaderboard-info .name {
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .account-info .desc {
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+
+    .stat-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .medal {
+      font-size: 1.3rem;
+      margin-right: 0.3rem;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+    }
+
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
+
+    .live-counter {
+      position: fixed;
+      font-size: 0.9rem;
+      color: #666;
+      background-color: #1a1a1a;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      z-index: 999;
+      right: 10px;
+    }
+    #scroll-counter { bottom: 50px; }
+    #like-counter { bottom: 80px; }
+    #comment-counter { bottom: 110px; }
+    #repost-counter { bottom: 140px; }
+    #bookmark-counter { bottom: 170px; }
+    #reel-counter { bottom: 200px; }
+    #story-counter { bottom: 230px; }
+    #profile-counter { bottom: 260px; }
+    #post-counter { bottom: 290px; }
+    #time-counter { bottom: 320px; }
+  </style>
 </head>
 <body>
-<div class="phone-screen">
-  <header>Search</header>
-
-  <section id="account-section">
-    <div class="section-title">Accounts</div>
-    <div id="accountList"></div>
-    <div id="showMoreBtn" class="show-more" onclick="showMoreAccounts()">Show More</div>
-  </section>
-
-  <section id="leaderboard-section">
-    <div class="section-title">Leaderboard</div>
-    <div id="leaderboard"></div>
-    <div class="leaderboard-spacer"></div>
-  </section>
-</div>
-
-<div class="bottom-nav">
-  <a href="index.html">🏠</a>
-  <a href="search.html">🔍</a>
-  <a href="publish.html">➕</a>
-  <a href="reels.html">🎞️</a>
-  <a href="profile.html">👤</a>
-</div>
-
-<script>
-const funnyBios = [
-  "This account is void.",
-  "Certified scroll addict.",
-  "Award-winning lurker.",
-  "Waiting for notifications...",
-  "Likes their own posts.",
-  "Banished from meaningful interactions.",
-  "Still figuring out the void.",
-  "Reposting into nothingness.",
-  "Chronically online and proud.",
-  "Professional doomscroller.",
-  "Exists mostly in simulation.",
-  "Tapped the void too hard."
-];
-
-const userStats = [
-  'Reels viewed', 'Stories viewed', 'Comments given', 'Reposts done', 'Posts bookmarked',
-  'Scrolls done', 'Profiles visited', 'Posts posted', 'Likes given', 'Minutes wasted'
-];
-
-const accountList = document.getElementById("accountList");
-const leaderboard = document.getElementById("leaderboard");
-
-const realUser = {
-  name: "@you",
-  avatar: `https://api.dicebear.com/7.x/personas/svg?seed=you`,
-  highlight: true,
-  stats: userStats.map(() => Math.floor(Math.random() * 100))
-};
-
-let accounts = [realUser];
-for (let i = 1; i <= 20; i++) {
-  const name = `@user${i}`;
-  accounts.push({
-    name,
-    avatar: `https://api.dicebear.com/7.x/personas/svg?seed=user${i}`,
-    highlight: false,
-    stats: userStats.map(() => Math.floor(Math.random() * 100))
-  });
-}
-
-let visibleCount = 6;
-
-function renderAccounts() {
-  accountList.innerHTML = "";
-  accounts.slice(0, visibleCount).forEach(user => {
-    const div = document.createElement("div");
-    div.className = `account${user.highlight ? ' highlight' : ''}`;
-    div.onclick = () => {
-      if (user.name === "@you") {
-        window.location.href = "profile.html";
-      } else {
-        window.location.href = `user.html?user=${user.name.substring(1)}`;
-      }
-    };
-    div.innerHTML = `
-      <img src="${user.avatar}" alt="avatar">
+  <div class="container">
+    <h2>Accounts</h2>
+    <a href="profile.html" class="account highlight">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=you" alt="@you">
       <div class="account-info">
-        <strong>${user.name}</strong>
-        <span>${funnyBios[Math.floor(Math.random() * funnyBios.length)]}</span>
+        <div class="name">@you</div>
+        <div class="desc">Just wasting time on purpose.</div>
       </div>
-    `;
-    accountList.appendChild(div);
-  });
-  if (visibleCount >= accounts.length) {
-    document.getElementById("showMoreBtn").style.display = "none";
-  }
-}
+    </a>
+    <a href="user.html?user=scrollqueen" class="account">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=scrollqueen">
+      <div class="account-info">
+        <div class="name">@scrollqueen</div>
+        <div class="desc">Still scrolling... queen style.</div>
+      </div>
+    </a>
+    <a href="user.html?user=doomqueen" class="account">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=doomqueen">
+      <div class="account-info">
+        <div class="name">@doomqueen</div>
+        <div class="desc">Likes the darkness.</div>
+      </div>
+    </a>
+    <a href="user.html?user=taplord" class="account">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=taplord">
+      <div class="account-info">
+        <div class="name">@taplord</div>
+        <div class="desc">Taps everything. All the time.</div>
+      </div>
+    </a>
+    <a href="user.html?user=tapbot" class="account">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=tapbot">
+      <div class="account-info">
+        <div class="name">@tapbot</div>
+        <div class="desc">Probably not human.</div>
+      </div>
+    </a>
+    <a href="user.html?user=glitchlord" class="account">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=glitchlord">
+      <div class="account-info">
+        <div class="name">@glitchlord</div>
+        <div class="desc">Exists between frames.</div>
+      </div>
+    </a>
 
-function showMoreAccounts() {
-  visibleCount += 6;
-  renderAccounts();
-}
-
-function renderLeaderboard() {
-  const sorted = [...accounts].sort((a, b) => {
-    const sumA = a.stats.reduce((acc, n) => acc + n, 0);
-    const sumB = b.stats.reduce((acc, n) => acc + n, 0);
-    return sumB - sumA;
-  }).slice(0, 10);
-
-  leaderboard.innerHTML = "";
-  sorted.forEach((user, index) => {
-    const div = document.createElement("div");
-    div.className = `leaderboard-entry${user.highlight ? ' highlight' : ''}`;
-    div.onclick = () => {
-      if (user.name === "@you") {
-        window.location.href = "profile.html";
-      } else {
-        window.location.href = `user.html?user=${user.name.substring(1)}`;
-      }
-    };
-    const rank = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
-    div.innerHTML = `
-      <div class="medal">${rank}</div>
-      <img src="${user.avatar}" alt="avatar">
-      <div class="info">
-        <p><strong>${user.name}</strong></p>
-        <div class="stats">
-          ${user.stats.map((val, i) => `${userStats[i]}: ${val}`).join('<br>')}
+    <h2>Leaderboard</h2>
+    <div class="leaderboard-item highlight">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=you">
+      <div class="leaderboard-info">
+        <div class="name"><span class="medal">🥇</span>@you</div>
+        <div class="stat-columns">
+          <div>Reels: 123</div><div>Stories: 43</div><div>Likes: 87</div>
+          <div>Comments: 14</div><div>Reposts: 6</div><div>Bookmarks: 10</div>
+          <div>Scrolls: 322</div><div>Profiles: 15</div><div>Posts: 8</div><div>Time: 119m</div>
         </div>
       </div>
-    `;
-    leaderboard.appendChild(div);
-  });
-}
+    </div>
+  </div>
 
-renderAccounts();
-renderLeaderboard();
-</script>
+  <div id="scroll-counter" class="live-counter"></div>
+  <div id="like-counter" class="live-counter"></div>
+  <div id="comment-counter" class="live-counter"></div>
+  <div id="repost-counter" class="live-counter"></div>
+  <div id="bookmark-counter" class="live-counter"></div>
+  <div id="reel-counter" class="live-counter"></div>
+  <div id="story-counter" class="live-counter"></div>
+  <div id="profile-counter" class="live-counter"></div>
+  <div id="post-counter" class="live-counter"></div>
+  <div id="time-counter" class="live-counter"></div>
+
+  <div class="bottom-nav">
+    <a href="index.html">🏠</a>
+    <a href="search.html">🔍</a>
+    <a href="publish.html">➕</a>
+    <a href="reels.html">🎞️</a>
+    <a href="profile.html">👤</a>
+  </div>
+
+  <script>
+    function updateLiveStats() {
+      const get = key => parseInt(localStorage.getItem(key)) || 0;
+      document.getElementById("scroll-counter").textContent = `Scrolls done: ${get("scrollCount")}`;
+      document.getElementById("like-counter").textContent = `Likes given: ${get("likesGiven")}`;
+      document.getElementById("comment-counter").textContent = `Comments given: ${get("commentsGiven")}`;
+      document.getElementById("repost-counter").textContent = `Reposts done: ${get("repostsDone")}`;
+      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${get("postsBookmarked")}`;
+      document.getElementById("reel-counter").textContent = `Reels viewed: ${get("reelsViewed")}`;
+      document.getElementById("story-counter").textContent = `Stories viewed: ${get("storiesViewed")}`;
+      document.getElementById("profile-counter").textContent = `Profiles visited: ${get("profilesVisited")}`;
+      document.getElementById("post-counter").textContent = `Posts posted: ${get("postsPosted")}`;
+      document.getElementById("time-counter").textContent = `Minutes wasted: ${Math.floor(get("secondsWasted") / 60)}`;
+    }
+
+    updateLiveStats();
+  </script>
 </body>
 </html>
