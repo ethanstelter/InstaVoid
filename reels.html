@@ -95,8 +95,6 @@
       left: 10px;
       right: 10px;
       display: none;
-      flex-direction: row;
-      align-items: center;
       gap: 10px;
       z-index: 10;
     }
@@ -187,7 +185,6 @@
     <a href="reels.html">🎞️</a>
     <a href="profile.html">👤</a>
   </div>
-
   <script>
     const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
     const captions = [
@@ -205,6 +202,8 @@
     let comments = parseInt(localStorage.getItem("commentsGiven")) || 0;
     let reposts = parseInt(localStorage.getItem("repostsDone")) || 0;
     let bookmarks = parseInt(localStorage.getItem("postsBookmarked")) || 0;
+
+    const viewedReels = new Set();
 
     function updateCounters() {
       document.getElementById("reel-counter").textContent = `Reels viewed: ${reelCount}`;
@@ -239,11 +238,6 @@
         </div>`;
       reel.appendChild(inner);
       document.getElementById("reelWrapper").appendChild(reel);
-      reelCount++;
-      scrollCount++;
-      localStorage.setItem("reelsViewed", reelCount);
-      localStorage.setItem("scrollCount", scrollCount);
-      updateCounters();
     }
 
     function handleLike(btn) {
@@ -298,9 +292,6 @@
           input.value = "";
           input.style.opacity = 1;
           input.closest(".comment-box").style.display = "none";
-          const inner = input.closest(".reel-inner");
-          inner.querySelector(".user-info").style.transform = "translateY(0)";
-          inner.querySelector(".actions").style.transform = "translateY(0)";
         }, 600);
       }
     }
@@ -313,8 +304,26 @@
       }
     }
 
+    function trackVisibleReels() {
+      const allReels = document.querySelectorAll(".reel");
+      allReels.forEach((reel) => {
+        const rect = reel.getBoundingClientRect();
+        const isInView = rect.top >= 0 && rect.bottom <= window.innerHeight + 1;
+        if (isInView && !viewedReels.has(reel)) {
+          viewedReels.add(reel);
+          reelCount++;
+          localStorage.setItem("reelsViewed", reelCount);
+          updateCounters();
+        }
+      });
+    }
+
     document.getElementById("reelWrapper").addEventListener("scroll", () => {
       const wrapper = document.getElementById("reelWrapper");
+      scrollCount++;
+      localStorage.setItem("scrollCount", scrollCount);
+      updateCounters();
+      trackVisibleReels();
       if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
         loadInitialReels(5);
       }
@@ -322,6 +331,7 @@
 
     updateCounters();
     loadInitialReels();
+    trackVisibleReels();
   </script>
 </body>
 </html>
