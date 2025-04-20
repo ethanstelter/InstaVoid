@@ -1,259 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Search the Void</title>
-<style>
-body {
-background-color: #0f0f0f;
-color: #fff;
-font-family: Arial, sans-serif;
-margin: 0;
-padding: 0;
-}
-
-header {
-text-align: center;
-padding: 1rem;
-background-color: #1a1a1a;
-border-bottom: 1px solid #333;
-font-size: 1.2rem;
-font-weight: bold;
-}
-
-.container {
-padding: 1rem;
-padding-bottom: 6rem;
-max-width: 600px;
-margin: auto;
-}
-
-input[type="text"] {
-width: 100%;
-padding: 0.6rem;
-background-color: #1c1c1c;
-border: 1px solid #333;
-color: #fff;
-border-radius: 6px;
-font-size: 1rem;
-margin-bottom: 1rem;
-}
-
-.section-title {
-font-size: 1rem;
-color: #888;
-margin-top: 2rem;
-margin-bottom: 0.5rem;
-}
-
-.result,
-.achievement-tile {
-border: 1px solid #333;
-background-color: #1a1a1a;
-padding: 1rem;
-border-radius: 6px;
-margin-bottom: 0.8rem;
-}
-
-.result strong,
-.achievement-tile strong {
-display: block;
-margin-bottom: 0.3rem;
-color: #00bfff;
-}
-
-.achievement-tile.glow {
-border: 1px solid #00bfff;
-box-shadow: 0 0 8px #00bfff55;
-}
-
-.result a,
-.leaderboard-entry a {
-  color: #00bfff;
-  text-decoration: none;
-}
-
-.leaderboard-entry {
-background-color: #1a1a1a;
-padding: 0.8rem;
-border: 1px solid #333;
-border-radius: 6px;
-margin-bottom: 0.6rem;
-font-size: 0.9rem;
-}
-
-.leaderboard-entry span {
-display: block;
-color: #aaa;
-margin-top: 0.2rem;
-}
-
-.you {
-border-color: #00bfff;
-box-shadow: 0 0 6px #00bfff33;
-}
-
-.bottom-nav {
-position: fixed;
-bottom: 0;
-width: 100%;
-background-color: #1a1a1a;
-border-top: 1px solid #333;
-display: flex;
-justify-content: space-around;
-padding: 0.5rem 0;
-}
-
-.bottom-nav a {
-color: #888;
-text-decoration: none;
-font-size: 1.3rem;
-}
-
-#showAllBtn {
-display: block;
-margin: 0.8rem auto 2rem;
-background-color: #1a1a1a;
-border: 1px solid #555;
-padding: 0.5rem 1rem;
-color: #ccc;
-border-radius: 5px;
-cursor: pointer;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search the Void</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 1rem;
+      background-color: #1a1a1a;
+      border-bottom: 1px solid #333;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .section {
+      padding: 1rem;
+    }
+    .section h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .accounts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .account {
+      background-color: #1c1c1c;
+      border: 1px solid #333;
+      padding: 1rem;
+      border-radius: 6px;
+    }
+    .account img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+    .account strong {
+      font-size: 1rem;
+      color: #fff;
+    }
+    .account p {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: 0.4rem;
+    }
+    .leaderboard-entry {
+      background-color: #1c1c1c;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      border: 1px solid #333;
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+    }
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
+    .live-counter {
+      position: fixed;
+      font-size: 0.9rem;
+      color: #666;
+      background-color: #1a1a1a;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      z-index: 999;
+      right: 10px;
+    }
+    #waste-counter { bottom: 50px; }
+    #like-counter { bottom: 80px; }
+    #scroll-counter { bottom: 110px; }
+    #reel-counter { bottom: 140px; }
+    #story-counter { bottom: 170px; }
+    #comment-counter { bottom: 200px; }
+    #repost-counter { bottom: 230px; }
+    #bookmark-counter { bottom: 260px; }
+    #profile-counter { bottom: 290px; }
+    #post-counter { bottom: 320px; }
+  </style>
 </head>
 <body>
-<header>Search the Void</header>
+  <header>Explore the Void</header>
 
-<div class="container">
-<input type="text" id="searchInput" placeholder="Search achievements or accounts..." />
+  <div class="section">
+    <h2>Accounts</h2>
+    <div class="accounts" id="accountList"></div>
+  </div>
 
-<div class="section-title">Achievements</div>
-<div id="achievementResults"></div>
-<button id="showAllBtn">Show all achievements</button>
+  <div class="section">
+    <h2>Leaderboard</h2>
+    <div id="leaderboard"></div>
+  </div>
 
-<div class="section-title">Accounts</div>
-<div id="userResults"></div>
+  <div id="waste-counter" class="live-counter"></div>
+  <div id="like-counter" class="live-counter"></div>
+  <div id="scroll-counter" class="live-counter"></div>
+  <div id="reel-counter" class="live-counter"></div>
+  <div id="story-counter" class="live-counter"></div>
+  <div id="comment-counter" class="live-counter"></div>
+  <div id="repost-counter" class="live-counter"></div>
+  <div id="bookmark-counter" class="live-counter"></div>
+  <div id="profile-counter" class="live-counter"></div>
+  <div id="post-counter" class="live-counter"></div>
 
-<div class="section-title">Leaderboard</div>
-<div id="leaderboard"></div>
-</div>
+  <div class="bottom-nav">
+    <a href="index.html">🏠</a>
+    <a href="search.html">🔍</a>
+    <a href="publish.html">➕</a>
+    <a href="reels.html">🎞️</a>
+    <a href="profile.html">👤</a>
+  </div>
 
-<div class="bottom-nav">
-<a href="index.html">🏠</a>
-<a href="search.html">🔍</a>
-<a href="publish.html">➕</a>
-<a href="reels.html">🎞️</a>
-<a href="profile.html">👤</a>
-</div>
+  <script>
+    const bios = [
+      "Screaming into the void.",
+      "100% algorithmically forgotten.",
+      "Certified lurker.",
+      "Ghost of engagement past.",
+      "Just here to scroll.",
+      "Born to like, forced to scroll.",
+      "Reposting regret since '24."
+    ];
 
-<script>
-// 50 achievements (load from localStorage or fallback to empty array)
-const fullAchievements = JSON.parse(localStorage.getItem("achievementList")) || [];
-const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
+    const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
 
-const fakeUsernames = [
-"void_vibes", "scroller3000", "ghostfeed", "lostinloop",
-"tapmaster", "doomposter", "feed.exe", "no_signal",
-"lurkerbot", "user_0000"
-];
-
-const achievementResults = document.getElementById("achievementResults");
-const searchInput = document.getElementById("searchInput");
-const showAllBtn = document.getElementById("showAllBtn");
-const userResults = document.getElementById("userResults");
-const leaderboard = document.getElementById("leaderboard");
-
-let showingAll = false;
-
-function renderAchievements() {
-  achievementResults.innerHTML = "";
-  const list = showingAll ? fullAchievements : fullAchievements.slice(0, 4);
-  list.forEach(ach => {
-    const div = document.createElement("div");
-    div.className = "achievement-tile";
-    if (unlocked.includes(ach.key)) div.classList.add("glow");
-    div.innerHTML = `<strong>${ach.name}</strong>${ach.desc}`;
-    achievementResults.appendChild(div);
-  });
-  showAllBtn.style.display = showingAll ? "none" : "block";
-}
-
-showAllBtn.addEventListener("click", () => {
-  showingAll = true;
-  renderAchievements();
-});
-
-function renderSearch(query = "") {
-  const q = query.toLowerCase();
-
-  const matches = fullAchievements.filter(ach =>
-    ach.name.toLowerCase().includes(q) || ach.desc.toLowerCase().includes(q)
-  );
-
-  if (q) {
-    achievementResults.innerHTML = "";
-    matches.forEach(ach => {
-      const div = document.createElement("div");
-      div.className = "achievement-tile";
-      if (unlocked.includes(ach.key)) div.classList.add("glow");
-      div.innerHTML = `<strong>${ach.name}</strong>${ach.desc}`;
-      achievementResults.appendChild(div);
+    const accountList = document.getElementById("accountList");
+    usernames.forEach(name => {
+      const account = document.createElement("div");
+      account.className = "account";
+      account.innerHTML = `
+        <strong><img src="https://api.dicebear.com/7.x/personas/svg?seed=${name}" alt="pfp"> @${name}</strong>
+        <p>${bios[Math.floor(Math.random() * bios.length)]}</p>
+      `;
+      accountList.appendChild(account);
     });
-    showAllBtn.style.display = "none";
-  } else {
-    renderAchievements();
-  }
 
-  userResults.innerHTML = "";
-  fakeUsernames.forEach(user => {
-    if (user.toLowerCase().includes(q)) {
-      const div = document.createElement("div");
-      div.className = "result";
-      div.innerHTML = `<strong><a href="user.html?username=${user}">@${user}</a></strong>This account is void.`;
-      userResults.appendChild(div);
+    const leaderboard = document.getElementById("leaderboard");
+    usernames.forEach(name => {
+      leaderboard.innerHTML += `
+        <div class="leaderboard-entry">
+          <strong>@${name}</strong><br>
+          Minutes wasted: ${Math.floor(Math.random() * 100)}<br>
+          Likes given: ${Math.floor(Math.random() * 500)}<br>
+          Scrolls done: ${Math.floor(Math.random() * 1000)}<br>
+          Reels viewed: ${Math.floor(Math.random() * 300)}<br>
+          Stories viewed: ${Math.floor(Math.random() * 150)}<br>
+          Comments given: ${Math.floor(Math.random() * 100)}<br>
+          Reposts done: ${Math.floor(Math.random() * 100)}<br>
+          Bookmarks: ${Math.floor(Math.random() * 80)}<br>
+          Profiles visited: ${Math.floor(Math.random() * 60)}<br>
+          Posts posted: ${Math.floor(Math.random() * 40)}
+        </div>
+      `;
+    });
+
+    let secondsWasted = parseInt(localStorage.getItem("secondsWasted")) || 0;
+    let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
+    let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
+    let reelsViewed = parseInt(localStorage.getItem("reelsViewed")) || 0;
+    let storiesViewed = parseInt(localStorage.getItem("storiesViewed")) || 0;
+    let commentsGiven = parseInt(localStorage.getItem("commentsGiven")) || 0;
+    let repostsDone = parseInt(localStorage.getItem("repostsDone")) || 0;
+    let postsBookmarked = parseInt(localStorage.getItem("postsBookmarked")) || 0;
+    let profilesVisited = parseInt(localStorage.getItem("profilesVisited")) || 0;
+    let postsPosted = parseInt(localStorage.getItem("postsPosted")) || 0;
+
+    function updateLiveCounters() {
+      document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor(secondsWasted / 60)}`;
+      document.getElementById("like-counter").textContent = `Likes given: ${likesGiven}`;
+      document.getElementById("scroll-counter").textContent = `Scrolls done: ${scrollCount}`;
+      document.getElementById("reel-counter").textContent = `Reels viewed: ${reelsViewed}`;
+      document.getElementById("story-counter").textContent = `Stories viewed: ${storiesViewed}`;
+      document.getElementById("comment-counter").textContent = `Comments given: ${commentsGiven}`;
+      document.getElementById("repost-counter").textContent = `Reposts done: ${repostsDone}`;
+      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${postsBookmarked}`;
+      document.getElementById("profile-counter").textContent = `Profiles visited: ${profilesVisited}`;
+      document.getElementById("post-counter").textContent = `Posts posted: ${postsPosted}`;
     }
-  });
-}
 
-const yourStats = {
-  username: "you",
-  minutes: Math.floor((parseInt(localStorage.getItem("secondsWasted")) || 0) / 60),
-  likes: parseInt(localStorage.getItem("likesGiven")) || 0,
-  scrolls: parseInt(localStorage.getItem("scrollCount")) || 0
-};
+    setInterval(() => {
+      secondsWasted++;
+      localStorage.setItem("secondsWasted", secondsWasted);
+      updateLiveCounters();
+    }, 1000);
 
-function randomStats(seed) {
-  const base = seed.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  return {
-    username: seed,
-    minutes: Math.floor((base * 3) % 100),
-    likes: Math.floor((base * 7) % 50),
-    scrolls: Math.floor((base * 13) % 200)
-  };
-}
-
-const fakeStats = fakeUsernames.map(name => randomStats(name));
-const allUsers = [yourStats, ...fakeStats];
-allUsers.sort((a, b) => b.minutes - a.minutes);
-
-allUsers.forEach(user => {
-  const div = document.createElement("div");
-  div.className = "leaderboard-entry";
-  if (user.username === "you") div.classList.add("you");
-  div.innerHTML = `
-       <strong><a href="${user.username === 'you' ? 'profile.html' : `user.html?username=${user.username}`}">@${user.username}</a></strong>
-       <span>Minutes Wasted: ${user.minutes}</span>
-       <span>Likes Given: ${user.likes}</span>
-       <span>Scrolls: ${user.scrolls}</span>
-     `;
-  leaderboard.appendChild(div);
-});
-
-renderAchievements();
-renderSearch();
-searchInput.addEventListener("input", e => renderSearch(e.target.value));
-</script>
+    updateLiveCounters();
+  </script>
 </body>
 </html>
