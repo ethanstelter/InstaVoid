@@ -152,11 +152,33 @@
       text-decoration: none;
       font-size: 1.3rem;
     }
+    .live-counter {
+      position: fixed;
+      font-size: 0.9rem;
+      color: #666;
+      background-color: #1a1a1a;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      z-index: 999;
+      right: 10px;
+    }
+    #reel-counter { bottom: 50px; }
+    #scroll-counter { bottom: 80px; }
+    #like-counter { bottom: 110px; }
+    #comment-counter { bottom: 140px; }
+    #repost-counter { bottom: 170px; }
+    #bookmark-counter { bottom: 200px; }
   </style>
 </head>
 <body>
   <div id="reelContainer"></div>
-
+  <div id="reel-counter" class="live-counter"></div>
+  <div id="scroll-counter" class="live-counter"></div>
+  <div id="like-counter" class="live-counter"></div>
+  <div id="comment-counter" class="live-counter"></div>
+  <div id="repost-counter" class="live-counter"></div>
+  <div id="bookmark-counter" class="live-counter"></div>
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
     <a href="search.html">🔍</a>
@@ -164,7 +186,6 @@
     <a href="reels.html">🎞️</a>
     <a href="profile.html">👤</a>
   </div>
-
   <script>
     const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
     const captions = [
@@ -177,6 +198,21 @@
     ];
 
     const container = document.getElementById("reelContainer");
+    let reelCount = parseInt(localStorage.getItem("reelsViewed")) || 0;
+    let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
+    let likes = parseInt(localStorage.getItem("likesGiven")) || 0;
+    let comments = parseInt(localStorage.getItem("commentsGiven")) || 0;
+    let reposts = parseInt(localStorage.getItem("repostsDone")) || 0;
+    let bookmarks = parseInt(localStorage.getItem("postsBookmarked")) || 0;
+
+    function updateCounters() {
+      document.getElementById("reel-counter").textContent = `Reels viewed: ${reelCount}`;
+      document.getElementById("scroll-counter").textContent = `Scrolls done: ${scrollCount}`;
+      document.getElementById("like-counter").textContent = `Likes given: ${likes}`;
+      document.getElementById("comment-counter").textContent = `Comments given: ${comments}`;
+      document.getElementById("repost-counter").textContent = `Reposts done: ${reposts}`;
+      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${bookmarks}`;
+    }
 
     function createReel(username, caption) {
       const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
@@ -192,10 +228,10 @@
           <div class="username">@${username}</div>
         </div>
         <div class="actions">
-          <button onclick="handlePopup(this, 'This like did nothing.')">❤️</button>
+          <button onclick="handleLike(this)">❤️</button>
           <button onclick="toggleCommentBox(this)">💬</button>
-          <button onclick="handlePopup(this, 'Echoed into the abyss.')">🔁</button>
-          <button onclick="handlePopup(this, '📌 Marked meaningless.')">📌</button>
+          <button onclick="handleRepost(this)">🔁</button>
+          <button onclick="handleBookmark(this)">📌</button>
         </div>
         <div class="comment-box">
           <input type="text" placeholder="Say something...">
@@ -204,6 +240,31 @@
 
       reel.appendChild(inner);
       container.appendChild(reel);
+
+      reelCount++;
+      localStorage.setItem("reelsViewed", reelCount);
+      updateCounters();
+    }
+
+    function handleLike(btn) {
+      likes++;
+      localStorage.setItem("likesGiven", likes);
+      updateCounters();
+      handlePopup(btn, "This like did nothing.");
+    }
+
+    function handleRepost(btn) {
+      reposts++;
+      localStorage.setItem("repostsDone", reposts);
+      updateCounters();
+      handlePopup(btn, "Echoed into the abyss.");
+    }
+
+    function handleBookmark(btn) {
+      bookmarks++;
+      localStorage.setItem("postsBookmarked", bookmarks);
+      updateCounters();
+      handlePopup(btn, "📌 Marked meaningless.");
     }
 
     function handlePopup(el, text) {
@@ -229,6 +290,10 @@
     function submitFakeComment(button) {
       const input = button.previousElementSibling;
       if (input.value.trim() !== "") {
+        comments++;
+        localStorage.setItem("commentsGiven", comments);
+        updateCounters();
+
         input.style.transition = "opacity 0.5s ease";
         input.style.opacity = 0;
         setTimeout(() => {
@@ -242,22 +307,31 @@
       }
     }
 
-    function loadReels(count = 12) {
+    function loadMoreReels(count = 6) {
       for (let i = 0; i < count; i++) {
-        const user = usernames[i % usernames.length];
-        const cap = captions[i % captions.length];
+        const user = usernames[Math.floor(Math.random() * usernames.length)];
+        const cap = captions[Math.floor(Math.random() * captions.length)];
         createReel(user, cap);
       }
     }
 
-    loadReels();
-
+    let lastScrollTop = 0;
     window.addEventListener("scroll", () => {
-      const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 5;
-      if (nearBottom) {
-        window.scrollTo({ top: 0, behavior: "instant" });
+      const st = window.scrollY;
+      if (st > lastScrollTop) {
+        scrollCount++;
+        localStorage.setItem("scrollCount", scrollCount);
+        updateCounters();
+      }
+      lastScrollTop = st;
+
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+        loadMoreReels();
       }
     });
+
+    updateCounters();
+    loadMoreReels(12);
   </script>
 </body>
 </html>
