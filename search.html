@@ -15,56 +15,82 @@
       flex-direction: column;
       align-items: center;
     }
-    .container {
+
+    .phone-screen {
       width: 90%;
       max-width: 540px;
+      padding-bottom: 6rem;
     }
-    h2 {
+
+    header {
       text-align: center;
-      margin: 1.5rem 0 1rem;
+      padding: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      background-color: #1a1a1a;
+      border-bottom: 1px solid #333;
     }
+
+    section {
+      margin: 2rem 0;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+    }
+
     .account, .leaderboard-entry {
       background-color: #1c1c1c;
+      margin: 0.5rem 1rem;
+      padding: 1rem;
       border: 1px solid #333;
       border-radius: 6px;
-      margin: 0.5rem 0;
-      padding: 0.8rem;
       display: flex;
       align-items: center;
       gap: 10px;
-      text-decoration: none;
-      color: #fff;
-      transition: background-color 0.2s;
+      cursor: pointer;
     }
-    .account:hover, .leaderboard-entry:hover {
-      background-color: #292929;
+
+    .highlight {
+      border: 2px solid gold;
     }
-    .account.highlight, .leaderboard-entry.highlight {
-      background-color: #333399;
-    }
+
     .account img, .leaderboard-entry img {
       width: 40px;
       height: 40px;
       border-radius: 50%;
     }
-    .account-info, .leaderboard-info {
-      display: flex;
-      flex-direction: column;
+
+    .account .info, .leaderboard-entry .info {
+      flex-grow: 1;
     }
-    .leaderboard-position {
-      font-size: 1.2rem;
-      width: 30px;
-      text-align: center;
+
+    .account .info p, .leaderboard-entry .info p {
+      margin: 0;
     }
-    .leaderboard-row {
-      display: flex;
-      align-items: center;
-    }
-    .live-counter {
-      font-size: 0.9rem;
+
+    .leaderboard-entry .stats {
+      font-size: 0.8rem;
       color: #aaa;
-      margin: 0.2rem 0;
+      margin-top: 0.5rem;
     }
+
+    .medal {
+      font-size: 1.5rem;
+      margin-right: 8px;
+    }
+
+    .show-more {
+      text-align: center;
+      margin-top: 1rem;
+      color: #999;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -75,33 +101,33 @@
       justify-content: space-around;
       padding: 0.5rem 0;
     }
+
     .bottom-nav a {
       color: #888;
       text-decoration: none;
       font-size: 1.3rem;
     }
-    .show-more {
-      background-color: #1a1a1a;
-      border: 1px solid #333;
-      color: #fff;
-      padding: 0.6rem;
-      margin: 1rem auto;
-      display: block;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      text-align: center;
+
+    .leaderboard-spacer {
+      height: 80px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Accounts</h2>
-    <div id="accountList"></div>
-    <button class="show-more" onclick="showMoreAccounts()">Show More</button>
+  <div class="phone-screen">
+    <header>Search</header>
 
-    <h2>Leaderboard</h2>
-    <div id="leaderboard"></div>
+    <section id="account-section">
+      <div class="section-title">Accounts</div>
+      <div id="accountList"></div>
+      <div id="showMoreBtn" class="show-more" onclick="showMoreAccounts()">Show More</div>
+    </section>
+
+    <section id="leaderboard-section">
+      <div class="section-title">Leaderboard</div>
+      <div id="leaderboard"></div>
+      <div class="leaderboard-spacer"></div>
+    </section>
   </div>
 
   <div class="bottom-nav">
@@ -113,91 +139,91 @@
   </div>
 
   <script>
-    const fakeUsernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter", "pixelghost", "feedburn", "scrollking", "glitchedout"];
-    const realUser = "@you";
-    const funnyBios = [
-      "This account is void.",
-      "Certified scroll addict.",
-      "Award-winning lurker.",
-      "Waiting for notifications...",
-      "Likes their own posts.",
-      "Banished from meaningful interactions."
+    const userStats = [
+      'Reels viewed', 'Stories viewed', 'Comments given', 'Reposts done', 'Posts bookmarked',
+      'Scrolls done', 'Profiles visited', 'Posts posted', 'Likes given', 'Minutes wasted'
     ];
+
+    const funnyBios = [
+      "Still figuring out the void.",
+      "Reposting into nothingness.",
+      "Chronically online and proud.",
+      "Professional doomscroller.",
+      "Exists mostly in simulation.",
+      "Tapped the void too hard."
+    ];
+
     const accountList = document.getElementById("accountList");
     const leaderboard = document.getElementById("leaderboard");
-    let accountDisplayCount = 6;
+    const showMoreBtn = document.getElementById("showMoreBtn");
 
-    function getStats() {
-      return {
-        reelsViewed: Math.floor(Math.random() * 500),
-        storiesViewed: Math.floor(Math.random() * 300),
-        commentsGiven: Math.floor(Math.random() * 200),
-        repostsDone: Math.floor(Math.random() * 100),
-        postsBookmarked: Math.floor(Math.random() * 120),
-        scrollsDone: Math.floor(Math.random() * 800),
-        profilesVisited: Math.floor(Math.random() * 400),
-        postsPosted: Math.floor(Math.random() * 50),
-        likesGiven: Math.floor(Math.random() * 1000),
-        minutesWasted: Math.floor(Math.random() * 600)
-      };
+    const realUser = {
+      name: "@you",
+      avatar: `https://api.dicebear.com/7.x/personas/svg?seed=you`,
+      highlight: true,
+      stats: userStats.map(() => Math.floor(Math.random() * 100))
+    };
+
+    let accounts = [realUser];
+    for (let i = 1; i <= 20; i++) {
+      accounts.push({
+        name: `@fakeuser${i}`,
+        avatar: `https://api.dicebear.com/7.x/personas/svg?seed=fakeuser${i}`,
+        highlight: false,
+        stats: userStats.map(() => Math.floor(Math.random() * 100))
+      });
     }
 
-    function createAccount(username, isReal = false) {
-      const bio = funnyBios[Math.floor(Math.random() * funnyBios.length)];
-      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
-      const div = document.createElement("a");
-      div.href = `user.html?user=${username}`;
-      div.className = `account${isReal ? " highlight" : ""}`;
-      div.innerHTML = `
-        <img src="${avatar}" alt="avatar">
-        <div class="account-info">
-          <strong>@${username}</strong>
-          <span>${bio}</span>
-        </div>
-      `;
-      return div;
-    }
+    let visibleCount = 6;
 
     function renderAccounts() {
       accountList.innerHTML = "";
-      for (let i = 0; i < accountDisplayCount; i++) {
-        const isReal = fakeUsernames[i] === "you";
-        accountList.appendChild(createAccount(fakeUsernames[i], isReal));
-      }
+      accounts.slice(0, visibleCount).forEach(user => {
+        const div = document.createElement("div");
+        div.className = `account${user.highlight ? ' highlight' : ''}`;
+        div.onclick = () => window.location.href = `user.html?user=${user.name.substring(1)}`;
+        div.innerHTML = `
+          <img src="${user.avatar}" alt="avatar">
+          <div class="info">
+            <p><strong>${user.name}</strong></p>
+            <p>${funnyBios[Math.floor(Math.random() * funnyBios.length)]}</p>
+          </div>
+        `;
+        accountList.appendChild(div);
+      });
     }
 
     function showMoreAccounts() {
-      accountDisplayCount = fakeUsernames.length;
+      visibleCount += 6;
       renderAccounts();
-    }
-
-    function createLeaderboardEntry(username, stats, index) {
-      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
-      const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`;
-      const div = document.createElement("a");
-      div.href = `user.html?user=${username}`;
-      div.className = `leaderboard-entry${username === "you" ? " highlight" : ""}`;
-      div.innerHTML = `
-        <div class="leaderboard-row">
-          <div class="leaderboard-position">${medal}</div>
-          <img src="${avatar}" alt="avatar">
-          <div class="leaderboard-info">
-            <strong>@${username}</strong>
-            <div class="live-counter">Likes: ${stats.likesGiven} | Posts: ${stats.postsPosted}</div>
-            <div class="live-counter">Reels: ${stats.reelsViewed} | Stories: ${stats.storiesViewed}</div>
-            <div class="live-counter">Scrolls: ${stats.scrollsDone} | Time: ${stats.minutesWasted} min</div>
-          </div>
-        </div>
-      `;
-      return div;
+      if (visibleCount >= accounts.length) {
+        showMoreBtn.style.display = "none";
+      }
     }
 
     function renderLeaderboard() {
-      const data = fakeUsernames.map(u => ({ username: u, stats: getStats() }));
-      const sorted = data.sort((a, b) => (b.stats.likesGiven + b.stats.reelsViewed + b.stats.scrollsDone) - (a.stats.likesGiven + a.stats.reelsViewed + a.stats.scrollsDone));
-      leaderboard.innerHTML = "";
-      sorted.slice(0, 10).forEach((user, i) => {
-        leaderboard.appendChild(createLeaderboardEntry(user.username, user.stats, i));
+      const sorted = [...accounts].sort((a, b) => {
+        const sumA = a.stats.reduce((acc, n) => acc + n, 0);
+        const sumB = b.stats.reduce((acc, n) => acc + n, 0);
+        return sumB - sumA;
+      }).slice(0, 10);
+
+      sorted.forEach((user, index) => {
+        const div = document.createElement("div");
+        div.className = `leaderboard-entry${user.highlight ? ' highlight' : ''}`;
+        div.onclick = () => window.location.href = `user.html?user=${user.name.substring(1)}`;
+        const rank = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
+        div.innerHTML = `
+          <div class="medal">${rank}</div>
+          <img src="${user.avatar}" alt="avatar">
+          <div class="info">
+            <p><strong>${user.name}</strong></p>
+            <div class="stats">
+              ${user.stats.map((val, i) => `${userStats[i]}: ${val}`).join('<br>')}
+            </div>
+          </div>
+        `;
+        leaderboard.appendChild(div);
       });
     }
 
