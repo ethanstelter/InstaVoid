@@ -2,271 +2,204 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search - InstaVoid</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Void Search</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
       background-color: #0f0f0f;
       color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
     }
-    header {
-      text-align: center;
+
+    .container {
+      width: 90%;
+      max-width: 540px;
       padding: 1rem;
-      background-color: #1a1a1a;
+    }
+
+    h2 {
       border-bottom: 1px solid #333;
-      font-weight: bold;
-      font-size: 1.2rem;
+      padding-bottom: 0.5rem;
+      margin-top: 2rem;
     }
-    .live-counter {
-      position: fixed;
-      font-size: 0.9rem;
-      color: #666;
-      background-color: #1a1a1a;
-      padding: 6px 10px;
-      border-radius: 6px;
-      border: 1px solid #333;
-      z-index: 999;
-      right: 10px;
-    }
-    #waste-counter { bottom: 50px; }
-    #like-counter { bottom: 80px; }
-    #scroll-counter { bottom: 110px; }
-    #reel-counter { bottom: 140px; }
-    #story-counter { bottom: 170px; }
-    #comment-counter { bottom: 200px; }
-    #repost-counter { bottom: 230px; }
-    #bookmark-counter { bottom: 260px; }
-    #profile-counter { bottom: 290px; }
-    #post-counter { bottom: 320px; }
-    
-    .section {
-      max-width: 400px;
-      margin: 1rem auto;
-      padding: 1rem;
+
+    .profile {
       background-color: #1c1c1c;
       border: 1px solid #333;
       border-radius: 8px;
-    }
-
-    .section h2 {
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .user-card {
-      background-color: #2a2a2a;
       padding: 1rem;
-      border-radius: 6px;
       margin-bottom: 1rem;
       display: flex;
-      flex-direction: column;
       align-items: center;
-    }
-
-    .user-card img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      margin-bottom: 0.5rem;
-    }
-
-    .user-card .username {
-      font-weight: bold;
-      color: #ccc;
-      margin-bottom: 0.25rem;
-    }
-
-    .user-card .bio {
-      font-size: 0.9rem;
-      color: #999;
-      text-align: center;
-    }
-
-    .leaderboard {
-      display: grid;
-      grid-template-columns: 1fr;
       gap: 1rem;
     }
 
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-      text-align: center;
+    .profile img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #f44;
     }
 
-    .stat-row .title {
-      grid-column: span 3;
+    .profile-info {
+      flex: 1;
+    }
+
+    .username {
       font-weight: bold;
-      text-align: center;
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    .bio {
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    .leaderboard-profile {
+      background-color: #1c1c1c;
+      border: 1px solid #333;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+    }
+
+    .leaderboard-profile .rank {
+      font-weight: bold;
+      font-size: 1.1rem;
       margin-bottom: 0.5rem;
     }
 
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: #1a1a1a;
-      border-top: 1px solid #333;
-      display: flex;
-      justify-content: space-around;
-      padding: 0.5rem 0;
+    .medal {
+      margin-left: 5px;
     }
 
-    .bottom-nav a {
-      color: #888;
-      text-decoration: none;
-      font-size: 1.3rem;
+    .stat-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
-  <header>Explore Accounts</header>
-
-  <div class="section">
+  <div class="container">
     <h2>Accounts</h2>
-    <div id="accountList"></div>
-  </div>
+    <div id="accountsContainer"></div>
 
-  <div class="section">
     <h2>Leaderboard</h2>
-    <div id="leaderboard"></div>
-  </div>
-
-  <div id="waste-counter" class="live-counter"></div>
-  <div id="like-counter" class="live-counter"></div>
-  <div id="scroll-counter" class="live-counter"></div>
-  <div id="reel-counter" class="live-counter"></div>
-  <div id="story-counter" class="live-counter"></div>
-  <div id="comment-counter" class="live-counter"></div>
-  <div id="repost-counter" class="live-counter"></div>
-  <div id="bookmark-counter" class="live-counter"></div>
-  <div id="profile-counter" class="live-counter"></div>
-  <div id="post-counter" class="live-counter"></div>
-
-  <div class="bottom-nav">
-    <a href="index.html">🏠</a>
-    <a href="search.html">🔍</a>
-    <a href="publish.html">➕</a>
-    <a href="reels.html">🎞️</a>
-    <a href="profile.html">👤</a>
+    <div id="leaderboardContainer"></div>
   </div>
 
   <script>
-    const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
-    const bios = [
-      "Here for the chaos.",
-      "Certified scroll addict.",
-      "Wasting time like a pro.",
-      "Uninfluential influencer.",
-      "CEO of Doing Nothing.",
-      "Life goal: more pixels."
+    const funnyBios = [
+      "This account is void.",
+      "Scrolling expert since 2023.",
+      "Probably not real.",
+      "Just here for the void vibes.",
+      "Might be a bot, might not.",
+      "Likes for validation.",
+      "Lost in the feed forever.",
+      "Feed me likes.",
+      "This isn't even my final form.",
+      "Professional lurker."
     ];
 
-    const accountList = document.getElementById("accountList");
-    usernames.forEach((username, i) => {
-      const div = document.createElement("div");
-      div.className = "user-card";
-      div.innerHTML = `
-        <img src="https://api.dicebear.com/7.x/personas/svg?seed=${username}" alt="avatar">
-        <div class="username">@${username}</div>
-        <div class="bio">${bios[i % bios.length]}</div>
-      `;
-      accountList.appendChild(div);
+    const usernames = [
+      "ghostwatch", "doomscrollz", "tapout", "glitchgazer", "no_signal",
+      "sadbot", "scrollghoul", "feedzombie", "numbthumbs", "pixelghost"
+    ];
+
+    const stats = usernames.map((user, index) => {
+      return {
+        username: user,
+        avatar: `https://api.dicebear.com/7.x/personas/svg?seed=${user}`,
+        bio: funnyBios[index % funnyBios.length],
+        likesGiven: Math.floor(Math.random() * 200),
+        commentsGiven: Math.floor(Math.random() * 100),
+        repostsDone: Math.floor(Math.random() * 50),
+        postsBookmarked: Math.floor(Math.random() * 60),
+        scrollCount: Math.floor(Math.random() * 400),
+        reelsViewed: Math.floor(Math.random() * 300),
+        storiesViewed: Math.floor(Math.random() * 300),
+        postsPosted: Math.floor(Math.random() * 20),
+        profilesVisited: Math.floor(Math.random() * 120),
+        secondsWasted: Math.floor(Math.random() * 5000)
+      };
     });
 
-    const leaderboard = document.getElementById("leaderboard");
-    const allUsers = [
-      { name: "@you", stats: getCurrentStats(), avatar: "https://api.dicebear.com/7.x/personas/svg?seed=you" },
-      ...usernames.map(name => ({
-        name: `@${name}`,
-        stats: generateFakeStats(),
-        avatar: `https://api.dicebear.com/7.x/personas/svg?seed=${name}`
-      }))
-    ];
+    // Insert user's real profile randomly
+    const userStats = {
+      username: "you",
+      avatar: `https://api.dicebear.com/7.x/personas/svg?seed=you`,
+      bio: "Just wasting time on purpose.",
+      likesGiven: parseInt(localStorage.getItem("likesGiven")) || 0,
+      commentsGiven: parseInt(localStorage.getItem("commentsGiven")) || 0,
+      repostsDone: parseInt(localStorage.getItem("repostsDone")) || 0,
+      postsBookmarked: parseInt(localStorage.getItem("postsBookmarked")) || 0,
+      scrollCount: parseInt(localStorage.getItem("scrollCount")) || 0,
+      reelsViewed: parseInt(localStorage.getItem("reelsViewed")) || 0,
+      storiesViewed: parseInt(localStorage.getItem("storiesViewed")) || 0,
+      postsPosted: parseInt(localStorage.getItem("postsPosted")) || 0,
+      profilesVisited: parseInt(localStorage.getItem("profilesVisited")) || 0,
+      secondsWasted: parseInt(localStorage.getItem("secondsWasted")) || 0
+    };
 
-    allUsers.sort((a, b) => getStatScore(b.stats) - getStatScore(a.stats));
+    stats.splice(Math.floor(Math.random() * stats.length), 0, userStats);
 
-    allUsers.forEach(user => {
-      const div = document.createElement("div");
-      div.className = "user-card";
-      div.innerHTML = `
-        <img src="${user.avatar}" alt="avatar">
-        <div class="username">${user.name}</div>
-        <div class="stat-row">
-          <div><strong>${user.stats.reelsViewed}</strong><br>Reels</div>
-          <div><strong>${user.stats.storiesViewed}</strong><br>Stories</div>
-          <div><strong>${user.stats.commentsGiven}</strong><br>Comments</div>
-          <div><strong>${user.stats.repostsDone}</strong><br>Reposts</div>
-          <div><strong>${user.stats.postsBookmarked}</strong><br>Bookmarks</div>
-          <div><strong>${user.stats.scrollsDone}</strong><br>Scrolls</div>
-          <div><strong>${user.stats.profilesVisited}</strong><br>Profiles</div>
-          <div><strong>${user.stats.postsPosted}</strong><br>Posted</div>
-          <div><strong>${user.stats.likesGiven}</strong><br>Likes</div>
-          <div><strong>${user.stats.minutesWasted}</strong><br>Minutes</div>
+    // Render accounts
+    const accountDiv = document.getElementById("accountsContainer");
+    stats.forEach(stat => {
+      const el = document.createElement("div");
+      el.className = "profile";
+      el.innerHTML = `
+        <img src="${stat.avatar}" alt="avatar">
+        <div class="profile-info">
+          <div class="username">@${stat.username}</div>
+          <div class="bio">${stat.bio}</div>
+        </div>`;
+      accountDiv.appendChild(el);
+    });
+
+    // Leaderboard sort by total stats
+    const leaderboard = [...stats].sort((a, b) => {
+      const totalA = Object.values(a).slice(3).reduce((acc, val) => acc + val, 0);
+      const totalB = Object.values(b).slice(3).reduce((acc, val) => acc + val, 0);
+      return totalB - totalA;
+    });
+
+    const leaderboardDiv = document.getElementById("leaderboardContainer");
+    leaderboard.forEach((stat, index) => {
+      const el = document.createElement("div");
+      el.className = "leaderboard-profile";
+
+      let medal = "";
+      if (index === 0) medal = "🥇";
+      else if (index === 1) medal = "🥈";
+      else if (index === 2) medal = "🥉";
+
+      el.innerHTML = `
+        <div class="rank">#${index + 1} ${medal} @${stat.username}</div>
+        <div class="stat-list">
+          <div>Likes: ${stat.likesGiven}</div>
+          <div>Comments: ${stat.commentsGiven}</div>
+          <div>Reposts: ${stat.repostsDone}</div>
+          <div>Bookmarks: ${stat.postsBookmarked}</div>
+          <div>Scrolls: ${stat.scrollCount}</div>
+          <div>Reels: ${stat.reelsViewed}</div>
+          <div>Stories: ${stat.storiesViewed}</div>
+          <div>Posts: ${stat.postsPosted}</div>
+          <div>Profiles: ${stat.profilesVisited}</div>
+          <div>Minutes: ${Math.floor(stat.secondsWasted / 60)}</div>
         </div>
       `;
-      leaderboard.appendChild(div);
+      leaderboardDiv.appendChild(el);
     });
-
-    function generateFakeStats() {
-      return {
-        reelsViewed: rand(10, 100),
-        storiesViewed: rand(10, 100),
-        commentsGiven: rand(5, 30),
-        repostsDone: rand(5, 30),
-        postsBookmarked: rand(5, 30),
-        scrollsDone: rand(100, 500),
-        profilesVisited: rand(5, 30),
-        postsPosted: rand(1, 20),
-        likesGiven: rand(20, 200),
-        minutesWasted: rand(60, 800)
-      };
-    }
-
-    function getCurrentStats() {
-      return {
-        reelsViewed: parseInt(localStorage.getItem("reelsViewed")) || 0,
-        storiesViewed: parseInt(localStorage.getItem("storiesViewed")) || 0,
-        commentsGiven: parseInt(localStorage.getItem("commentsGiven")) || 0,
-        repostsDone: parseInt(localStorage.getItem("repostsDone")) || 0,
-        postsBookmarked: parseInt(localStorage.getItem("postsBookmarked")) || 0,
-        scrollsDone: parseInt(localStorage.getItem("scrollCount")) || 0,
-        profilesVisited: parseInt(localStorage.getItem("profilesVisited")) || 0,
-        postsPosted: parseInt(localStorage.getItem("postsPosted")) || 0,
-        likesGiven: parseInt(localStorage.getItem("likesGiven")) || 0,
-        minutesWasted: Math.floor((parseInt(localStorage.getItem("secondsWasted")) || 0) / 60)
-      };
-    }
-
-    function getStatScore(stats) {
-      return stats.reelsViewed + stats.storiesViewed + stats.commentsGiven + stats.repostsDone +
-             stats.postsBookmarked + stats.scrollsDone + stats.profilesVisited + stats.postsPosted +
-             stats.likesGiven + stats.minutesWasted;
-    }
-
-    function rand(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function updateLiveStats() {
-      document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor((parseInt(localStorage.getItem("secondsWasted")) || 0) / 60)}`;
-      document.getElementById("like-counter").textContent = `Likes given: ${parseInt(localStorage.getItem("likesGiven")) || 0}`;
-      document.getElementById("scroll-counter").textContent = `Scrolls done: ${parseInt(localStorage.getItem("scrollCount")) || 0}`;
-      document.getElementById("reel-counter").textContent = `Reels viewed: ${parseInt(localStorage.getItem("reelsViewed")) || 0}`;
-      document.getElementById("story-counter").textContent = `Stories viewed: ${parseInt(localStorage.getItem("storiesViewed")) || 0}`;
-      document.getElementById("comment-counter").textContent = `Comments given: ${parseInt(localStorage.getItem("commentsGiven")) || 0}`;
-      document.getElementById("repost-counter").textContent = `Reposts done: ${parseInt(localStorage.getItem("repostsDone")) || 0}`;
-      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${parseInt(localStorage.getItem("postsBookmarked")) || 0}`;
-      document.getElementById("profile-counter").textContent = `Profiles visited: ${parseInt(localStorage.getItem("profilesVisited")) || 0}`;
-      document.getElementById("post-counter").textContent = `Posts posted: ${parseInt(localStorage.getItem("postsPosted")) || 0}`;
-    }
-
-    updateLiveStats();
   </script>
 </body>
 </html>
