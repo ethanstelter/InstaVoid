@@ -77,7 +77,7 @@ header {
 }
 main {
   padding: 1rem;
-  padding-bottom: 4rem;
+  padding-bottom: 6rem;
 }
 .post {
   background-color: #1c1c1c;
@@ -163,6 +163,9 @@ main {
 #waste-counter { bottom: 50px; right: 10px; }
 #like-counter { bottom: 80px; right: 10px; }
 #scroll-counter { bottom: 110px; right: 10px; }
+#comments-counter { bottom: 140px; right: 10px; }
+#reposts-counter { bottom: 170px; right: 10px; }
+#bookmarks-counter { bottom: 200px; right: 10px; }
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -193,6 +196,9 @@ main {
 <div id="waste-counter" class="live-counter"></div>
 <div id="like-counter" class="live-counter"></div>
 <div id="scroll-counter" class="live-counter"></div>
+<div id="comments-counter" class="live-counter"></div>
+<div id="reposts-counter" class="live-counter"></div>
+<div id="bookmarks-counter" class="live-counter"></div>
 <div class="bottom-nav">
   <a href="index.html">🏠</a>
   <a href="search.html">🔍</a>
@@ -208,23 +214,27 @@ const notifIcon = document.getElementById("notifIcon");
 const fakeUsernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
 const fakeMessages = ["Empty Post", "You’re still here?", "This means nothing.", "The feed is feeding itself.", "Keep going. Or don’t.", "Static. Again.", "Are you okay?", "Just one more... nothing."];
 
-fakeUsernames.forEach(username => {
-  const story = document.createElement("a");
-  story.className = "story";
-  story.href = `story.html?user=${username}`;
-  story.style.backgroundImage = `url('https://api.dicebear.com/7.x/personas/svg?seed=${username}')`;
-  storiesBar.appendChild(story);
+// Initialize all trackers
+const stats = ["secondsWasted", "likesGiven", "scrollCount", "commentsGiven", "repostsDone", "postsBookmarked"];
+stats.forEach(stat => {
+  if (localStorage.getItem(stat) === null) localStorage.setItem(stat, 0);
 });
 
-let secondsWasted = parseInt(localStorage.getItem("secondsWasted")) || 0;
-let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
-let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
+let secondsWasted = parseInt(localStorage.getItem("secondsWasted"));
+let likesGiven = parseInt(localStorage.getItem("likesGiven"));
+let scrollCount = parseInt(localStorage.getItem("scrollCount"));
+let commentsGiven = parseInt(localStorage.getItem("commentsGiven"));
+let repostsDone = parseInt(localStorage.getItem("repostsDone"));
+let postsBookmarked = parseInt(localStorage.getItem("postsBookmarked"));
 let notifications = [];
 
 function updateStats() {
   document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor(secondsWasted / 60)}`;
   document.getElementById("like-counter").textContent = `Likes given: ${likesGiven}`;
   document.getElementById("scroll-counter").textContent = `Scrolls done: ${scrollCount}`;
+  document.getElementById("comments-counter").textContent = `Comments given: ${commentsGiven}`;
+  document.getElementById("reposts-counter").textContent = `Reposts done: ${repostsDone}`;
+  document.getElementById("bookmarks-counter").textContent = `Posts bookmarked: ${postsBookmarked}`;
 }
 
 setInterval(() => {
@@ -232,6 +242,14 @@ setInterval(() => {
   localStorage.setItem("secondsWasted", secondsWasted);
   updateStats();
 }, 1000);
+
+fakeUsernames.forEach(username => {
+  const story = document.createElement("a");
+  story.className = "story";
+  story.href = `story.html?user=${username}`;
+  story.style.backgroundImage = `url('https://api.dicebear.com/7.x/personas/svg?seed=${username}')`;
+  storiesBar.appendChild(story);
+});
 
 function createPost(message) {
   const post = document.createElement("div");
@@ -266,10 +284,16 @@ function handleLike(btn) {
 }
 
 function handleRepost(btn) {
+  repostsDone++;
+  localStorage.setItem("repostsDone", repostsDone);
+  updateStats();
   showPopup(btn, ["You reposted into the void.", "Your repost was ignored.", "Echoes of repost... heard by no one."]);
 }
 
 function handleBookmark(btn) {
+  postsBookmarked++;
+  localStorage.setItem("postsBookmarked", postsBookmarked);
+  updateStats();
   showPopup(btn, ["This post is now... saved?", "Marked for future disappointment.", "Pinned to forget."]);
 }
 
@@ -289,6 +313,9 @@ function toggleCommentBox(btn) {
 function submitFakeComment(button) {
   const input = button.previousElementSibling;
   if (input.value.trim() !== "") {
+    commentsGiven++;
+    localStorage.setItem("commentsGiven", commentsGiven);
+    updateStats();
     input.style.transition = "opacity 0.5s ease";
     input.style.opacity = 0;
     setTimeout(() => {
