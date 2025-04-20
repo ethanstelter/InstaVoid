@@ -36,6 +36,9 @@
       display: flex;
       align-items: center;
       gap: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
     }
 
     .profile img {
@@ -133,7 +136,6 @@
       };
     });
 
-    // Insert user's real profile randomly
     const userStats = {
       username: "you",
       avatar: `https://api.dicebear.com/7.x/personas/svg?seed=you`,
@@ -152,11 +154,11 @@
 
     stats.splice(Math.floor(Math.random() * stats.length), 0, userStats);
 
-    // Render accounts
     const accountDiv = document.getElementById("accountsContainer");
     stats.forEach(stat => {
-      const el = document.createElement("div");
+      const el = document.createElement("a");
       el.className = "profile";
+      el.href = `user.html?user=${stat.username}`;
       el.innerHTML = `
         <img src="${stat.avatar}" alt="avatar">
         <div class="profile-info">
@@ -166,7 +168,6 @@
       accountDiv.appendChild(el);
     });
 
-    // Leaderboard sort by total stats
     const leaderboard = [...stats].sort((a, b) => {
       const totalA = Object.values(a).slice(3).reduce((acc, val) => acc + val, 0);
       const totalB = Object.values(b).slice(3).reduce((acc, val) => acc + val, 0);
@@ -185,6 +186,7 @@
 
       el.innerHTML = `
         <div class="rank">#${index + 1} ${medal} @${stat.username}</div>
+        <img src="${stat.avatar}" alt="avatar" style="width: 50px; height: 50px; border-radius: 50%; margin-bottom: 0.5rem; border: 2px solid #f44;">
         <div class="stat-list">
           <div>Likes: ${stat.likesGiven}</div>
           <div>Comments: ${stat.commentsGiven}</div>
