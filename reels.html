@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Void Reels</title>
   <style>
     * { box-sizing: border-box; }
@@ -17,7 +17,6 @@
       overflow-y: scroll;
     }
     #reelContainer {
-      height: 100%;
       width: 100%;
     }
     .reel {
@@ -198,7 +197,6 @@
     ];
 
     const container = document.getElementById("reelContainer");
-
     let reelCount = parseInt(localStorage.getItem("reelsViewed")) || 0;
     let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
     let likes = parseInt(localStorage.getItem("likesGiven")) || 0;
@@ -207,26 +205,26 @@
     let bookmarks = parseInt(localStorage.getItem("postsBookmarked")) || 0;
 
     function updateCounters() {
-      document.getElementById("reel-counter").textContent = \`Reels viewed: \${reelCount}\`;
-      document.getElementById("scroll-counter").textContent = \`Scrolls done: \${scrollCount}\`;
-      document.getElementById("like-counter").textContent = \`Likes given: \${likes}\`;
-      document.getElementById("comment-counter").textContent = \`Comments given: \${comments}\`;
-      document.getElementById("repost-counter").textContent = \`Reposts done: \${reposts}\`;
-      document.getElementById("bookmark-counter").textContent = \`Bookmarks: \${bookmarks}\`;
+      document.getElementById("reel-counter").textContent = `Reels viewed: ${reelCount}`;
+      document.getElementById("scroll-counter").textContent = `Scrolls done: ${scrollCount}`;
+      document.getElementById("like-counter").textContent = `Likes given: ${likes}`;
+      document.getElementById("comment-counter").textContent = `Comments given: ${comments}`;
+      document.getElementById("repost-counter").textContent = `Reposts done: ${reposts}`;
+      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${bookmarks}`;
     }
 
     function createReel(username, caption) {
-      const avatar = \`https://api.dicebear.com/7.x/personas/svg?seed=\${username}\`;
+      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
       const reel = document.createElement("div");
       reel.className = "reel";
-
       const inner = document.createElement("div");
       inner.className = "reel-inner";
-      inner.innerHTML = \`
-        <div class="caption-center">\${caption}</div>
+
+      inner.innerHTML = `
+        <div class="caption-center">${caption}</div>
         <div class="user-info">
-          <img src="\${avatar}" alt="avatar">
-          <div class="username">@\${username}</div>
+          <img src="${avatar}" alt="avatar">
+          <div class="username">@${username}</div>
         </div>
         <div class="actions">
           <button onclick="handleLike(this)">❤️</button>
@@ -237,7 +235,8 @@
         <div class="comment-box">
           <input type="text" placeholder="Say something...">
           <button onclick="submitFakeComment(this)">➤</button>
-        </div>\`;
+        </div>
+      `;
 
       reel.appendChild(inner);
       container.appendChild(reel);
@@ -294,7 +293,6 @@
         comments++;
         localStorage.setItem("commentsGiven", comments);
         updateCounters();
-
         input.style.transition = "opacity 0.5s ease";
         input.style.opacity = 0;
         setTimeout(() => {
@@ -305,25 +303,26 @@
       }
     }
 
-    function loopReels() {
-      const user = usernames[Math.floor(Math.random() * usernames.length)];
-      const cap = captions[Math.floor(Math.random() * captions.length)];
-      createReel(user, cap);
+    function loadReelsLoop(count = 6) {
+      for (let i = 0; i < count; i++) {
+        const user = usernames[i % usernames.length];
+        const cap = captions[i % captions.length];
+        createReel(user, cap);
+      }
     }
-
-    for (let i = 0; i < 12; i++) loopReels();
 
     window.addEventListener("scroll", () => {
       scrollCount++;
       localStorage.setItem("scrollCount", scrollCount);
       updateCounters();
 
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 5) {
-        loopReels();
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        loadReelsLoop();
       }
     });
 
     updateCounters();
+    loadReelsLoop(12);
   </script>
 </body>
 </html>
