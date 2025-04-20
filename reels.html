@@ -13,12 +13,12 @@
       background-color: #0f0f0f;
       font-family: Arial, sans-serif;
       color: #fff;
-      scroll-snap-type: y mandatory;
-      overflow-y: scroll;
+      overflow: hidden;
     }
-    #reelContainer {
-      height: 100%;
-      width: 100%;
+    #reelWrapper {
+      height: 100vh;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
     }
     .reel {
       scroll-snap-align: start;
@@ -40,7 +40,6 @@
       align-items: center;
       padding: 1rem;
       position: relative;
-      transition: transform 0.3s ease;
     }
     .caption-center {
       position: absolute;
@@ -60,7 +59,6 @@
       left: 10px;
       display: flex;
       align-items: center;
-      transition: transform 0.3s ease;
     }
     .user-info img {
       width: 40px;
@@ -81,38 +79,12 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
-      transition: transform 0.3s ease;
     }
     .actions button {
       background: none;
       border: none;
       color: #ccc;
       font-size: 1.4rem;
-      cursor: pointer;
-    }
-    .comment-box {
-      position: absolute;
-      bottom: 58px;
-      left: 10px;
-      right: 10px;
-      display: none;
-      gap: 10px;
-      z-index: 10;
-    }
-    .comment-box input {
-      flex: 1;
-      padding: 0.5rem;
-      background-color: #111;
-      border: 1px solid #444;
-      border-radius: 4px;
-      color: #ccc;
-    }
-    .comment-box button {
-      padding: 0.5rem 0.8rem;
-      background-color: #222;
-      border: 1px solid #444;
-      border-radius: 4px;
-      color: #ccc;
       cursor: pointer;
     }
     .popup {
@@ -136,22 +108,6 @@
       20% { opacity: 1; }
       100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
     }
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: #1a1a1a;
-      border-top: 1px solid #333;
-      display: flex;
-      justify-content: space-around;
-      padding: 0.5rem 0;
-      z-index: 1000;
-    }
-    .bottom-nav a {
-      color: #888;
-      text-decoration: none;
-      font-size: 1.3rem;
-    }
     .live-counter {
       position: fixed;
       font-size: 0.9rem;
@@ -169,10 +125,26 @@
     #comment-counter { bottom: 140px; }
     #repost-counter { bottom: 170px; }
     #bookmark-counter { bottom: 200px; }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+      z-index: 1000;
+    }
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
   </style>
 </head>
 <body>
-  <div id="reelContainer"></div>
+  <div id="reelWrapper"></div>
   <div id="reel-counter" class="live-counter"></div>
   <div id="scroll-counter" class="live-counter"></div>
   <div id="like-counter" class="live-counter"></div>
@@ -197,7 +169,6 @@
       "Now in 4K: pure void."
     ];
 
-    const container = document.getElementById("reelContainer");
     let reelCount = parseInt(localStorage.getItem("reelsViewed")) || 0;
     let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
     let likes = parseInt(localStorage.getItem("likesGiven")) || 0;
@@ -218,7 +189,6 @@
       const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
       const reel = document.createElement("div");
       reel.className = "reel";
-
       const inner = document.createElement("div");
       inner.className = "reel-inner";
       inner.innerHTML = `
@@ -237,12 +207,12 @@
           <input type="text" placeholder="Say something...">
           <button onclick="submitFakeComment(this)">➤</button>
         </div>`;
-
       reel.appendChild(inner);
-      container.appendChild(reel);
-
+      document.getElementById("reelWrapper").appendChild(reel);
       reelCount++;
+      scrollCount++;
       localStorage.setItem("reelsViewed", reelCount);
+      localStorage.setItem("scrollCount", scrollCount);
       updateCounters();
     }
 
@@ -280,7 +250,6 @@
       const box = inner.querySelector(".comment-box");
       const userInfo = inner.querySelector(".user-info");
       const actions = inner.querySelector(".actions");
-
       const isOpen = box.style.display === "flex";
       box.style.display = isOpen ? "none" : "flex";
       userInfo.style.transform = isOpen ? "translateY(0)" : "translateY(-30px)";
@@ -293,21 +262,17 @@
         comments++;
         localStorage.setItem("commentsGiven", comments);
         updateCounters();
-
         input.style.transition = "opacity 0.5s ease";
         input.style.opacity = 0;
         setTimeout(() => {
           input.value = "";
           input.style.opacity = 1;
           input.closest(".comment-box").style.display = "none";
-          const inner = input.closest(".reel-inner");
-          inner.querySelector(".user-info").style.transform = "translateY(0)";
-          inner.querySelector(".actions").style.transform = "translateY(0)";
         }, 600);
       }
     }
 
-    function loadMoreReels(count = 6) {
+    function loadInitialReels(count = 10) {
       for (let i = 0; i < count; i++) {
         const user = usernames[Math.floor(Math.random() * usernames.length)];
         const cap = captions[Math.floor(Math.random() * captions.length)];
@@ -315,23 +280,15 @@
       }
     }
 
-    let lastScrollTop = 0;
-    window.addEventListener("scroll", () => {
-      const st = window.scrollY;
-      if (st > lastScrollTop) {
-        scrollCount++;
-        localStorage.setItem("scrollCount", scrollCount);
-        updateCounters();
-      }
-      lastScrollTop = st;
-
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
-        loadMoreReels();
+    document.getElementById("reelWrapper").addEventListener("scroll", () => {
+      const wrapper = document.getElementById("reelWrapper");
+      if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
+        loadInitialReels(5);
       }
     });
 
     updateCounters();
-    loadMoreReels(12);
+    loadInitialReels();
   </script>
 </body>
 </html>
