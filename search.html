@@ -3,92 +3,68 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search Void</title>
+  <title>Void Search</title>
   <style>
     body {
-      margin: 0;
       background-color: #0f0f0f;
-      font-family: Arial, sans-serif;
       color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
     }
-    .screen {
-      width: 540px;
-      padding: 1rem;
+    .container {
+      width: 90%;
+      max-width: 540px;
     }
     h2 {
-      color: #ccc;
-      border-bottom: 1px solid #333;
-      padding-bottom: 0.5rem;
-      margin-top: 2rem;
+      text-align: center;
+      margin: 1.5rem 0 1rem;
     }
     .account, .leaderboard-entry {
       background-color: #1c1c1c;
       border: 1px solid #333;
-      padding: 0.7rem;
-      margin-bottom: 1rem;
+      border-radius: 6px;
+      margin: 0.5rem 0;
+      padding: 0.8rem;
       display: flex;
       align-items: center;
-      gap: 12px;
-      border-radius: 6px;
+      gap: 10px;
       text-decoration: none;
-      color: #ccc;
-      transition: background 0.2s;
+      color: #fff;
+      transition: background-color 0.2s;
     }
     .account:hover, .leaderboard-entry:hover {
-      background-color: #2a2a2a;
+      background-color: #292929;
     }
-    .avatar {
-      width: 48px;
-      height: 48px;
+    .account.highlight, .leaderboard-entry.highlight {
+      background-color: #333399;
+    }
+    .account img, .leaderboard-entry img {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background-color: #444;
     }
-    .info {
-      flex: 1;
+    .account-info, .leaderboard-info {
+      display: flex;
+      flex-direction: column;
     }
-    .message {
-      font-size: 0.85rem;
-      color: #888;
-    }
-    .leaderboard-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    .leaderboard-entry .rank {
+    .leaderboard-position {
       font-size: 1.2rem;
-      margin-right: 0.5rem;
+      width: 30px;
+      text-align: center;
     }
-    .stats {
-      margin-top: 0.5rem;
-      font-size: 0.8rem;
-      color: #aaa;
+    .leaderboard-row {
+      display: flex;
+      align-items: center;
     }
     .live-counter {
-      position: fixed;
       font-size: 0.9rem;
-      color: #666;
-      background-color: #1a1a1a;
-      padding: 6px 10px;
-      border-radius: 6px;
-      border: 1px solid #333;
-      z-index: 999;
-      right: 10px;
+      color: #aaa;
+      margin: 0.2rem 0;
     }
-    #waste-counter { bottom: 50px; }
-    #like-counter { bottom: 80px; }
-    #scroll-counter { bottom: 110px; }
-    #reel-counter { bottom: 140px; }
-    #story-counter { bottom: 170px; }
-    #comment-counter { bottom: 200px; }
-    #repost-counter { bottom: 230px; }
-    #bookmark-counter { bottom: 260px; }
-    #profile-counter { bottom: 290px; }
-    #post-counter { bottom: 320px; }
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -104,37 +80,29 @@
       text-decoration: none;
       font-size: 1.3rem;
     }
-    #showMoreBtn {
-      background-color: #333;
-      color: #ccc;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
+    .show-more {
+      background-color: #1a1a1a;
+      border: 1px solid #333;
+      color: #fff;
+      padding: 0.6rem;
+      margin: 1rem auto;
+      display: block;
+      border-radius: 6px;
       cursor: pointer;
+      width: 100%;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="screen">
+  <div class="container">
     <h2>Accounts</h2>
     <div id="accountList"></div>
-    <button id="showMoreBtn">Show More</button>
+    <button class="show-more" onclick="showMoreAccounts()">Show More</button>
 
     <h2>Leaderboard</h2>
-    <div class="leaderboard-grid" id="leaderboard"></div>
+    <div id="leaderboard"></div>
   </div>
-
-  <div id="waste-counter" class="live-counter"></div>
-  <div id="like-counter" class="live-counter"></div>
-  <div id="scroll-counter" class="live-counter"></div>
-  <div id="reel-counter" class="live-counter"></div>
-  <div id="story-counter" class="live-counter"></div>
-  <div id="comment-counter" class="live-counter"></div>
-  <div id="repost-counter" class="live-counter"></div>
-  <div id="bookmark-counter" class="live-counter"></div>
-  <div id="profile-counter" class="live-counter"></div>
-  <div id="post-counter" class="live-counter"></div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -145,113 +113,96 @@
   </div>
 
   <script>
-    const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter", "scrollqueen", "wast3d", "boredagain"];
-    const messages = [
-      "This account is truly void.",
-      "Nothing to see here... literally.",
-      "They've posted more regrets than content.",
-      "Just wasting everyone's time.",
-      "404: Personality not found.",
+    const fakeUsernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter", "pixelghost", "feedburn", "scrollking", "glitchedout"];
+    const realUser = "@you";
+    const funnyBios = [
+      "This account is void.",
+      "Certified scroll addict.",
       "Award-winning lurker.",
-      "Offline but somehow still online.",
-      "A legend in their own timeline."
+      "Waiting for notifications...",
+      "Likes their own posts.",
+      "Banished from meaningful interactions."
     ];
-
-    const getRandomStats = () => ({
-      likes: Math.floor(Math.random() * 300),
-      comments: Math.floor(Math.random() * 200),
-      reels: Math.floor(Math.random() * 100),
-      stories: Math.floor(Math.random() * 100),
-      reposts: Math.floor(Math.random() * 80),
-      bookmarks: Math.floor(Math.random() * 120),
-      scrolls: Math.floor(Math.random() * 400),
-      profiles: Math.floor(Math.random() * 150),
-      posts: Math.floor(Math.random() * 50),
-      wasted: Math.floor(Math.random() * 800)
-    });
-
     const accountList = document.getElementById("accountList");
     const leaderboard = document.getElementById("leaderboard");
-    const showMoreBtn = document.getElementById("showMoreBtn");
-    let visibleAccounts = 6;
+    let accountDisplayCount = 6;
 
-    const allUsers = usernames.map(u => ({
-      username: u,
-      avatar: `https://api.dicebear.com/7.x/personas/svg?seed=${u}`,
-      message: messages[Math.floor(Math.random() * messages.length)],
-      stats: getRandomStats()
-    }));
+    function getStats() {
+      return {
+        reelsViewed: Math.floor(Math.random() * 500),
+        storiesViewed: Math.floor(Math.random() * 300),
+        commentsGiven: Math.floor(Math.random() * 200),
+        repostsDone: Math.floor(Math.random() * 100),
+        postsBookmarked: Math.floor(Math.random() * 120),
+        scrollsDone: Math.floor(Math.random() * 800),
+        profilesVisited: Math.floor(Math.random() * 400),
+        postsPosted: Math.floor(Math.random() * 50),
+        likesGiven: Math.floor(Math.random() * 1000),
+        minutesWasted: Math.floor(Math.random() * 600)
+      };
+    }
+
+    function createAccount(username, isReal = false) {
+      const bio = funnyBios[Math.floor(Math.random() * funnyBios.length)];
+      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+      const div = document.createElement("a");
+      div.href = `user.html?user=${username}`;
+      div.className = `account${isReal ? " highlight" : ""}`;
+      div.innerHTML = `
+        <img src="${avatar}" alt="avatar">
+        <div class="account-info">
+          <strong>@${username}</strong>
+          <span>${bio}</span>
+        </div>
+      `;
+      return div;
+    }
 
     function renderAccounts() {
       accountList.innerHTML = "";
-      allUsers.slice(0, visibleAccounts).forEach(user => {
-        const link = document.createElement("a");
-        link.className = "account";
-        link.href = `user.html?user=${user.username}`;
-        link.innerHTML = `
-          <img class="avatar" src="${user.avatar}" />
-          <div class="info">
-            <div>@${user.username}</div>
-            <div class="message">${user.message}</div>
-          </div>
-        `;
-        accountList.appendChild(link);
-      });
+      for (let i = 0; i < accountDisplayCount; i++) {
+        const isReal = fakeUsernames[i] === "you";
+        accountList.appendChild(createAccount(fakeUsernames[i], isReal));
+      }
     }
 
-    showMoreBtn.onclick = () => {
-      visibleAccounts = allUsers.length;
+    function showMoreAccounts() {
+      accountDisplayCount = fakeUsernames.length;
       renderAccounts();
-      showMoreBtn.style.display = "none";
-    };
+    }
 
-    const medals = ["🥇", "🥈", "🥉"];
+    function createLeaderboardEntry(username, stats, index) {
+      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+      const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`;
+      const div = document.createElement("a");
+      div.href = `user.html?user=${username}`;
+      div.className = `leaderboard-entry${username === "you" ? " highlight" : ""}`;
+      div.innerHTML = `
+        <div class="leaderboard-row">
+          <div class="leaderboard-position">${medal}</div>
+          <img src="${avatar}" alt="avatar">
+          <div class="leaderboard-info">
+            <strong>@${username}</strong>
+            <div class="live-counter">Likes: ${stats.likesGiven} | Posts: ${stats.postsPosted}</div>
+            <div class="live-counter">Reels: ${stats.reelsViewed} | Stories: ${stats.storiesViewed}</div>
+            <div class="live-counter">Scrolls: ${stats.scrollsDone} | Time: ${stats.minutesWasted} min</div>
+          </div>
+        </div>
+      `;
+      return div;
+    }
 
     function renderLeaderboard() {
-      const sorted = [...allUsers].sort((a, b) => {
-        const scoreA = Object.values(a.stats).reduce((s, v) => s + v, 0);
-        const scoreB = Object.values(b.stats).reduce((s, v) => s + v, 0);
-        return scoreB - scoreA;
+      const data = fakeUsernames.map(u => ({ username: u, stats: getStats() }));
+      const sorted = data.sort((a, b) => (b.stats.likesGiven + b.stats.reelsViewed + b.stats.scrollsDone) - (a.stats.likesGiven + a.stats.reelsViewed + a.stats.scrollsDone));
+      leaderboard.innerHTML = "";
+      sorted.slice(0, 10).forEach((user, i) => {
+        leaderboard.appendChild(createLeaderboardEntry(user.username, user.stats, i));
       });
-
-      sorted.forEach((user, i) => {
-        const div = document.createElement("a");
-        div.className = "leaderboard-entry";
-        div.href = `user.html?user=${user.username}`;
-        const rank = medals[i] || `#${i+1}`;
-        div.innerHTML = `
-          <div class="rank">${rank}</div>
-          <img class="avatar" src="${user.avatar}" />
-          <div class="info">
-            <div>@${user.username}</div>
-            <div class="stats">
-              Likes: ${user.stats.likes} • Comments: ${user.stats.comments} • Reels: ${user.stats.reels}<br>
-              Stories: ${user.stats.stories} • Reposts: ${user.stats.reposts} • Bookmarks: ${user.stats.bookmarks}<br>
-              Scrolls: ${user.stats.scrolls} • Profiles: ${user.stats.profiles} • Posts: ${user.stats.posts} • Wasted: ${user.stats.wasted} min
-            </div>
-          </div>
-        `;
-        leaderboard.appendChild(div);
-      });
-    }
-
-    function updateLiveCounters() {
-      const get = key => parseInt(localStorage.getItem(key)) || 0;
-      document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor(get("secondsWasted") / 60)}`;
-      document.getElementById("like-counter").textContent = `Likes given: ${get("likesGiven")}`;
-      document.getElementById("scroll-counter").textContent = `Scrolls done: ${get("scrollCount")}`;
-      document.getElementById("reel-counter").textContent = `Reels viewed: ${get("reelsViewed")}`;
-      document.getElementById("story-counter").textContent = `Stories viewed: ${get("storiesViewed")}`;
-      document.getElementById("comment-counter").textContent = `Comments given: ${get("commentsGiven")}`;
-      document.getElementById("repost-counter").textContent = `Reposts done: ${get("repostsDone")}`;
-      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${get("postsBookmarked")}`;
-      document.getElementById("profile-counter").textContent = `Profiles visited: ${get("profilesVisited")}`;
-      document.getElementById("post-counter").textContent = `Posts posted: ${get("postsPosted")}`;
     }
 
     renderAccounts();
     renderLeaderboard();
-    updateLiveCounters();
   </script>
 </body>
 </html>
