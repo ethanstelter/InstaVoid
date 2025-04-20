@@ -10,26 +10,32 @@
       background-color: #0f0f0f;
       font-family: Arial, sans-serif;
       color: #fff;
-      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
+      overflow: hidden;
       position: relative;
+    }
+
+    .story-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
     }
 
     .story-box {
       width: 320px;
-      height: 600px;
+      height: 100vh;
       background-color: #1c1c1c;
-      border-radius: 16px;
+      border-radius: 12px;
       box-shadow: 0 0 20px #000;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 2rem;
       position: relative;
     }
 
@@ -56,47 +62,61 @@
     }
 
     .message {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       font-weight: bold;
       color: #eee;
       max-width: 80%;
     }
 
-    .back-button, .next-button {
+    .arrow-button {
+      font-size: 2rem;
+      background-color: #1a1a1a;
+      color: #aaa;
+      border: 1px solid #444;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      user-select: none;
+    }
+
+    .back-to-feed {
       position: absolute;
       top: 10px;
+      left: 10px;
       font-size: 0.9rem;
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 1rem;
       border-radius: 6px;
       background-color: #1a1a1a;
       border: 1px solid #444;
       color: #aaa;
-      cursor: pointer;
-      z-index: 10;
       text-decoration: none;
-    }
-
-    .back-button {
-      left: 10px;
-    }
-
-    .next-button {
-      right: 10px;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
-  <a class="back-button" href="index.html">← Back</a>
-  <div class="next-button" onclick="nextStory()">›</div>
+  <a class="back-to-feed" href="index.html">← Back</a>
 
-  <div class="story-box" id="storyBox">
-    <!-- JS will populate this -->
+  <div class="story-wrapper">
+    <div class="arrow-button" onclick="prevStory()">‹</div>
+
+    <div class="story-box" id="storyBox">
+      <!-- Story content gets injected here -->
+    </div>
+
+    <div class="arrow-button" onclick="nextStory()">›</div>
   </div>
 
   <script>
     const usernames = [
       "void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"
     ];
+
     const messages = [
       "This story is entirely meaningless.",
       "Nothing to see here.",
@@ -124,6 +144,11 @@
 
     function nextStory() {
       currentIndex = (currentIndex + 1) % usernames.length;
+      renderStory(currentIndex);
+    }
+
+    function prevStory() {
+      currentIndex = (currentIndex - 1 + usernames.length) % usernames.length;
       renderStory(currentIndex);
     }
 
