@@ -40,7 +40,6 @@
       align-items: center;
       padding: 1rem;
       position: relative;
-      transition: transform 0.3s ease;
     }
     .caption-center {
       position: absolute;
@@ -60,7 +59,6 @@
       left: 10px;
       display: flex;
       align-items: center;
-      transition: transform 0.3s ease;
     }
     .user-info img {
       width: 40px;
@@ -81,7 +79,6 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
-      transition: transform 0.3s ease;
     }
     .actions button {
       background: none;
@@ -201,6 +198,7 @@
     ];
 
     const container = document.getElementById("reelContainer");
+
     let reelCount = parseInt(localStorage.getItem("reelsViewed")) || 0;
     let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
     let likes = parseInt(localStorage.getItem("likesGiven")) || 0;
@@ -209,26 +207,26 @@
     let bookmarks = parseInt(localStorage.getItem("postsBookmarked")) || 0;
 
     function updateCounters() {
-      document.getElementById("reel-counter").textContent = `Reels viewed: ${reelCount}`;
-      document.getElementById("scroll-counter").textContent = `Scrolls done: ${scrollCount}`;
-      document.getElementById("like-counter").textContent = `Likes given: ${likes}`;
-      document.getElementById("comment-counter").textContent = `Comments given: ${comments}`;
-      document.getElementById("repost-counter").textContent = `Reposts done: ${reposts}`;
-      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${bookmarks}`;
+      document.getElementById("reel-counter").textContent = \`Reels viewed: \${reelCount}\`;
+      document.getElementById("scroll-counter").textContent = \`Scrolls done: \${scrollCount}\`;
+      document.getElementById("like-counter").textContent = \`Likes given: \${likes}\`;
+      document.getElementById("comment-counter").textContent = \`Comments given: \${comments}\`;
+      document.getElementById("repost-counter").textContent = \`Reposts done: \${reposts}\`;
+      document.getElementById("bookmark-counter").textContent = \`Bookmarks: \${bookmarks}\`;
     }
 
     function createReel(username, caption) {
-      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+      const avatar = \`https://api.dicebear.com/7.x/personas/svg?seed=\${username}\`;
       const reel = document.createElement("div");
       reel.className = "reel";
 
       const inner = document.createElement("div");
       inner.className = "reel-inner";
-      inner.innerHTML = `
-        <div class="caption-center">${caption}</div>
+      inner.innerHTML = \`
+        <div class="caption-center">\${caption}</div>
         <div class="user-info">
-          <img src="${avatar}" alt="avatar">
-          <div class="username">@${username}</div>
+          <img src="\${avatar}" alt="avatar">
+          <div class="username">@\${username}</div>
         </div>
         <div class="actions">
           <button onclick="handleLike(this)">❤️</button>
@@ -239,7 +237,7 @@
         <div class="comment-box">
           <input type="text" placeholder="Say something...">
           <button onclick="submitFakeComment(this)">➤</button>
-        </div>`;
+        </div>\`;
 
       reel.appendChild(inner);
       container.appendChild(reel);
@@ -303,38 +301,29 @@
           input.value = "";
           input.style.opacity = 1;
           input.closest(".comment-box").style.display = "none";
-          const inner = input.closest(".reel-inner");
-          inner.querySelector(".user-info").style.transform = "translateY(0)";
-          inner.querySelector(".actions").style.transform = "translateY(0)";
         }, 600);
       }
     }
 
-    function loadMoreReels(count = 5) {
-      for (let i = 0; i < count; i++) {
-        const user = usernames[Math.floor(Math.random() * usernames.length)];
-        const cap = captions[Math.floor(Math.random() * captions.length)];
-        createReel(user, cap);
-      }
+    function loopReels() {
+      const user = usernames[Math.floor(Math.random() * usernames.length)];
+      const cap = captions[Math.floor(Math.random() * captions.length)];
+      createReel(user, cap);
     }
 
-    let lastScrollY = window.scrollY;
-    window.addEventListener("scroll", () => {
-      const currentScroll = window.scrollY;
-      if (Math.abs(currentScroll - lastScrollY) > 50) {
-        scrollCount++;
-        localStorage.setItem("scrollCount", scrollCount);
-        updateCounters();
-        lastScrollY = currentScroll;
-      }
+    for (let i = 0; i < 12; i++) loopReels();
 
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-        loadMoreReels();
+    window.addEventListener("scroll", () => {
+      scrollCount++;
+      localStorage.setItem("scrollCount", scrollCount);
+      updateCounters();
+
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 5) {
+        loopReels();
       }
     });
 
     updateCounters();
-    loadMoreReels(12);
   </script>
 </body>
 </html>
