@@ -3,79 +3,94 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search the Void</title>
+  <title>Void Search</title>
   <style>
     body {
+      margin: 0;
+      font-family: Arial, sans-serif;
       background-color: #0f0f0f;
       color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+
     header {
       text-align: center;
       padding: 1rem;
       background-color: #1a1a1a;
       border-bottom: 1px solid #333;
-      font-size: 1.2rem;
-      font-weight: bold;
+      width: 100%;
     }
-    .section {
+
+    .content {
+      max-width: 480px;
+      width: 100%;
       padding: 1rem;
+      box-sizing: border-box;
     }
-    .section h2 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
+
+    .section-title {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      text-align: center;
     }
-    .accounts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    .account {
+
+    .profile-card {
       background-color: #1c1c1c;
       border: 1px solid #333;
       padding: 1rem;
-      border-radius: 6px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
-    .account img {
-      width: 40px;
-      height: 40px;
+
+    .profile-card img {
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
-      vertical-align: middle;
-      margin-right: 10px;
     }
-    .account strong {
-      font-size: 1rem;
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-info .username {
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .profile-info .bio {
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .leaderboard {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-block {
+      background-color: #1c1c1c;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #333;
+      text-align: center;
+    }
+
+    .stat-block strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
       color: #fff;
     }
-    .account p {
-      font-size: 0.85rem;
-      color: #aaa;
-      margin-top: 0.4rem;
-    }
-    .leaderboard-entry {
-      background-color: #1c1c1c;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 6px;
-      border: 1px solid #333;
-    }
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: #1a1a1a;
-      border-top: 1px solid #333;
-      display: flex;
-      justify-content: space-around;
-      padding: 0.5rem 0;
-    }
-    .bottom-nav a {
-      color: #888;
-      text-decoration: none;
-      font-size: 1.3rem;
-    }
+
     .live-counter {
       position: fixed;
       font-size: 0.9rem;
@@ -87,41 +102,54 @@
       z-index: 999;
       right: 10px;
     }
-    #waste-counter { bottom: 50px; }
-    #like-counter { bottom: 80px; }
-    #scroll-counter { bottom: 110px; }
-    #reel-counter { bottom: 140px; }
-    #story-counter { bottom: 170px; }
-    #comment-counter { bottom: 200px; }
-    #repost-counter { bottom: 230px; }
-    #bookmark-counter { bottom: 260px; }
-    #profile-counter { bottom: 290px; }
-    #post-counter { bottom: 320px; }
+    #reel-counter { bottom: 50px; }
+    #scroll-counter { bottom: 80px; }
+    #like-counter { bottom: 110px; }
+    #comment-counter { bottom: 140px; }
+    #repost-counter { bottom: 170px; }
+    #bookmark-counter { bottom: 200px; }
+    #story-counter { bottom: 230px; }
+    #profile-counter { bottom: 260px; }
+    #post-counter { bottom: 290px; }
+    #waste-counter { bottom: 320px; }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+    }
+
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
   </style>
 </head>
 <body>
-  <header>Explore the Void</header>
-
-  <div class="section">
-    <h2>Accounts</h2>
-    <div class="accounts" id="accountList"></div>
+  <header><h1>Search</h1></header>
+  <div class="content">
+    <div class="section-title">Fake Accounts</div>
+    <div id="profiles"></div>
+    <div class="section-title">Leaderboard</div>
+    <div class="leaderboard" id="leaderboard"></div>
   </div>
 
-  <div class="section">
-    <h2>Leaderboard</h2>
-    <div id="leaderboard"></div>
-  </div>
-
-  <div id="waste-counter" class="live-counter"></div>
-  <div id="like-counter" class="live-counter"></div>
-  <div id="scroll-counter" class="live-counter"></div>
   <div id="reel-counter" class="live-counter"></div>
-  <div id="story-counter" class="live-counter"></div>
+  <div id="scroll-counter" class="live-counter"></div>
+  <div id="like-counter" class="live-counter"></div>
   <div id="comment-counter" class="live-counter"></div>
   <div id="repost-counter" class="live-counter"></div>
   <div id="bookmark-counter" class="live-counter"></div>
+  <div id="story-counter" class="live-counter"></div>
   <div id="profile-counter" class="live-counter"></div>
   <div id="post-counter" class="live-counter"></div>
+  <div id="waste-counter" class="live-counter"></div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -132,79 +160,69 @@
   </div>
 
   <script>
-    const bios = [
-      "Screaming into the void.",
-      "100% algorithmically forgotten.",
-      "Certified lurker.",
-      "Ghost of engagement past.",
-      "Just here to scroll.",
-      "Born to like, forced to scroll.",
-      "Reposting regret since '24."
-    ];
-
     const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
+    const bios = [
+      "Lost in the algorithm.",
+      "Loading... forever.",
+      "Definitely not real.",
+      "This one's a bot, probably.",
+      "Feeds on your feed.",
+      "Content? Never heard of it."
+    ];
+    const profiles = document.getElementById("profiles");
 
-    const accountList = document.getElementById("accountList");
-    usernames.forEach(name => {
-      const account = document.createElement("div");
-      account.className = "account";
-      account.innerHTML = `
-        <strong><img src="https://api.dicebear.com/7.x/personas/svg?seed=${name}" alt="pfp"> @${name}</strong>
-        <p>${bios[Math.floor(Math.random() * bios.length)]}</p>
-      `;
-      accountList.appendChild(account);
-    });
-
-    const leaderboard = document.getElementById("leaderboard");
-    usernames.forEach(name => {
-      leaderboard.innerHTML += `
-        <div class="leaderboard-entry">
-          <strong>@${name}</strong><br>
-          Minutes wasted: ${Math.floor(Math.random() * 100)}<br>
-          Likes given: ${Math.floor(Math.random() * 500)}<br>
-          Scrolls done: ${Math.floor(Math.random() * 1000)}<br>
-          Reels viewed: ${Math.floor(Math.random() * 300)}<br>
-          Stories viewed: ${Math.floor(Math.random() * 150)}<br>
-          Comments given: ${Math.floor(Math.random() * 100)}<br>
-          Reposts done: ${Math.floor(Math.random() * 100)}<br>
-          Bookmarks: ${Math.floor(Math.random() * 80)}<br>
-          Profiles visited: ${Math.floor(Math.random() * 60)}<br>
-          Posts posted: ${Math.floor(Math.random() * 40)}
+    usernames.forEach((user, i) => {
+      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${user}`;
+      const bio = bios[i % bios.length];
+      const div = document.createElement("div");
+      div.className = "profile-card";
+      div.innerHTML = `
+        <img src="${avatar}" alt="avatar">
+        <div class="profile-info">
+          <div class="username">@${user}</div>
+          <div class="bio">${bio}</div>
         </div>
       `;
+      profiles.appendChild(div);
     });
 
-    let secondsWasted = parseInt(localStorage.getItem("secondsWasted")) || 0;
-    let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
-    let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
-    let reelsViewed = parseInt(localStorage.getItem("reelsViewed")) || 0;
-    let storiesViewed = parseInt(localStorage.getItem("storiesViewed")) || 0;
-    let commentsGiven = parseInt(localStorage.getItem("commentsGiven")) || 0;
-    let repostsDone = parseInt(localStorage.getItem("repostsDone")) || 0;
-    let postsBookmarked = parseInt(localStorage.getItem("postsBookmarked")) || 0;
-    let profilesVisited = parseInt(localStorage.getItem("profilesVisited")) || 0;
-    let postsPosted = parseInt(localStorage.getItem("postsPosted")) || 0;
+    const leaderboardStats = [
+      { id: 'reel-counter', label: 'Reels viewed' },
+      { id: 'scroll-counter', label: 'Scrolls done' },
+      { id: 'like-counter', label: 'Likes given' },
+      { id: 'comment-counter', label: 'Comments given' },
+      { id: 'repost-counter', label: 'Reposts done' },
+      { id: 'bookmark-counter', label: 'Bookmarks' },
+      { id: 'story-counter', label: 'Stories viewed' },
+      { id: 'profile-counter', label: 'Profiles visited' },
+      { id: 'post-counter', label: 'Posts posted' },
+      { id: 'waste-counter', label: 'Minutes wasted' },
+    ];
 
-    function updateLiveCounters() {
-      document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor(secondsWasted / 60)}`;
-      document.getElementById("like-counter").textContent = `Likes given: ${likesGiven}`;
-      document.getElementById("scroll-counter").textContent = `Scrolls done: ${scrollCount}`;
-      document.getElementById("reel-counter").textContent = `Reels viewed: ${reelsViewed}`;
-      document.getElementById("story-counter").textContent = `Stories viewed: ${storiesViewed}`;
-      document.getElementById("comment-counter").textContent = `Comments given: ${commentsGiven}`;
-      document.getElementById("repost-counter").textContent = `Reposts done: ${repostsDone}`;
-      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${postsBookmarked}`;
-      document.getElementById("profile-counter").textContent = `Profiles visited: ${profilesVisited}`;
-      document.getElementById("post-counter").textContent = `Posts posted: ${postsPosted}`;
+    const leaderboard = document.getElementById("leaderboard");
+
+    function updateStatUI() {
+      leaderboard.innerHTML = "";
+      leaderboardStats.forEach(stat => {
+        const value = localStorage.getItem(stat.id.replace('-counter', '')) || 0;
+        const div = document.createElement("div");
+        div.className = "stat-block";
+        div.innerHTML = `<strong>${value}</strong>${stat.label}`;
+        leaderboard.appendChild(div);
+      });
     }
 
-    setInterval(() => {
-      secondsWasted++;
-      localStorage.setItem("secondsWasted", secondsWasted);
-      updateLiveCounters();
-    }, 1000);
+    function updateLiveCounters() {
+      leaderboardStats.forEach(stat => {
+        const el = document.getElementById(stat.id);
+        const value = localStorage.getItem(stat.id.replace('-counter', '')) || 0;
+        el.textContent = `${stat.label}: ${value}`;
+      });
+    }
 
+    updateStatUI();
     updateLiveCounters();
+    setInterval(updateLiveCounters, 1000);
   </script>
 </body>
 </html>
