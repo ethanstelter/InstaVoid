@@ -59,6 +59,7 @@
       left: 10px;
       display: flex;
       align-items: center;
+      transition: transform 0.3s ease;
     }
     .user-info img {
       width: 40px;
@@ -79,12 +80,40 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
+      transition: transform 0.3s ease;
     }
     .actions button {
       background: none;
       border: none;
       color: #ccc;
       font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .comment-box {
+      position: absolute;
+      bottom: 58px;
+      left: 10px;
+      right: 10px;
+      display: none;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+    }
+    .comment-box input {
+      flex: 1;
+      padding: 0.5rem;
+      background-color: #111;
+      border: 1px solid #444;
+      border-radius: 4px;
+      color: #ccc;
+    }
+    .comment-box button {
+      padding: 0.5rem 0.8rem;
+      background-color: #222;
+      border: 1px solid #444;
+      border-radius: 4px;
+      color: #ccc;
       cursor: pointer;
     }
     .popup {
@@ -158,6 +187,7 @@
     <a href="reels.html">🎞️</a>
     <a href="profile.html">👤</a>
   </div>
+
   <script>
     const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
     const captions = [
@@ -268,6 +298,9 @@
           input.value = "";
           input.style.opacity = 1;
           input.closest(".comment-box").style.display = "none";
+          const inner = input.closest(".reel-inner");
+          inner.querySelector(".user-info").style.transform = "translateY(0)";
+          inner.querySelector(".actions").style.transform = "translateY(0)";
         }, 600);
       }
     }
