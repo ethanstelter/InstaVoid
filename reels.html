@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Void Reels</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     html, body {
       margin: 0;
       padding: 0;
@@ -18,10 +16,7 @@
       scroll-snap-type: y mandatory;
       overflow-y: scroll;
     }
-    #reelContainer {
-      height: 100%;
-      width: 100%;
-    }
+    #reelContainer { height: 100%; width: 100%; }
     .reel {
       scroll-snap-align: start;
       height: 100vh;
@@ -138,6 +133,22 @@
       20% { opacity: 1; }
       100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
     }
+    .live-counter {
+      position: fixed;
+      font-size: 0.9rem;
+      color: #666;
+      background-color: #1a1a1a;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      z-index: 999;
+    }
+    #reels-viewed-counter { bottom: 50px; right: 10px; }
+    #like-counter { bottom: 80px; right: 10px; }
+    #comment-counter { bottom: 110px; right: 10px; }
+    #repost-counter { bottom: 140px; right: 10px; }
+    #bookmark-counter { bottom: 170px; right: 10px; }
+    #scroll-counter { bottom: 200px; right: 10px; }
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -154,28 +165,11 @@
       text-decoration: none;
       font-size: 1.3rem;
     }
-    .live-counter {
-      position: fixed;
-      right: 10px;
-      font-size: 0.85rem;
-      color: #666;
-      background-color: #1a1a1a;
-      padding: 4px 8px;
-      border-radius: 6px;
-      border: 1px solid #333;
-      z-index: 999;
-    }
-    #reels-counter { bottom: 50px; }
-    #like-counter { bottom: 80px; }
-    #comment-counter { bottom: 110px; }
-    #repost-counter { bottom: 140px; }
-    #bookmark-counter { bottom: 170px; }
-    #scroll-counter { bottom: 200px; }
   </style>
 </head>
 <body>
   <div id="reelContainer"></div>
-  <div id="reels-counter" class="live-counter"></div>
+  <div id="reels-viewed-counter" class="live-counter"></div>
   <div id="like-counter" class="live-counter"></div>
   <div id="comment-counter" class="live-counter"></div>
   <div id="repost-counter" class="live-counter"></div>
@@ -198,29 +192,33 @@
       "Still scrolling?",
       "Now in 4K: pure void."
     ];
+
     const container = document.getElementById("reelContainer");
-    let reelsViewed = parseInt(localStorage.getItem("reelsViewed")) || 0;
+
     let likesGiven = parseInt(localStorage.getItem("likesGiven")) || 0;
+    let reelsViewed = parseInt(localStorage.getItem("reelsViewed")) || 0;
     let commentsGiven = parseInt(localStorage.getItem("commentsGiven")) || 0;
     let repostsDone = parseInt(localStorage.getItem("repostsDone")) || 0;
     let bookmarksDone = parseInt(localStorage.getItem("bookmarksDone")) || 0;
-    let scrollsDone = parseInt(localStorage.getItem("scrollCount")) || 0;
+    let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
 
-    const updateStats = () => {
-      document.getElementById("reels-counter").textContent = `Reels viewed: ${reelsViewed}`;
+    function updateLiveCounters() {
+      document.getElementById("reels-viewed-counter").textContent = `Reels viewed: ${reelsViewed}`;
       document.getElementById("like-counter").textContent = `Likes given: ${likesGiven}`;
-      document.getElementById("comment-counter").textContent = `Comments given: ${commentsGiven}`;
-      document.getElementById("repost-counter").textContent = `Reposts done: ${repostsDone}`;
-      document.getElementById("bookmark-counter").textContent = `Posts bookmarked: ${bookmarksDone}`;
-      document.getElementById("scroll-counter").textContent = `Scrolls done: ${scrollsDone}`;
-    };
+      document.getElementById("comment-counter").textContent = `Comments: ${commentsGiven}`;
+      document.getElementById("repost-counter").textContent = `Reposts: ${repostsDone}`;
+      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${bookmarksDone}`;
+      document.getElementById("scroll-counter").textContent = `Scrolls done: ${scrollCount}`;
+    }
 
     function createReel(username, caption) {
       const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
       const reel = document.createElement("div");
       reel.className = "reel";
+
       const inner = document.createElement("div");
       inner.className = "reel-inner";
+
       inner.innerHTML = `
         <div class="caption-center">${caption}</div>
         <div class="user-info">
@@ -238,29 +236,38 @@
           <button onclick="submitFakeComment(this)">➤</button>
         </div>
       `;
+
       reel.appendChild(inner);
       container.appendChild(reel);
+    }
+
+    function handlePopup(el, text) {
+      const popup = document.createElement("div");
+      popup.className = "popup";
+      popup.textContent = text;
+      el.closest(".reel-inner").appendChild(popup);
+      setTimeout(() => popup.remove(), 2500);
     }
 
     function handleLike(btn) {
       likesGiven++;
       localStorage.setItem("likesGiven", likesGiven);
-      updateStats();
-      showPopup(btn, "This like did nothing.");
+      updateLiveCounters();
+      handlePopup(btn, "This like did nothing.");
     }
 
     function handleRepost(btn) {
       repostsDone++;
       localStorage.setItem("repostsDone", repostsDone);
-      updateStats();
-      showPopup(btn, "Echoed into the abyss.");
+      updateLiveCounters();
+      handlePopup(btn, "Echoed into the abyss.");
     }
 
     function handleBookmark(btn) {
       bookmarksDone++;
       localStorage.setItem("bookmarksDone", bookmarksDone);
-      updateStats();
-      showPopup(btn, "📌 Marked meaningless.");
+      updateLiveCounters();
+      handlePopup(btn, "📌 Marked meaningless.");
     }
 
     function toggleCommentBox(btn) {
@@ -279,7 +286,7 @@
       if (input.value.trim() !== "") {
         commentsGiven++;
         localStorage.setItem("commentsGiven", commentsGiven);
-        updateStats();
+        updateLiveCounters();
         input.style.transition = "opacity 0.5s ease";
         input.style.opacity = 0;
         setTimeout(() => {
@@ -293,29 +300,39 @@
       }
     }
 
-    function showPopup(el, text) {
-      const popup = document.createElement("div");
-      popup.className = "popup";
-      popup.textContent = text;
-      el.closest(".reel-inner").appendChild(popup);
-      setTimeout(() => popup.remove(), 2500);
-    }
+    let lastScrollTop = 0;
+    let previousReelIndex = -1;
+    window.addEventListener("scroll", () => {
+      scrollCount++;
+      localStorage.setItem("scrollCount", scrollCount);
 
-    for (let i = 0; i < 12; i++) {
+      const reelElements = document.querySelectorAll(".reel");
+      const currentScroll = window.scrollY;
+      let currentIndex = Math.round(currentScroll / window.innerHeight);
+      if (currentIndex !== previousReelIndex) {
+        reelsViewed++;
+        localStorage.setItem("reelsViewed", reelsViewed);
+        previousReelIndex = currentIndex;
+      }
+      updateLiveCounters();
+
+      // Infinite scroll: load 3 more reels when near bottom
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        for (let i = 0; i < 3; i++) {
+          const user = usernames[Math.floor(Math.random() * usernames.length)];
+          const cap = captions[Math.floor(Math.random() * captions.length)];
+          createReel(user, cap);
+        }
+      }
+    });
+
+    for (let i = 0; i < 10; i++) {
       const user = usernames[i % usernames.length];
       const cap = captions[i % captions.length];
       createReel(user, cap);
     }
 
-    document.addEventListener("scroll", () => {
-      scrollsDone++;
-      reelsViewed++;
-      localStorage.setItem("scrollCount", scrollsDone);
-      localStorage.setItem("reelsViewed", reelsViewed);
-      updateStats();
-    });
-
-    updateStats();
+    updateLiveCounters();
   </script>
 </body>
 </html>
