@@ -45,10 +45,13 @@
     .stats {
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .stat {
       text-align: center;
+      flex: 1 0 120px;
+      margin-bottom: 0.8rem;
     }
 
     .stat strong {
@@ -60,31 +63,6 @@
     .bio {
       padding: 0 1.5rem 1rem;
       color: #aaa;
-    }
-
-    .post-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background-color: #333;
-    }
-
-    .post-grid div {
-      background-color: #1c1c1c;
-      aspect-ratio: 1 / 1;
-      color: #ccc;
-      font-size: 0.8rem;
-      padding: 0.5rem;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    .locked {
-      background-color: #111;
-      color: #444;
     }
 
     .bottom-nav {
@@ -114,23 +92,49 @@
     <img src="https://api.dicebear.com/7.x/personas/svg?seed=you" alt="avatar">
     <div class="stats">
       <div class="stat">
-        <strong id="postCount">0</strong>
+        <strong id="posts">0</strong>
         posts
       </div>
       <div class="stat">
-        <strong>0</strong>
-        followers
+        <strong id="likes">0</strong>
+        likes
       </div>
       <div class="stat">
-        <strong>0</strong>
-        following
+        <strong id="minutes">0</strong>
+        minutes wasted
+      </div>
+      <div class="stat">
+        <strong id="scrolls">0</strong>
+        scrolls
+      </div>
+      <div class="stat">
+        <strong id="comments">0</strong>
+        comments given
+      </div>
+      <div class="stat">
+        <strong id="reposts">0</strong>
+        reposts done
+      </div>
+      <div class="stat">
+        <strong id="bookmarks">0</strong>
+        bookmarks
+      </div>
+      <div class="stat">
+        <strong id="reels">0</strong>
+        reels viewed
+      </div>
+      <div class="stat">
+        <strong id="stories">0</strong>
+        stories viewed
+      </div>
+      <div class="stat">
+        <strong id="profiles">0</strong>
+        profiles visited
       </div>
     </div>
   </div>
 
   <div class="bio">Just wasting time on purpose.</div>
-
-  <div class="post-grid" id="achievementGrid"></div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -141,30 +145,38 @@
   </div>
 
   <script>
-    const achievementsList = [
-      { key: "doomscroll", name: "Doomscrolled", desc: "Wasted over 1 minute." },
-      { key: "liker", name: "You Liked That", desc: "Gave 10 meaningless likes." },
-      { key: "voidpro", name: "Void Professional", desc: "Spent 5 minutes in the void." },
-      { key: "scroller", name: "Scroller Supreme", desc: "Scrolled 100 times." }
+    const stats = [
+      'postsPosted',
+      'likesGiven',
+      'secondsWasted',
+      'scrollCount',
+      'commentsGiven',
+      'repostsDone',
+      'postsBookmarked',
+      'reelsViewed',
+      'storiesViewed',
+      'profilesVisited'
     ];
 
-    const unlocked = JSON.parse(localStorage.getItem("achievements")) || [];
-    const grid = document.getElementById("achievementGrid");
-    const postCount = document.getElementById("postCount");
+    const map = {
+      postsPosted: 'posts',
+      likesGiven: 'likes',
+      secondsWasted: 'minutes',
+      scrollCount: 'scrolls',
+      commentsGiven: 'comments',
+      repostsDone: 'reposts',
+      postsBookmarked: 'bookmarks',
+      reelsViewed: 'reels',
+      storiesViewed: 'stories',
+      profilesVisited: 'profiles'
+    };
 
-    let visibleCount = 0;
-
-    // Show unlocked achievements first
-    achievementsList.forEach(ach => {
-      const div = document.createElement("div");
-      const isUnlocked = unlocked.includes(ach.key);
-      if (isUnlocked) visibleCount++;
-      div.className = isUnlocked ? "" : "locked";
-      div.innerHTML = `<strong>${ach.name}</strong><br>${ach.desc}`;
-      grid.appendChild(div);
+    stats.forEach(stat => {
+      let val = parseInt(localStorage.getItem(stat)) || 0;
+      if (stat === 'secondsWasted') val = Math.floor(val / 60);
+      const el = document.getElementById(map[stat]);
+      if (el) el.textContent = val;
     });
-
-    postCount.textContent = visibleCount;
   </script>
 </body>
 </html>
