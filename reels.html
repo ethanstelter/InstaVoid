@@ -318,11 +318,17 @@
       }
     }
 
+    let lastScrollY = window.scrollY;
     window.addEventListener("scroll", () => {
-      scrollCount++;
-      localStorage.setItem("scrollCount", scrollCount);
-      updateCounters();
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+      const currentScroll = window.scrollY;
+      if (Math.abs(currentScroll - lastScrollY) > 50) {
+        scrollCount++;
+        localStorage.setItem("scrollCount", scrollCount);
+        updateCounters();
+        lastScrollY = currentScroll;
+      }
+
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
         loadMoreReels();
       }
     });
