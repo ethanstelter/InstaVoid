@@ -16,80 +16,68 @@
     }
 
     .container {
-      width: 90%;
       max-width: 540px;
-    }
-
-    header {
-      text-align: center;
+      width: 100%;
       padding: 1rem;
-      font-size: 1.5rem;
-      background-color: #1a1a1a;
-      border-bottom: 1px solid #333;
     }
 
     h2 {
-      margin-top: 2rem;
+      margin-top: 1rem;
       font-size: 1.2rem;
-      color: #f0f0f0;
+      border-bottom: 1px solid #333;
+      padding-bottom: 0.5rem;
     }
 
-    .account, .leaderboard-entry {
+    .account, .leaderboard-item {
       background-color: #1c1c1c;
       border: 1px solid #333;
-      margin: 0.5rem 0;
-      padding: 1rem;
-      border-radius: 6px;
-    }
-
-    .account.highlight, .leaderboard-entry.highlight {
-      box-shadow: 0 0 10px #4af;
-      border-color: #4af;
-    }
-
-    .account a, .leader-info a {
-      color: #66ccff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .leader-info {
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
     }
 
-    .leader-info img {
-      width: 32px;
-      height: 32px;
+    .highlight {
+      box-shadow: 0 0 10px 2px #f44;
+    }
+
+    .account img, .leaderboard-item img {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      border: 2px solid #f44;
+      background-color: #444;
     }
 
-    .rank-number {
+    .account-info, .leaderboard-info {
+      flex: 1;
+    }
+
+    .account-info .name, .leaderboard-info .name {
       font-weight: bold;
-      margin-right: 5px;
+      color: #ccc;
     }
 
-    .stats-grid {
+    .account-info .desc {
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+
+    .stat-columns {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 4px 10px;
-      margin-top: 6px;
-      font-size: 0.85rem;
-      color: #aaa;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      color: #888;
     }
 
-    .load-more {
-      background-color: #222;
-      color: #ccc;
-      border: 1px solid #444;
-      border-radius: 4px;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      text-align: center;
-      margin: 1rem auto;
-      display: block;
+    .medal {
+      font-size: 1.3rem;
+      margin-right: 0.3rem;
     }
 
     .bottom-nav {
@@ -109,23 +97,99 @@
       font-size: 1.3rem;
     }
 
-    .spacer {
-      height: 60px;
+    .live-counter {
+      position: fixed;
+      font-size: 0.9rem;
+      color: #666;
+      background-color: #1a1a1a;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      z-index: 999;
+      right: 10px;
     }
+    #scroll-counter { bottom: 50px; }
+    #like-counter { bottom: 80px; }
+    #comment-counter { bottom: 110px; }
+    #repost-counter { bottom: 140px; }
+    #bookmark-counter { bottom: 170px; }
+    #reel-counter { bottom: 200px; }
+    #story-counter { bottom: 230px; }
+    #profile-counter { bottom: 260px; }
+    #post-counter { bottom: 290px; }
+    #time-counter { bottom: 320px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <header>Search</header>
-
     <h2>Accounts</h2>
-    <div id="accountList"></div>
-    <div class="load-more" onclick="loadMoreAccounts()">Load More</div>
+    <a href="profile.html" class="account highlight">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=you" alt="@you">
+      <div class="account-info">
+        <div class="name">@you</div>
+        <div class="desc">Just wasting time on purpose.</div>
+      </div>
+    </a>
+    <a href="user.html?user=scrollqueen" class="account">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=scrollqueen">
+      <div class="account-info">
+        <div class="name">@scrollqueen</div>
+        <div class="desc">Still scrolling... queen style.</div>
+      </div>
+    </a>
+    <a href="user.html?user=doomqueen" class="account">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=doomqueen">
+      <div class="account-info">
+        <div class="name">@doomqueen</div>
+        <div class="desc">Likes the darkness.</div>
+      </div>
+    </a>
+    <a href="user.html?user=taplord" class="account">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=taplord">
+      <div class="account-info">
+        <div class="name">@taplord</div>
+        <div class="desc">Taps everything. All the time.</div>
+      </div>
+    </a>
+    <a href="user.html?user=tapbot" class="account">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=tapbot">
+      <div class="account-info">
+        <div class="name">@tapbot</div>
+        <div class="desc">Probably not human.</div>
+      </div>
+    </a>
+    <a href="user.html?user=glitchlord" class="account">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=glitchlord">
+      <div class="account-info">
+        <div class="name">@glitchlord</div>
+        <div class="desc">Exists between frames.</div>
+      </div>
+    </a>
 
     <h2>Leaderboard</h2>
-    <div id="leaderboard"></div>
-    <div class="spacer"></div>
+    <div class="leaderboard-item highlight">
+      <img src="https://api.dicebear.com/7.x/personas/svg?seed=you">
+      <div class="leaderboard-info">
+        <div class="name"><span class="medal">🥇</span>@you</div>
+        <div class="stat-columns">
+          <div>Reels: 123</div><div>Stories: 43</div><div>Likes: 87</div>
+          <div>Comments: 14</div><div>Reposts: 6</div><div>Bookmarks: 10</div>
+          <div>Scrolls: 322</div><div>Profiles: 15</div><div>Posts: 8</div><div>Time: 119m</div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div id="scroll-counter" class="live-counter"></div>
+  <div id="like-counter" class="live-counter"></div>
+  <div id="comment-counter" class="live-counter"></div>
+  <div id="repost-counter" class="live-counter"></div>
+  <div id="bookmark-counter" class="live-counter"></div>
+  <div id="reel-counter" class="live-counter"></div>
+  <div id="story-counter" class="live-counter"></div>
+  <div id="profile-counter" class="live-counter"></div>
+  <div id="post-counter" class="live-counter"></div>
+  <div id="time-counter" class="live-counter"></div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -136,113 +200,21 @@
   </div>
 
   <script>
-    const realUser = "you";
-    const messages = [
-      "This account is void.",
-      "Just vibes and nothing else.",
-      "Endlessly scrolling.",
-      "Trapped in the algorithm.",
-      "Zero posts, zero regrets.",
-      "Posting into the void.",
-      "Who even is this?",
-      "Online... forever."
-    ];
-
-    const users = Array.from({ length: 20 }, (_, i) => {
-      const username = `user${i + 1}`;
-      return {
-        username,
-        avatar: `https://api.dicebear.com/7.x/personas/svg?seed=${username}`,
-        message: messages[Math.floor(Math.random() * messages.length)],
-        reelsViewed: Math.floor(Math.random() * 300),
-        storiesViewed: Math.floor(Math.random() * 200),
-        commentsGiven: Math.floor(Math.random() * 150),
-        repostsDone: Math.floor(Math.random() * 100),
-        postsBookmarked: Math.floor(Math.random() * 120),
-        scrollsDone: Math.floor(Math.random() * 1000),
-        profilesVisited: Math.floor(Math.random() * 50),
-        postsPosted: Math.floor(Math.random() * 20),
-        likesGiven: Math.floor(Math.random() * 500),
-        minutesWasted: Math.floor(Math.random() * 999)
-      };
-    });
-
-    users.splice(5, 0, {
-      username: realUser,
-      avatar: `https://api.dicebear.com/7.x/personas/svg?seed=you`,
-      message: "Creator of the void.",
-      reelsViewed: parseInt(localStorage.getItem("reelsViewed")) || 0,
-      storiesViewed: parseInt(localStorage.getItem("storiesViewed")) || 0,
-      commentsGiven: parseInt(localStorage.getItem("commentsGiven")) || 0,
-      repostsDone: parseInt(localStorage.getItem("repostsDone")) || 0,
-      postsBookmarked: parseInt(localStorage.getItem("postsBookmarked")) || 0,
-      scrollsDone: parseInt(localStorage.getItem("scrollCount")) || 0,
-      profilesVisited: parseInt(localStorage.getItem("profilesVisited")) || 0,
-      postsPosted: parseInt(localStorage.getItem("postsPosted")) || 0,
-      likesGiven: parseInt(localStorage.getItem("likesGiven")) || 0,
-      minutesWasted: parseInt(localStorage.getItem("secondsWasted")) ? Math.floor(parseInt(localStorage.getItem("secondsWasted")) / 60) : 0
-    });
-
-    const accountList = document.getElementById("accountList");
-    let visibleAccounts = 0;
-
-    function loadMoreAccounts() {
-      const slice = users.slice(visibleAccounts, visibleAccounts + 6);
-      slice.forEach(user => {
-        const div = document.createElement("div");
-        div.className = `account ${user.username === realUser ? "highlight" : ""}`;
-        div.innerHTML = `
-          <a href="user.html?user=${user.username}">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <img src="${user.avatar}" alt="avatar" style="width:40px;height:40px;border-radius:50%;border:2px solid #f44;">
-              <span>@${user.username}</span>
-            </div>
-          </a>
-          <p style="margin-top:0.5rem;color:#aaa;font-size:0.9rem;">${user.message}</p>
-        `;
-        accountList.appendChild(div);
-      });
-      visibleAccounts += 6;
+    function updateLiveStats() {
+      const get = key => parseInt(localStorage.getItem(key)) || 0;
+      document.getElementById("scroll-counter").textContent = `Scrolls done: ${get("scrollCount")}`;
+      document.getElementById("like-counter").textContent = `Likes given: ${get("likesGiven")}`;
+      document.getElementById("comment-counter").textContent = `Comments given: ${get("commentsGiven")}`;
+      document.getElementById("repost-counter").textContent = `Reposts done: ${get("repostsDone")}`;
+      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${get("postsBookmarked")}`;
+      document.getElementById("reel-counter").textContent = `Reels viewed: ${get("reelsViewed")}`;
+      document.getElementById("story-counter").textContent = `Stories viewed: ${get("storiesViewed")}`;
+      document.getElementById("profile-counter").textContent = `Profiles visited: ${get("profilesVisited")}`;
+      document.getElementById("post-counter").textContent = `Posts posted: ${get("postsPosted")}`;
+      document.getElementById("time-counter").textContent = `Minutes wasted: ${Math.floor(get("secondsWasted") / 60)}`;
     }
 
-    function renderLeaderboard() {
-      const sorted = [...users].sort((a, b) => {
-        const totalA = a.reelsViewed + a.storiesViewed + a.commentsGiven + a.repostsDone + a.postsBookmarked + a.scrollsDone + a.profilesVisited + a.postsPosted + a.likesGiven + a.minutesWasted;
-        const totalB = b.reelsViewed + b.storiesViewed + b.commentsGiven + b.repostsDone + b.postsBookmarked + b.scrollsDone + b.profilesVisited + b.postsPosted + b.likesGiven + b.minutesWasted;
-        return totalB - totalA;
-      });
-
-      const top10 = sorted.slice(0, 10);
-      const leaderboard = document.getElementById("leaderboard");
-
-      top10.forEach((user, index) => {
-        const entry = document.createElement("div");
-        entry.className = `leaderboard-entry ${user.username === realUser ? "highlight" : ""}`;
-        entry.innerHTML = `
-          <div class="leader-info">
-            ${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `<span class="rank-number">${index + 1}</span>`}
-            <img src="${user.avatar}" alt="avatar">
-            <a href="user.html?user=${user.username}">@${user.username}</a>
-          </div>
-          <div class="stats-grid">
-            <div>Reels viewed: ${user.reelsViewed}</div>
-            <div>Stories viewed: ${user.storiesViewed}</div>
-            <div>Comments given: ${user.commentsGiven}</div>
-            <div>Reposts done: ${user.repostsDone}</div>
-            <div>Posts bookmarked: ${user.postsBookmarked}</div>
-            <div>Scrolls done: ${user.scrollsDone}</div>
-            <div>Profiles visited: ${user.profilesVisited}</div>
-            <div>Posts posted: ${user.postsPosted}</div>
-            <div>Likes given: ${user.likesGiven}</div>
-            <div>Minutes wasted: ${user.minutesWasted}</div>
-          </div>
-        `;
-        leaderboard.appendChild(entry);
-      });
-    }
-
-    loadMoreAccounts();
-    renderLeaderboard();
+    updateLiveStats();
   </script>
 </body>
 </html>
