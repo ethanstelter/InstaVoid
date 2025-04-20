@@ -3,94 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Void Search</title>
+  <title>Search - InstaVoid</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
       background-color: #0f0f0f;
       color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
-
     header {
       text-align: center;
       padding: 1rem;
       background-color: #1a1a1a;
       border-bottom: 1px solid #333;
-      width: 100%;
-    }
-
-    .content {
-      max-width: 480px;
-      width: 100%;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-
-    .section-title {
-      margin-top: 2rem;
-      margin-bottom: 1rem;
       font-weight: bold;
-      text-align: center;
-    }
-
-    .profile-card {
-      background-color: #1c1c1c;
-      border: 1px solid #333;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .profile-card img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-
-    .profile-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .profile-info .username {
-      font-weight: bold;
-      color: #ccc;
-    }
-
-    .profile-info .bio {
-      font-size: 0.9rem;
-      color: #888;
-    }
-
-    .leaderboard {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-block {
-      background-color: #1c1c1c;
-      padding: 1rem;
-      border-radius: 8px;
-      border: 1px solid #333;
-      text-align: center;
-    }
-
-    .stat-block strong {
-      display: block;
       font-size: 1.2rem;
-      margin-bottom: 0.25rem;
-      color: #fff;
     }
-
     .live-counter {
       position: fixed;
       font-size: 0.9rem;
@@ -102,16 +31,80 @@
       z-index: 999;
       right: 10px;
     }
-    #reel-counter { bottom: 50px; }
-    #scroll-counter { bottom: 80px; }
-    #like-counter { bottom: 110px; }
-    #comment-counter { bottom: 140px; }
-    #repost-counter { bottom: 170px; }
-    #bookmark-counter { bottom: 200px; }
-    #story-counter { bottom: 230px; }
-    #profile-counter { bottom: 260px; }
-    #post-counter { bottom: 290px; }
-    #waste-counter { bottom: 320px; }
+    #waste-counter { bottom: 50px; }
+    #like-counter { bottom: 80px; }
+    #scroll-counter { bottom: 110px; }
+    #reel-counter { bottom: 140px; }
+    #story-counter { bottom: 170px; }
+    #comment-counter { bottom: 200px; }
+    #repost-counter { bottom: 230px; }
+    #bookmark-counter { bottom: 260px; }
+    #profile-counter { bottom: 290px; }
+    #post-counter { bottom: 320px; }
+    
+    .section {
+      max-width: 400px;
+      margin: 1rem auto;
+      padding: 1rem;
+      background-color: #1c1c1c;
+      border: 1px solid #333;
+      border-radius: 8px;
+    }
+
+    .section h2 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .user-card {
+      background-color: #2a2a2a;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .user-card img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 0.5rem;
+    }
+
+    .user-card .username {
+      font-weight: bold;
+      color: #ccc;
+      margin-bottom: 0.25rem;
+    }
+
+    .user-card .bio {
+      font-size: 0.9rem;
+      color: #999;
+      text-align: center;
+    }
+
+    .leaderboard {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      text-align: center;
+    }
+
+    .stat-row .title {
+      grid-column: span 3;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
 
     .bottom-nav {
       position: fixed;
@@ -132,24 +125,28 @@
   </style>
 </head>
 <body>
-  <header><h1>Search</h1></header>
-  <div class="content">
-    <div class="section-title">Fake Accounts</div>
-    <div id="profiles"></div>
-    <div class="section-title">Leaderboard</div>
-    <div class="leaderboard" id="leaderboard"></div>
+  <header>Explore Accounts</header>
+
+  <div class="section">
+    <h2>Accounts</h2>
+    <div id="accountList"></div>
   </div>
 
-  <div id="reel-counter" class="live-counter"></div>
-  <div id="scroll-counter" class="live-counter"></div>
+  <div class="section">
+    <h2>Leaderboard</h2>
+    <div id="leaderboard"></div>
+  </div>
+
+  <div id="waste-counter" class="live-counter"></div>
   <div id="like-counter" class="live-counter"></div>
+  <div id="scroll-counter" class="live-counter"></div>
+  <div id="reel-counter" class="live-counter"></div>
+  <div id="story-counter" class="live-counter"></div>
   <div id="comment-counter" class="live-counter"></div>
   <div id="repost-counter" class="live-counter"></div>
   <div id="bookmark-counter" class="live-counter"></div>
-  <div id="story-counter" class="live-counter"></div>
   <div id="profile-counter" class="live-counter"></div>
   <div id="post-counter" class="live-counter"></div>
-  <div id="waste-counter" class="live-counter"></div>
 
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
@@ -162,67 +159,114 @@
   <script>
     const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
     const bios = [
-      "Lost in the algorithm.",
-      "Loading... forever.",
-      "Definitely not real.",
-      "This one's a bot, probably.",
-      "Feeds on your feed.",
-      "Content? Never heard of it."
+      "Here for the chaos.",
+      "Certified scroll addict.",
+      "Wasting time like a pro.",
+      "Uninfluential influencer.",
+      "CEO of Doing Nothing.",
+      "Life goal: more pixels."
     ];
-    const profiles = document.getElementById("profiles");
 
-    usernames.forEach((user, i) => {
-      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${user}`;
-      const bio = bios[i % bios.length];
+    const accountList = document.getElementById("accountList");
+    usernames.forEach((username, i) => {
       const div = document.createElement("div");
-      div.className = "profile-card";
+      div.className = "user-card";
       div.innerHTML = `
-        <img src="${avatar}" alt="avatar">
-        <div class="profile-info">
-          <div class="username">@${user}</div>
-          <div class="bio">${bio}</div>
-        </div>
+        <img src="https://api.dicebear.com/7.x/personas/svg?seed=${username}" alt="avatar">
+        <div class="username">@${username}</div>
+        <div class="bio">${bios[i % bios.length]}</div>
       `;
-      profiles.appendChild(div);
+      accountList.appendChild(div);
     });
 
-    const leaderboardStats = [
-      { id: 'reel-counter', label: 'Reels viewed' },
-      { id: 'scroll-counter', label: 'Scrolls done' },
-      { id: 'like-counter', label: 'Likes given' },
-      { id: 'comment-counter', label: 'Comments given' },
-      { id: 'repost-counter', label: 'Reposts done' },
-      { id: 'bookmark-counter', label: 'Bookmarks' },
-      { id: 'story-counter', label: 'Stories viewed' },
-      { id: 'profile-counter', label: 'Profiles visited' },
-      { id: 'post-counter', label: 'Posts posted' },
-      { id: 'waste-counter', label: 'Minutes wasted' },
+    const leaderboard = document.getElementById("leaderboard");
+    const allUsers = [
+      { name: "@you", stats: getCurrentStats(), avatar: "https://api.dicebear.com/7.x/personas/svg?seed=you" },
+      ...usernames.map(name => ({
+        name: `@${name}`,
+        stats: generateFakeStats(),
+        avatar: `https://api.dicebear.com/7.x/personas/svg?seed=${name}`
+      }))
     ];
 
-    const leaderboard = document.getElementById("leaderboard");
+    allUsers.sort((a, b) => getStatScore(b.stats) - getStatScore(a.stats));
 
-    function updateStatUI() {
-      leaderboard.innerHTML = "";
-      leaderboardStats.forEach(stat => {
-        const value = localStorage.getItem(stat.id.replace('-counter', '')) || 0;
-        const div = document.createElement("div");
-        div.className = "stat-block";
-        div.innerHTML = `<strong>${value}</strong>${stat.label}`;
-        leaderboard.appendChild(div);
-      });
+    allUsers.forEach(user => {
+      const div = document.createElement("div");
+      div.className = "user-card";
+      div.innerHTML = `
+        <img src="${user.avatar}" alt="avatar">
+        <div class="username">${user.name}</div>
+        <div class="stat-row">
+          <div><strong>${user.stats.reelsViewed}</strong><br>Reels</div>
+          <div><strong>${user.stats.storiesViewed}</strong><br>Stories</div>
+          <div><strong>${user.stats.commentsGiven}</strong><br>Comments</div>
+          <div><strong>${user.stats.repostsDone}</strong><br>Reposts</div>
+          <div><strong>${user.stats.postsBookmarked}</strong><br>Bookmarks</div>
+          <div><strong>${user.stats.scrollsDone}</strong><br>Scrolls</div>
+          <div><strong>${user.stats.profilesVisited}</strong><br>Profiles</div>
+          <div><strong>${user.stats.postsPosted}</strong><br>Posted</div>
+          <div><strong>${user.stats.likesGiven}</strong><br>Likes</div>
+          <div><strong>${user.stats.minutesWasted}</strong><br>Minutes</div>
+        </div>
+      `;
+      leaderboard.appendChild(div);
+    });
+
+    function generateFakeStats() {
+      return {
+        reelsViewed: rand(10, 100),
+        storiesViewed: rand(10, 100),
+        commentsGiven: rand(5, 30),
+        repostsDone: rand(5, 30),
+        postsBookmarked: rand(5, 30),
+        scrollsDone: rand(100, 500),
+        profilesVisited: rand(5, 30),
+        postsPosted: rand(1, 20),
+        likesGiven: rand(20, 200),
+        minutesWasted: rand(60, 800)
+      };
     }
 
-    function updateLiveCounters() {
-      leaderboardStats.forEach(stat => {
-        const el = document.getElementById(stat.id);
-        const value = localStorage.getItem(stat.id.replace('-counter', '')) || 0;
-        el.textContent = `${stat.label}: ${value}`;
-      });
+    function getCurrentStats() {
+      return {
+        reelsViewed: parseInt(localStorage.getItem("reelsViewed")) || 0,
+        storiesViewed: parseInt(localStorage.getItem("storiesViewed")) || 0,
+        commentsGiven: parseInt(localStorage.getItem("commentsGiven")) || 0,
+        repostsDone: parseInt(localStorage.getItem("repostsDone")) || 0,
+        postsBookmarked: parseInt(localStorage.getItem("postsBookmarked")) || 0,
+        scrollsDone: parseInt(localStorage.getItem("scrollCount")) || 0,
+        profilesVisited: parseInt(localStorage.getItem("profilesVisited")) || 0,
+        postsPosted: parseInt(localStorage.getItem("postsPosted")) || 0,
+        likesGiven: parseInt(localStorage.getItem("likesGiven")) || 0,
+        minutesWasted: Math.floor((parseInt(localStorage.getItem("secondsWasted")) || 0) / 60)
+      };
     }
 
-    updateStatUI();
-    updateLiveCounters();
-    setInterval(updateLiveCounters, 1000);
+    function getStatScore(stats) {
+      return stats.reelsViewed + stats.storiesViewed + stats.commentsGiven + stats.repostsDone +
+             stats.postsBookmarked + stats.scrollsDone + stats.profilesVisited + stats.postsPosted +
+             stats.likesGiven + stats.minutesWasted;
+    }
+
+    function rand(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function updateLiveStats() {
+      document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor((parseInt(localStorage.getItem("secondsWasted")) || 0) / 60)}`;
+      document.getElementById("like-counter").textContent = `Likes given: ${parseInt(localStorage.getItem("likesGiven")) || 0}`;
+      document.getElementById("scroll-counter").textContent = `Scrolls done: ${parseInt(localStorage.getItem("scrollCount")) || 0}`;
+      document.getElementById("reel-counter").textContent = `Reels viewed: ${parseInt(localStorage.getItem("reelsViewed")) || 0}`;
+      document.getElementById("story-counter").textContent = `Stories viewed: ${parseInt(localStorage.getItem("storiesViewed")) || 0}`;
+      document.getElementById("comment-counter").textContent = `Comments given: ${parseInt(localStorage.getItem("commentsGiven")) || 0}`;
+      document.getElementById("repost-counter").textContent = `Reposts done: ${parseInt(localStorage.getItem("repostsDone")) || 0}`;
+      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${parseInt(localStorage.getItem("postsBookmarked")) || 0}`;
+      document.getElementById("profile-counter").textContent = `Profiles visited: ${parseInt(localStorage.getItem("profilesVisited")) || 0}`;
+      document.getElementById("post-counter").textContent = `Posts posted: ${parseInt(localStorage.getItem("postsPosted")) || 0}`;
+    }
+
+    updateLiveStats();
   </script>
 </body>
 </html>
