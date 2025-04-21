@@ -152,14 +152,14 @@
 
     .back-button {
       text-decoration: none;
-      color: #888;
+      color: #fff;
       font-size: 0.9rem;
       border: 1px solid #444;
       padding: 0.5rem 1rem;
       border-radius: 6px;
       position: absolute;
       top: 10px;
-      left: 10px;
+      right: 10px;
       z-index: 999;
       background-color: #1a1a1a;
     }
@@ -169,7 +169,7 @@
       top: 50%;
       transform: translateY(-50%);
       font-size: 1.5rem;
-      color: #ccc;
+      color: #fff;
       background-color: #1a1a1a;
       border: 1px solid #444;
       border-radius: 50%;
@@ -183,11 +183,11 @@
     }
 
     .next-button {
-      right: -60px;
+      right: 10px;
     }
 
     .prev-button {
-      left: -60px;
+      left: 10px;
     }
   </style>
 </head>
@@ -261,7 +261,7 @@
         }
 
         function incrementStat(key) {
-          let val = getStat(key) + 1;
+          const val = getStat(key) + 1;
           setStat(key, val);
           updateSidebarStats();
         }
@@ -302,7 +302,6 @@
           showStory(currentIndex);
         }
 
-        // Build slides
         usernames.forEach((username, i) => {
           const message = messages[i % messages.length];
           const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
