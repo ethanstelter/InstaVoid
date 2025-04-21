@@ -69,66 +69,90 @@
   </div>
 
   <script>
-    const statKeys = [
-      { key: "reelsViewed", label: "Reels viewed" },
-      { key: "storiesViewed", label: "Stories viewed" },
-      { key: "commentsGiven", label: "Comments given" },
-      { key: "repostsDone", label: "Reposts done" },
-      { key: "postsBookmarked", label: "Bookmarks" },
-      { key: "scrollCount", label: "Scrolls done" },
-      { key: "profilesVisited", label: "Profiles visited" },
-      { key: "postsPosted", label: "Posts posted" },
-      { key: "likesGiven", label: "Likes given" },
-      { key: "secondsWasted", label: "Minutes wasted", transform: val => Math.floor(val / 60) }
-    ];
+  const stats = [
+    "reelsViewed", "storiesViewed", "commentsGiven", "repostsDone", "postsBookmarked",
+    "scrollCount", "profilesVisited", "postsPosted", "likesGiven", "secondsWasted"
+  ];
 
-    const statGrid = document.getElementById("statGrid");
-    const preview = document.getElementById("preview");
-    let selectedKey = null;
+  function getStatLabel(key) {
+    const map = {
+      reelsViewed: "Reels viewed",
+      storiesViewed: "Stories viewed",
+      commentsGiven: "Comments given",
+      repostsDone: "Reposts done",
+      postsBookmarked: "Bookmarks",
+      scrollCount: "Scrolls done",
+      profilesVisited: "Profiles visited",
+      postsPosted: "Posts posted",
+      likesGiven: "Likes given",
+      secondsWasted: "Minutes wasted"
+    };
+    return map[key];
+  }
 
-    function getStatValue(key, transform = val => val) {
-      return transform(parseInt(localStorage.getItem(key)) || 0);
-    }
-
-    statKeys.forEach(({ key, label, transform }) => {
-      const val = getStatValue(key, transform);
-      const tile = document.createElement("div");
-      tile.className = "achievement-tile";
-      tile.textContent = `${label}: ${val}`;
-      tile.onclick = () => {
-        document.querySelectorAll(".achievement-tile").forEach(el => el.classList.remove("selected"));
-        tile.classList.add("selected");
-        selectedKey = { label, val };
-      };
-      statGrid.appendChild(tile);
+  function updateLiveStats() {
+    stats.forEach(key => {
+      const el = document.getElementById(key + "-counter");
+      if (!el) return;
+      let val = parseInt(localStorage.getItem(key)) || 0;
+      if (key === "secondsWasted") val = Math.floor(val / 60);
+      el.textContent = `${getStatLabel(key)}: ${val}`;
     });
+  }
 
-    function publish() {
-      if (!selectedKey) {
-        preview.style.display = "block";
-        preview.textContent = "Please select a stat.";
-        return;
-      }
-      const postText = `Shared: ${selectedKey.label} = ${selectedKey.val}`;
+  const container = document.querySelector(".container");
+  const statKeys = [
+    "reelsViewed", "storiesViewed", "commentsGiven", "repostsDone", "postsBookmarked",
+    "scrollCount", "profilesVisited", "postsPosted", "likesGiven", "secondsWasted"
+  ];
+
+  statKeys.forEach(key => {
+    const div = document.createElement("div");
+    div.className = "achievement-tile";
+    div.setAttribute("data-key", key);
+    div.innerHTML = `<strong>${getStatLabel(key)}</strong><br>Click to share`;
+    div.onclick = () => {
+      document.querySelectorAll(".achievement-tile").forEach(el => el.classList.remove("selected"));
+      div.classList.add("selected");
+      selectedKey = key;
+    };
+    document.getElementById("achievementGrid").appendChild(div);
+  });
+
+  let selectedKey = null;
+  const preview = document.getElementById("preview");
+
+  function publish() {
+    if (!selectedKey) {
       preview.style.display = "block";
-      preview.textContent = postText + "\n(post lost in the void)";
+      preview.textContent = "Please select a stat.";
+      return;
     }
 
-    function updateLiveStats() {
-      const get = key => parseInt(localStorage.getItem(key)) || 0;
-      document.getElementById("scroll-counter").textContent = `Scrolls done: ${get("scrollCount")}`;
-      document.getElementById("like-counter").textContent = `Likes given: ${get("likesGiven")}`;
-      document.getElementById("comment-counter").textContent = `Comments given: ${get("commentsGiven")}`;
-      document.getElementById("repost-counter").textContent = `Reposts done: ${get("repostsDone")}`;
-      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${get("postsBookmarked")}`;
-      document.getElementById("reel-counter").textContent = `Reels viewed: ${get("reelsViewed")}`;
-      document.getElementById("story-counter").textContent = `Stories viewed: ${get("storiesViewed")}`;
-      document.getElementById("profile-counter").textContent = `Profiles visited: ${get("profilesVisited")}`;
-      document.getElementById("post-counter").textContent = `Posts posted: ${get("postsPosted")}`;
-      document.getElementById("time-counter").textContent = `Minutes wasted: ${Math.floor(get("secondsWasted") / 60)}`;
-    }
+    const key = selectedKey;
+    let val = parseInt(localStorage.getItem(key)) || 0;
+    let label = getStatLabel(key);
+    if (key === "secondsWasted") val = Math.floor(val / 60);
+    const postText = `${label}: ${val}`;
+
+    // Save to fake post history
+    const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
+    posts.unshift(postText);
+    localStorage.setItem("sharedPosts", JSON.stringify(posts));
+
+    // Increment postsPosted
+    let posted = parseInt(localStorage.getItem("postsPosted")) || 0;
+    localStorage.setItem("postsPosted", posted + 1);
+
+    // Show confirmation
+    preview.style.display = "block";
+    preview.textContent = `"${postText}" published... and immediately lost in the void.`;
 
     updateLiveStats();
-  </script>
+  }
+
+  updateLiveStats();
+</script>
+
 </body>
 </html>
