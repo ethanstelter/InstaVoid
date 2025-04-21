@@ -45,6 +45,7 @@
     }
     #app-frame {
       width: min(645px, 95vw);
+      height: 100vh;
       background-color: #0f0f0f;
       border-radius: 20px;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
@@ -52,12 +53,21 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      height: 95vh;
     }
     .content-wrapper {
       flex: 1;
       overflow-y: auto;
       padding-bottom: 60px;
+    }
+    .content-wrapper::-webkit-scrollbar {
+      width: 8px;
+    }
+    .content-wrapper::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .content-wrapper::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 100, 100, 0.3);
+      border-radius: 4px;
     }
     .bottom-nav {
       position: absolute;
@@ -99,7 +109,7 @@
       }
     }
 
-    /* Original Styles */
+    /* App-Specific Styles (unchanged) */
     header {
       display: flex;
       align-items: center;
@@ -258,7 +268,6 @@
 </head>
 <body>
   <div class="layout-wrapper">
-    <!-- Live Stats Sidebar -->
     <div id="live-stats">
       <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
       <div>Likes Given: <span id="stat-likes">0</span></div>
@@ -272,7 +281,6 @@
       <div>Posts Posted: <span id="stat-posts">0</span></div>
     </div>
 
-    <!-- App Frame -->
     <div id="app-frame">
 <div class="content-wrapper">
   <header>
@@ -449,16 +457,10 @@ for (let i = 0; i < 10; i++) {
   createPost(msg);
 }
 
-window.addEventListener("scroll", () => {
+document.querySelector(".content-wrapper").addEventListener("scroll", () => {
   scrollCount++;
   localStorage.setItem("scrollCount", scrollCount);
   updateStats();
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
-    for (let i = 0; i < 5; i++) {
-      const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-      createPost(msg);
-    }
-  }
 });
 
 updateStats();
