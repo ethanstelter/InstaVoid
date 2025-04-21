@@ -97,15 +97,15 @@
       z-index: 999;
       right: 10px;
     }
-    #scroll-counter { bottom: 50px; }
-    #like-counter { bottom: 80px; }
+    #reel-counter { bottom: 50px; }
+    #story-counter { bottom: 80px; }
     #comment-counter { bottom: 110px; }
     #repost-counter { bottom: 140px; }
     #bookmark-counter { bottom: 170px; }
-    #reel-counter { bottom: 200px; }
-    #story-counter { bottom: 230px; }
-    #profile-counter { bottom: 260px; }
-    #post-counter { bottom: 290px; }
+    #scroll-counter { bottom: 200px; }
+    #profile-counter { bottom: 230px; }
+    #post-counter { bottom: 260px; }
+    #like-counter { bottom: 290px; }
     #time-counter { bottom: 320px; }
   </style>
 </head>
@@ -119,16 +119,16 @@
     <div class="preview" id="preview" style="display:none;"></div>
   </div>
 
-  <!-- Live stats display -->
-  <div id="scroll-counter" class="live-counter"></div>
-  <div id="like-counter" class="live-counter"></div>
+  <!-- Live counters -->
+  <div id="reel-counter" class="live-counter"></div>
+  <div id="story-counter" class="live-counter"></div>
   <div id="comment-counter" class="live-counter"></div>
   <div id="repost-counter" class="live-counter"></div>
   <div id="bookmark-counter" class="live-counter"></div>
-  <div id="reel-counter" class="live-counter"></div>
-  <div id="story-counter" class="live-counter"></div>
+  <div id="scroll-counter" class="live-counter"></div>
   <div id="profile-counter" class="live-counter"></div>
   <div id="post-counter" class="live-counter"></div>
+  <div id="like-counter" class="live-counter"></div>
   <div id="time-counter" class="live-counter"></div>
 
   <div class="bottom-nav">
@@ -158,13 +158,25 @@
       secondsWasted: "Minutes wasted"
     };
 
+    const statIdMap = {
+      reelsViewed: "reel-counter",
+      storiesViewed: "story-counter",
+      commentsGiven: "comment-counter",
+      repostsDone: "repost-counter",
+      postsBookmarked: "bookmark-counter",
+      scrollCount: "scroll-counter",
+      profilesVisited: "profile-counter",
+      postsPosted: "post-counter",
+      likesGiven: "like-counter",
+      secondsWasted: "time-counter"
+    };
+
     function updateLiveStats() {
       stats.forEach(key => {
-        const el = document.getElementById(key.replace("Count", "") + "-counter");
-        if (!el) return;
-        let val = parseInt(localStorage.getItem(key)) || 0;
-        if (key === "secondsWasted") val = Math.floor(val / 60);
-        el.textContent = `${statLabels[key]}: ${val}`;
+        const val = parseInt(localStorage.getItem(key)) || 0;
+        const displayVal = key === "secondsWasted" ? Math.floor(val / 60) : val;
+        const el = document.getElementById(statIdMap[key]);
+        if (el) el.textContent = `${statLabels[key]}: ${displayVal}`;
       });
     }
 
@@ -197,18 +209,15 @@
       const label = statLabels[selectedKey];
       const postText = `${label}: ${val}`;
 
-      // Save to shared post log
       const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
       posts.unshift(postText);
       localStorage.setItem("sharedPosts", JSON.stringify(posts));
 
-      // Increment "postsPosted"
       let posted = parseInt(localStorage.getItem("postsPosted")) || 0;
       localStorage.setItem("postsPosted", posted + 1);
 
-      // Show preview
       preview.style.display = "block";
-      preview.textContent = `"${postText}" was posted... then quickly ignored.`;
+      preview.textContent = `"${postText}" was posted... and immediately lost in the feed.`;
 
       updateLiveStats();
     }
