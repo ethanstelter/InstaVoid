@@ -87,7 +87,7 @@
       font-size: 1.3rem;
     }
 
-    /* REELS UI — with fixed height */
+    /* REELS UI — now flush with content box */
     .reel {
       scroll-snap-align: start;
       height: 100%;
@@ -98,15 +98,14 @@
       position: relative;
     }
     .reel-inner {
-      width: 90%;
-      max-width: 540px;
+      width: 100%;
       height: 100%;
       background-color: #1c1c1c;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 1rem;
+      padding: 0;
       position: relative;
     }
     .caption-center {
@@ -207,7 +206,6 @@
 </head>
 <body>
   <div class="layout-wrapper">
-    <!-- Live Stats Sidebar -->
     <div id="live-stats">
       <div>Reels Viewed: <span id="stat-reels">0</span></div>
       <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
@@ -221,7 +219,6 @@
       <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
     </div>
 
-    <!-- App Frame -->
     <div id="app-frame">
       <div class="content-wrapper" id="reelWrapper">
       </div> <!-- closes .content-wrapper -->
