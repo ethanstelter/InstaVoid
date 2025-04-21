@@ -152,6 +152,11 @@
     #comment-counter { bottom: 140px; }
     #repost-counter { bottom: 170px; }
     #bookmark-counter { bottom: 200px; }
+    #profile-counter { bottom: 230px; }
+    #post-counter { bottom: 260px; }
+    #story-counter { bottom: 290px; }
+    #time-counter { bottom: 320px; }
+
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -172,12 +177,18 @@
 </head>
 <body>
   <div id="reelWrapper"></div>
+
   <div id="reel-counter" class="live-counter"></div>
   <div id="scroll-counter" class="live-counter"></div>
   <div id="like-counter" class="live-counter"></div>
   <div id="comment-counter" class="live-counter"></div>
   <div id="repost-counter" class="live-counter"></div>
   <div id="bookmark-counter" class="live-counter"></div>
+  <div id="profile-counter" class="live-counter"></div>
+  <div id="post-counter" class="live-counter"></div>
+  <div id="story-counter" class="live-counter"></div>
+  <div id="time-counter" class="live-counter"></div>
+
   <div class="bottom-nav">
     <a href="index.html">🏠</a>
     <a href="search.html">🔍</a>
@@ -185,6 +196,7 @@
     <a href="reels.html">🎞️</a>
     <a href="profile.html">👤</a>
   </div>
+
   <script>
     const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
     const captions = [
@@ -202,6 +214,10 @@
     let comments = parseInt(localStorage.getItem("commentsGiven")) || 0;
     let reposts = parseInt(localStorage.getItem("repostsDone")) || 0;
     let bookmarks = parseInt(localStorage.getItem("postsBookmarked")) || 0;
+    let profiles = parseInt(localStorage.getItem("profilesVisited")) || 0;
+    let posts = parseInt(localStorage.getItem("postsPosted")) || 0;
+    let stories = parseInt(localStorage.getItem("storiesViewed")) || 0;
+    let time = parseInt(localStorage.getItem("secondsWasted")) || 0;
 
     const viewedReels = new Set();
 
@@ -212,7 +228,17 @@
       document.getElementById("comment-counter").textContent = `Comments given: ${comments}`;
       document.getElementById("repost-counter").textContent = `Reposts done: ${reposts}`;
       document.getElementById("bookmark-counter").textContent = `Bookmarks: ${bookmarks}`;
+      document.getElementById("profile-counter").textContent = `Profiles visited: ${profiles}`;
+      document.getElementById("post-counter").textContent = `Posts posted: ${posts}`;
+      document.getElementById("story-counter").textContent = `Stories viewed: ${stories}`;
+      document.getElementById("time-counter").textContent = `Minutes wasted: ${Math.floor(time / 60)}`;
     }
+
+    setInterval(() => {
+      time++;
+      localStorage.setItem("secondsWasted", time);
+      updateCounters();
+    }, 1000);
 
     function createReel(username, caption) {
       const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
@@ -319,11 +345,11 @@
     }
 
     document.getElementById("reelWrapper").addEventListener("scroll", () => {
-      const wrapper = document.getElementById("reelWrapper");
       scrollCount++;
       localStorage.setItem("scrollCount", scrollCount);
       updateCounters();
       trackVisibleReels();
+      const wrapper = document.getElementById("reelWrapper");
       if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
         loadInitialReels(5);
       }
