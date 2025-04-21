@@ -128,10 +128,9 @@ main {
 }
 .comment-box {
   padding: 0.5rem 1rem 1rem;
-  display: flex;
+  display: none;
   gap: 10px;
   align-items: center;
-  display: none;
 }
 .comment-box input {
   flex: 1;
@@ -167,10 +166,10 @@ main {
 #comments-counter { bottom: 140px; }
 #reposts-counter { bottom: 170px; }
 #bookmarks-counter { bottom: 200px; }
-#reels-counter { bottom: 230px; }
-#stories-counter { bottom: 260px; }
+#reel-counter { bottom: 230px; }
+#story-counter { bottom: 260px; }
 #profile-counter { bottom: 290px; }
-#posts-counter { bottom: 320px; }
+#post-counter { bottom: 320px; }
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -204,10 +203,10 @@ main {
 <div id="comments-counter" class="live-counter"></div>
 <div id="reposts-counter" class="live-counter"></div>
 <div id="bookmarks-counter" class="live-counter"></div>
-<div id="reels-counter" class="live-counter"></div>
-<div id="stories-counter" class="live-counter"></div>
+<div id="reel-counter" class="live-counter"></div>
+<div id="story-counter" class="live-counter"></div>
 <div id="profile-counter" class="live-counter"></div>
-<div id="posts-counter" class="live-counter"></div>
+<div id="post-counter" class="live-counter"></div>
 <div class="bottom-nav">
   <a href="index.html">🏠</a>
   <a href="search.html">🔍</a>
@@ -216,19 +215,35 @@ main {
   <a href="profile.html">👤</a>
 </div>
 <script>
+const stats = [
+  "secondsWasted", "likesGiven", "scrollCount", "commentsGiven",
+  "repostsDone", "postsBookmarked", "reelsViewed", "storiesViewed",
+  "profilesVisited", "postsPosted"
+];
+stats.forEach(stat => {
+  if (localStorage.getItem(stat) === null) localStorage.setItem(stat, 0);
+});
+
 function updateStats() {
-  const get = key => parseInt(localStorage.getItem(key)) || 0;
-  document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor(get("secondsWasted") / 60)}`;
-  document.getElementById("like-counter").textContent = `Likes given: ${get("likesGiven")}`;
-  document.getElementById("scroll-counter").textContent = `Scrolls done: ${get("scrollCount")}`;
-  document.getElementById("comments-counter").textContent = `Comments given: ${get("commentsGiven")}`;
-  document.getElementById("reposts-counter").textContent = `Reposts done: ${get("repostsDone")}`;
-  document.getElementById("bookmarks-counter").textContent = `Posts bookmarked: ${get("postsBookmarked")}`;
-  document.getElementById("reels-counter").textContent = `Reels viewed: ${get("reelsViewed")}`;
-  document.getElementById("stories-counter").textContent = `Stories viewed: ${get("storiesViewed")}`;
-  document.getElementById("profile-counter").textContent = `Profiles visited: ${get("profilesVisited")}`;
-  document.getElementById("posts-counter").textContent = `Posts posted: ${get("postsPosted")}`;
+  document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor(+localStorage.getItem("secondsWasted") / 60)}`;
+  document.getElementById("like-counter").textContent = `Likes given: ${localStorage.getItem("likesGiven")}`;
+  document.getElementById("scroll-counter").textContent = `Scrolls done: ${localStorage.getItem("scrollCount")}`;
+  document.getElementById("comments-counter").textContent = `Comments given: ${localStorage.getItem("commentsGiven")}`;
+  document.getElementById("reposts-counter").textContent = `Reposts done: ${localStorage.getItem("repostsDone")}`;
+  document.getElementById("bookmarks-counter").textContent = `Posts bookmarked: ${localStorage.getItem("postsBookmarked")}`;
+  document.getElementById("reel-counter").textContent = `Reels viewed: ${localStorage.getItem("reelsViewed")}`;
+  document.getElementById("story-counter").textContent = `Stories viewed: ${localStorage.getItem("storiesViewed")}`;
+  document.getElementById("profile-counter").textContent = `Profiles visited: ${localStorage.getItem("profilesVisited")}`;
+  document.getElementById("post-counter").textContent = `Posts posted: ${localStorage.getItem("postsPosted")}`;
 }
+
+setInterval(() => {
+  const val = +localStorage.getItem("secondsWasted") + 1;
+  localStorage.setItem("secondsWasted", val);
+  updateStats();
+}, 1000);
+
+updateStats();
 </script>
 </body>
 </html>
