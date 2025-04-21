@@ -159,13 +159,18 @@ main {
   border-radius: 6px;
   border: 1px solid #333;
   z-index: 999;
+  right: 10px;
 }
-#waste-counter { bottom: 50px; right: 10px; }
-#like-counter { bottom: 80px; right: 10px; }
-#scroll-counter { bottom: 110px; right: 10px; }
-#comments-counter { bottom: 140px; right: 10px; }
-#reposts-counter { bottom: 170px; right: 10px; }
-#bookmarks-counter { bottom: 200px; right: 10px; }
+#waste-counter { bottom: 50px; }
+#like-counter { bottom: 80px; }
+#scroll-counter { bottom: 110px; }
+#comments-counter { bottom: 140px; }
+#reposts-counter { bottom: 170px; }
+#bookmarks-counter { bottom: 200px; }
+#reels-counter { bottom: 230px; }
+#stories-counter { bottom: 260px; }
+#profile-counter { bottom: 290px; }
+#posts-counter { bottom: 320px; }
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -199,6 +204,10 @@ main {
 <div id="comments-counter" class="live-counter"></div>
 <div id="reposts-counter" class="live-counter"></div>
 <div id="bookmarks-counter" class="live-counter"></div>
+<div id="reels-counter" class="live-counter"></div>
+<div id="stories-counter" class="live-counter"></div>
+<div id="profile-counter" class="live-counter"></div>
+<div id="posts-counter" class="live-counter"></div>
 <div class="bottom-nav">
   <a href="index.html">🏠</a>
   <a href="search.html">🔍</a>
@@ -207,165 +216,19 @@ main {
   <a href="profile.html">👤</a>
 </div>
 <script>
-const feed = document.getElementById("feed");
-const storiesBar = document.getElementById("storiesBar");
-const notifDropdown = document.getElementById("notificationDropdown");
-const notifIcon = document.getElementById("notifIcon");
-const fakeUsernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
-const fakeMessages = ["Empty Post", "You’re still here?", "This means nothing.", "The feed is feeding itself.", "Keep going. Or don’t.", "Static. Again.", "Are you okay?", "Just one more... nothing."];
-
-// Initialize all trackers
-const stats = ["secondsWasted", "likesGiven", "scrollCount", "commentsGiven", "repostsDone", "postsBookmarked"];
-stats.forEach(stat => {
-  if (localStorage.getItem(stat) === null) localStorage.setItem(stat, 0);
-});
-
-let secondsWasted = parseInt(localStorage.getItem("secondsWasted"));
-let likesGiven = parseInt(localStorage.getItem("likesGiven"));
-let scrollCount = parseInt(localStorage.getItem("scrollCount"));
-let commentsGiven = parseInt(localStorage.getItem("commentsGiven"));
-let repostsDone = parseInt(localStorage.getItem("repostsDone"));
-let postsBookmarked = parseInt(localStorage.getItem("postsBookmarked"));
-let notifications = [];
-
 function updateStats() {
-  document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor(secondsWasted / 60)}`;
-  document.getElementById("like-counter").textContent = `Likes given: ${likesGiven}`;
-  document.getElementById("scroll-counter").textContent = `Scrolls done: ${scrollCount}`;
-  document.getElementById("comments-counter").textContent = `Comments given: ${commentsGiven}`;
-  document.getElementById("reposts-counter").textContent = `Reposts done: ${repostsDone}`;
-  document.getElementById("bookmarks-counter").textContent = `Posts bookmarked: ${postsBookmarked}`;
+  const get = key => parseInt(localStorage.getItem(key)) || 0;
+  document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor(get("secondsWasted") / 60)}`;
+  document.getElementById("like-counter").textContent = `Likes given: ${get("likesGiven")}`;
+  document.getElementById("scroll-counter").textContent = `Scrolls done: ${get("scrollCount")}`;
+  document.getElementById("comments-counter").textContent = `Comments given: ${get("commentsGiven")}`;
+  document.getElementById("reposts-counter").textContent = `Reposts done: ${get("repostsDone")}`;
+  document.getElementById("bookmarks-counter").textContent = `Posts bookmarked: ${get("postsBookmarked")}`;
+  document.getElementById("reels-counter").textContent = `Reels viewed: ${get("reelsViewed")}`;
+  document.getElementById("stories-counter").textContent = `Stories viewed: ${get("storiesViewed")}`;
+  document.getElementById("profile-counter").textContent = `Profiles visited: ${get("profilesVisited")}`;
+  document.getElementById("posts-counter").textContent = `Posts posted: ${get("postsPosted")}`;
 }
-
-setInterval(() => {
-  secondsWasted++;
-  localStorage.setItem("secondsWasted", secondsWasted);
-  updateStats();
-}, 1000);
-
-fakeUsernames.forEach(username => {
-  const story = document.createElement("a");
-  story.className = "story";
-  story.href = `story.html?user=${username}`;
-  story.style.backgroundImage = `url('https://api.dicebear.com/7.x/personas/svg?seed=${username}')`;
-  storiesBar.appendChild(story);
-});
-
-function createPost(message) {
-  const post = document.createElement("div");
-  post.className = "post";
-  const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
-  const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
-  post.innerHTML = `
-    <div class="post-header">
-      <img src="${avatarUrl}" alt="avatar">
-      <span>@${username}</span>
-    </div>
-    <div class="post-image">${message}</div>
-    <div class="post-actions">
-      <button onclick="handleLike(this)">❤️</button>
-      <button onclick="toggleCommentBox(this)">💬</button>
-      <button onclick="handleRepost(this)">🔁</button>
-      <button onclick="handleBookmark(this)">📌</button>
-    </div>
-    <div class="comment-box">
-      <input type="text" placeholder="Say something...">
-      <button onclick="submitFakeComment(this)">➤</button>
-    </div>
-  `;
-  feed.appendChild(post);
-}
-
-function handleLike(btn) {
-  likesGiven++;
-  localStorage.setItem("likesGiven", likesGiven);
-  updateStats();
-  showPopup(btn, ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."]);
-}
-
-function handleRepost(btn) {
-  repostsDone++;
-  localStorage.setItem("repostsDone", repostsDone);
-  updateStats();
-  showPopup(btn, ["You reposted into the void.", "Your repost was ignored.", "Echoes of repost... heard by no one."]);
-}
-
-function handleBookmark(btn) {
-  postsBookmarked++;
-  localStorage.setItem("postsBookmarked", postsBookmarked);
-  updateStats();
-  showPopup(btn, ["This post is now... saved?", "Marked for future disappointment.", "Pinned to forget."]);
-}
-
-function showPopup(btn, messages) {
-  const popup = document.createElement("div");
-  popup.className = "like-popup";
-  popup.textContent = messages[Math.floor(Math.random() * messages.length)];
-  btn.closest(".post").appendChild(popup);
-  setTimeout(() => popup.remove(), 3000);
-}
-
-function toggleCommentBox(btn) {
-  const box = btn.closest(".post").querySelector(".comment-box");
-  box.style.display = box.style.display === "flex" ? "none" : "flex";
-}
-
-function submitFakeComment(button) {
-  const input = button.previousElementSibling;
-  if (input.value.trim() !== "") {
-    commentsGiven++;
-    localStorage.setItem("commentsGiven", commentsGiven);
-    updateStats();
-    input.style.transition = "opacity 0.5s ease";
-    input.style.opacity = 0;
-    setTimeout(() => {
-      input.value = "";
-      input.style.opacity = 1;
-      input.closest(".comment-box").style.display = "none";
-    }, 600);
-  }
-}
-
-notifIcon.addEventListener("click", () => {
-  notifDropdown.style.display = notifDropdown.style.display === "block" ? "none" : "block";
-  notifDropdown.innerHTML = notifications.length === 0 ? "<p>No new notifications.</p>" : notifications.map(n => `<p>${n}</p>`).join("");
-});
-
-function pushRandomNotification() {
-  const phrases = [
-    "You earned nothing!",
-    "Someone might've seen your post. Maybe.",
-    "A ghost viewed your profile.",
-    "You scrolled too far.",
-    "Your like meant nothing."
-  ];
-  const note = phrases[Math.floor(Math.random() * phrases.length)];
-  notifications.unshift(note);
-  if (notifications.length > 5) notifications.pop();
-  if (notifDropdown.style.display === "block") {
-    notifDropdown.innerHTML = notifications.map(n => `<p>${n}</p>`).join("");
-  }
-}
-setInterval(() => Math.random() < 0.25 && pushRandomNotification(), 15000);
-
-for (let i = 0; i < 10; i++) {
-  const msg = fakeMessages[i % fakeMessages.length];
-  createPost(msg);
-}
-
-window.addEventListener("scroll", () => {
-  scrollCount++;
-  localStorage.setItem("scrollCount", scrollCount);
-  updateStats();
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
-    for (let i = 0; i < 5; i++) {
-      const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-      createPost(msg);
-    }
-  }
-});
-
-updateStats();
 </script>
 </body>
 </html>
