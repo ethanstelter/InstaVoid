@@ -5,14 +5,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fake User Profile</title>
   <style>
-    body {
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      overflow: hidden;
       background-color: #0f0f0f;
       color: #fff;
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
+    .layout-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 1600px;
+      height: 100vh;
+    }
+
+    #live-stats {
+      flex-shrink: 0;
+      width: 180px;
+      margin-right: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 10px;
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+    }
+
+    #app-frame {
+      width: min(645px, 95vw);
+      height: 100vh;
+      background-color: #0f0f0f;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .content-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 80px;
+    }
+
+    .content-wrapper::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .content-wrapper::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .content-wrapper::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 100, 100, 0.3);
+      border-radius: 4px;
+    }
+
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+      z-index: 10;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
+
+    /* Profile page styles */
     header {
       display: flex;
       justify-content: center;
@@ -81,79 +165,85 @@
       align-items: center;
       flex-direction: column;
     }
-
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: #1a1a1a;
-      border-top: 1px solid #333;
-      display: flex;
-      justify-content: space-around;
-      padding: 0.5rem 0;
-    }
-
-    .bottom-nav a {
-      color: #888;
-      text-decoration: none;
-      font-size: 1.3rem;
-    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="username" id="username">@user</div>
-  </header>
-
-  <div class="profile">
-    <img id="avatar" src="" alt="avatar">
-    <div class="stats">
-      <div class="stat"><strong id="postCount">10</strong> posts</div>
-      <div class="stat"><strong>0</strong> followers</div>
-      <div class="stat"><strong>0</strong> following</div>
+  <div class="layout-wrapper">
+    <div id="live-stats">
+      <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+      <div>Likes Given: <span id="stat-likes">0</span></div>
+      <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+      <div>Reels Viewed: <span id="stat-reels">0</span></div>
+      <div>Stories Viewed: <span id="stat-stories">0</span></div>
+      <div>Comments Given: <span id="stat-comments">0</span></div>
+      <div>Reposts Done: <span id="stat-reposts">0</span></div>
+      <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+      <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+      <div>Posts Posted: <span id="stat-posts">0</span></div>
     </div>
-  </div>
 
-  <div class="bio">Too cool to achieve anything. Just stats.</div>
+    <div id="app-frame">
+      <div class="content-wrapper">
+        <header>
+          <div class="username" id="username">@user</div>
+        </header>
+        <div class="profile">
+          <img id="avatar" src="" alt="avatar">
+          <div class="stats">
+            <div class="stat"><strong id="postCount">10</strong> posts</div>
+            <div class="stat"><strong>0</strong> followers</div>
+            <div class="stat"><strong>0</strong> following</div>
+          </div>
+        </div>
 
-  <div class="stat-grid" id="statGrid"></div>
+        <div class="bio">Too cool to achieve anything. Just stats.</div>
 
-  <div class="bottom-nav">
-    <a href="index.html">🏠</a>
-    <a href="search.html">🔍</a>
-    <a href="publish.html">➕</a>
-    <a href="reels.html">🎞️</a>
-    <a href="profile.html">👤</a>
-  </div>
+        <div class="stat-grid" id="statGrid"></div>
+      </div> <!-- closes .content-wrapper -->
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const user = params.get("user") || "unknown_user";
-    document.getElementById("username").textContent = `@${user}`;
-    document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${user}`;
+      <div class="bottom-nav">
+        <a href="index.html">🏠</a>
+        <a href="search.html">🔍</a>
+        <a href="publish.html">➕</a>
+        <a href="reels.html">🎞️</a>
+        <a href="profile.html">👤</a>
+      </div>
 
-    const statGrid = document.getElementById("statGrid");
-    const stats = [
-      { label: "Minutes Wasted", max: 999 },
-      { label: "Likes Given", max: 500 },
-      { label: "Scrolls Done", max: 800 },
-      { label: "Reels Viewed", max: 700 },
-      { label: "Stories Viewed", max: 600 },
-      { label: "Comments Given", max: 400 },
-      { label: "Reposts Done", max: 300 },
-      { label: "Bookmarks", max: 200 },
-      { label: "Profiles Visited", max: 100 },
-      { label: "Posts Posted", max: 100 },
-    ];
+      <script>
+        const params = new URLSearchParams(window.location.search);
+        const user = params.get("user") || "unknown_user";
+        document.getElementById("username").textContent = `@${user}`;
+        document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${user}`;
 
-    stats.forEach(stat => {
-      const div = document.createElement("div");
-      const value = Math.floor(Math.random() * stat.max);
-      div.innerHTML = `<strong>${value}</strong>${stat.label}`;
-      statGrid.appendChild(div);
-    });
+        const statGrid = document.getElementById("statGrid");
+        const stats = [
+          { label: "Minutes Wasted", max: 999, id: "stat-minutes" },
+          { label: "Likes Given", max: 500, id: "stat-likes" },
+          { label: "Scrolls Done", max: 800, id: "stat-scrolls" },
+          { label: "Reels Viewed", max: 700, id: "stat-reels" },
+          { label: "Stories Viewed", max: 600, id: "stat-stories" },
+          { label: "Comments Given", max: 400, id: "stat-comments" },
+          { label: "Reposts Done", max: 300, id: "stat-reposts" },
+          { label: "Bookmarks", max: 200, id: "stat-bookmarks" },
+          { label: "Profiles Visited", max: 100, id: "stat-profiles" },
+          { label: "Posts Posted", max: 100, id: "stat-posts" }
+        ];
 
-    document.getElementById("postCount").textContent = Math.floor(Math.random() * 30) + 1;
-  </script>
+        stats.forEach(stat => {
+          const div = document.createElement("div");
+          const value = Math.floor(Math.random() * stat.max);
+          div.innerHTML = `<strong>${value}</strong>${stat.label}`;
+          statGrid.appendChild(div);
+          // Update live sidebar if that stat exists
+          const sidebarEl = document.getElementById(stat.id);
+          if (sidebarEl) {
+            sidebarEl.textContent = stat.label.includes("Minutes") ? Math.floor(value) : value;
+          }
+        });
+
+        document.getElementById("postCount").textContent = Math.floor(Math.random() * 30) + 1;
+      </script>
+    </div> <!-- closes #app-frame -->
+  </div> <!-- closes .layout-wrapper -->
 </body>
 </html>
