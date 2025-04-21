@@ -5,13 +5,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Publish to Void</title>
   <style>
-    body {
-      background-color: #0f0f0f;
-      color: #fff;
-      font-family: Arial, sans-serif;
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f0f0f;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .layout-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 1600px;
+      height: 100vh;
+    }
+    #live-stats {
+      flex-shrink: 0;
+      width: 180px;
+      margin-right: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 10px;
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    #app-frame {
+      width: min(645px, 95vw);
+      height: 100vh;
+      background-color: #0f0f0f;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .content-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      padding-bottom: 80px;
+    }
+    .content-wrapper::-webkit-scrollbar {
+      width: 8px;
+    }
+    .content-wrapper::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .content-wrapper::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 100, 100, 0.3);
+      border-radius: 4px;
+    }
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+      z-index: 10;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
+
+    /* Your original styles */
     header {
       text-align: center;
       padding: 1rem;
@@ -21,8 +104,6 @@
       font-size: 1.2rem;
     }
     .container {
-      padding: 1rem;
-      padding-bottom: 6rem;
       max-width: 600px;
       margin: auto;
       text-align: center;
@@ -71,158 +152,130 @@
       border-radius: 6px;
       color: #aaa;
     }
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: #1a1a1a;
-      border-top: 1px solid #333;
-      display: flex;
-      justify-content: space-around;
-      padding: 0.5rem 0;
-    }
-    .bottom-nav a {
-      color: #888;
-      text-decoration: none;
-      font-size: 1.3rem;
-    }
-    .live-counter {
-      position: fixed;
-      font-size: 0.9rem;
-      color: #666;
-      background-color: #1a1a1a;
-      padding: 6px 10px;
-      border-radius: 6px;
-      border: 1px solid #333;
-      z-index: 999;
-      right: 10px;
-    }
-    #reel-counter { bottom: 50px; }
-    #story-counter { bottom: 80px; }
-    #comment-counter { bottom: 110px; }
-    #repost-counter { bottom: 140px; }
-    #bookmark-counter { bottom: 170px; }
-    #scroll-counter { bottom: 200px; }
-    #profile-counter { bottom: 230px; }
-    #post-counter { bottom: 260px; }
-    #like-counter { bottom: 290px; }
-    #time-counter { bottom: 320px; }
   </style>
 </head>
 <body>
-  <header>Publish a Stat</header>
+  <div class="layout-wrapper">
+    <!-- Live Stats Sidebar -->
+    <div id="live-stats">
+      <div>Reels Viewed: <span id="stat-reels">0</span></div>
+      <div>Stories Viewed: <span id="stat-stories">0</span></div>
+      <div>Comments Given: <span id="stat-comments">0</span></div>
+      <div>Reposts Done: <span id="stat-reposts">0</span></div>
+      <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+      <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+      <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+      <div>Posts Posted: <span id="stat-posts">0</span></div>
+      <div>Likes Given: <span id="stat-likes">0</span></div>
+      <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+    </div>
 
-  <div class="container">
-    <p>Select one of your current stats to publish:</p>
-    <div class="achievements-grid" id="achievementGrid"></div>
-    <button onclick="publish()">Post to the Void</button>
-    <div class="preview" id="preview" style="display:none;"></div>
-  </div>
+    <!-- App Frame -->
+    <div id="app-frame">
+      <div class="content-wrapper">
+        <header>Publish a Stat</header>
+        <div class="container">
+          <p>Select one of your current stats to publish:</p>
+          <div class="achievements-grid" id="achievementGrid"></div>
+          <button onclick="publish()">Post to the Void</button>
+          <div class="preview" id="preview" style="display:none;"></div>
+        </div>
+      </div> <!-- closes .content-wrapper -->
 
-  <!-- Live counters -->
-  <div id="reel-counter" class="live-counter"></div>
-  <div id="story-counter" class="live-counter"></div>
-  <div id="comment-counter" class="live-counter"></div>
-  <div id="repost-counter" class="live-counter"></div>
-  <div id="bookmark-counter" class="live-counter"></div>
-  <div id="scroll-counter" class="live-counter"></div>
-  <div id="profile-counter" class="live-counter"></div>
-  <div id="post-counter" class="live-counter"></div>
-  <div id="like-counter" class="live-counter"></div>
-  <div id="time-counter" class="live-counter"></div>
+      <div class="bottom-nav">
+        <a href="index.html">🏠</a>
+        <a href="search.html">🔍</a>
+        <a href="publish.html">➕</a>
+        <a href="reels.html">🎞️</a>
+        <a href="profile.html">👤</a>
+      </div>
 
-  <div class="bottom-nav">
-    <a href="index.html">🏠</a>
-    <a href="search.html">🔍</a>
-    <a href="publish.html">➕</a>
-    <a href="reels.html">🎞️</a>
-    <a href="profile.html">👤</a>
-  </div>
+      <script>
+        const stats = [
+          "reelsViewed", "storiesViewed", "commentsGiven", "repostsDone", "postsBookmarked",
+          "scrollCount", "profilesVisited", "postsPosted", "likesGiven", "secondsWasted"
+        ];
 
-  <script>
-    const stats = [
-      "reelsViewed", "storiesViewed", "commentsGiven", "repostsDone", "postsBookmarked",
-      "scrollCount", "profilesVisited", "postsPosted", "likesGiven", "secondsWasted"
-    ];
+        const statLabels = {
+          reelsViewed: "Reels viewed",
+          storiesViewed: "Stories viewed",
+          commentsGiven: "Comments given",
+          repostsDone: "Reposts done",
+          postsBookmarked: "Bookmarks",
+          scrollCount: "Scrolls done",
+          profilesVisited: "Profiles visited",
+          postsPosted: "Posts posted",
+          likesGiven: "Likes given",
+          secondsWasted: "Minutes wasted"
+        };
 
-    const statLabels = {
-      reelsViewed: "Reels viewed",
-      storiesViewed: "Stories viewed",
-      commentsGiven: "Comments given",
-      repostsDone: "Reposts done",
-      postsBookmarked: "Bookmarks",
-      scrollCount: "Scrolls done",
-      profilesVisited: "Profiles visited",
-      postsPosted: "Posts posted",
-      likesGiven: "Likes given",
-      secondsWasted: "Minutes wasted"
-    };
+        const statIdMap = {
+          reelsViewed: "stat-reels",
+          storiesViewed: "stat-stories",
+          commentsGiven: "stat-comments",
+          repostsDone: "stat-reposts",
+          postsBookmarked: "stat-bookmarks",
+          scrollCount: "stat-scrolls",
+          profilesVisited: "stat-profiles",
+          postsPosted: "stat-posts",
+          likesGiven: "stat-likes",
+          secondsWasted: "stat-minutes"
+        };
 
-    const statIdMap = {
-      reelsViewed: "reel-counter",
-      storiesViewed: "story-counter",
-      commentsGiven: "comment-counter",
-      repostsDone: "repost-counter",
-      postsBookmarked: "bookmark-counter",
-      scrollCount: "scroll-counter",
-      profilesVisited: "profile-counter",
-      postsPosted: "post-counter",
-      likesGiven: "like-counter",
-      secondsWasted: "time-counter"
-    };
+        function updateLiveStats() {
+          stats.forEach(key => {
+            const val = parseInt(localStorage.getItem(key)) || 0;
+            const displayVal = key === "secondsWasted" ? Math.floor(val / 60) : val;
+            const el = document.getElementById(statIdMap[key]);
+            if (el) el.textContent = displayVal;
+          });
+        }
 
-    function updateLiveStats() {
-      stats.forEach(key => {
-        const val = parseInt(localStorage.getItem(key)) || 0;
-        const displayVal = key === "secondsWasted" ? Math.floor(val / 60) : val;
-        const el = document.getElementById(statIdMap[key]);
-        if (el) el.textContent = `${statLabels[key]}: ${displayVal}`;
-      });
-    }
+        const grid = document.getElementById("achievementGrid");
+        let selectedKey = null;
 
-    const grid = document.getElementById("achievementGrid");
-    let selectedKey = null;
+        stats.forEach(key => {
+          let val = parseInt(localStorage.getItem(key)) || 0;
+          if (key === "secondsWasted") val = Math.floor(val / 60);
+          const tile = document.createElement("div");
+          tile.className = "achievement-tile";
+          tile.innerHTML = `<strong>${statLabels[key]}</strong><br>${val}`;
+          tile.onclick = () => {
+            document.querySelectorAll(".achievement-tile").forEach(t => t.classList.remove("selected"));
+            tile.classList.add("selected");
+            selectedKey = key;
+          };
+          grid.appendChild(tile);
+        });
 
-    stats.forEach(key => {
-      let val = parseInt(localStorage.getItem(key)) || 0;
-      if (key === "secondsWasted") val = Math.floor(val / 60);
-      const tile = document.createElement("div");
-      tile.className = "achievement-tile";
-      tile.innerHTML = `<strong>${statLabels[key]}</strong><br>${val}`;
-      tile.onclick = () => {
-        document.querySelectorAll(".achievement-tile").forEach(t => t.classList.remove("selected"));
-        tile.classList.add("selected");
-        selectedKey = key;
-      };
-      grid.appendChild(tile);
-    });
+        function publish() {
+          if (!selectedKey) {
+            preview.style.display = "block";
+            preview.textContent = "Please select a stat first.";
+            return;
+          }
 
-    function publish() {
-      if (!selectedKey) {
-        preview.style.display = "block";
-        preview.textContent = "Please select a stat first.";
-        return;
-      }
+          let val = parseInt(localStorage.getItem(selectedKey)) || 0;
+          if (selectedKey === "secondsWasted") val = Math.floor(val / 60);
+          const label = statLabels[selectedKey];
+          const postText = `${label}: ${val}`;
 
-      let val = parseInt(localStorage.getItem(selectedKey)) || 0;
-      if (selectedKey === "secondsWasted") val = Math.floor(val / 60);
-      const label = statLabels[selectedKey];
-      const postText = `${label}: ${val}`;
+          const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
+          posts.unshift(postText);
+          localStorage.setItem("sharedPosts", JSON.stringify(posts));
 
-      const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
-      posts.unshift(postText);
-      localStorage.setItem("sharedPosts", JSON.stringify(posts));
+          let posted = parseInt(localStorage.getItem("postsPosted")) || 0;
+          localStorage.setItem("postsPosted", posted + 1);
 
-      let posted = parseInt(localStorage.getItem("postsPosted")) || 0;
-      localStorage.setItem("postsPosted", posted + 1);
+          preview.style.display = "block";
+          preview.textContent = `"${postText}" was posted... and immediately lost in the feed.`;
 
-      preview.style.display = "block";
-      preview.textContent = `"${postText}" was posted... and immediately lost in the feed.`;
+          updateLiveStats();
+        }
 
-      updateLiveStats();
-    }
-
-    updateLiveStats();
-  </script>
+        updateLiveStats();
+      </script>
+    </div> <!-- closes #app-frame -->
+  </div> <!-- closes .layout-wrapper -->
 </body>
 </html>
