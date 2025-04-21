@@ -5,17 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Publish to Void</title>
   <style>
-    body { background-color: #0f0f0f; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header { text-align: center; padding: 1rem; border-bottom: 1px solid #333; background-color: #1a1a1a; font-weight: bold; font-size: 1.2rem; }
-    .container { padding: 1rem; padding-bottom: 6rem; max-width: 600px; margin: auto; text-align: center; }
-    .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 1rem; }
-    .achievement-tile { background-color: #1c1c1c; border: 2px solid #333; padding: 0.8rem; aspect-ratio: 1/1; font-size: 0.75rem; color: #ccc; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; }
-    .achievement-tile:hover { border-color: #666; }
-    .achievement-tile.selected { border-color: #00bfff; box-shadow: 0 0 8px #00bfff55; }
-    button { margin-top: 1.5rem; padding: 0.7rem 1.2rem; background-color: #1a1a1a; color: #fff; border: 1px solid #444; border-radius: 6px; cursor: pointer; }
-    .preview { margin-top: 2rem; background-color: #1c1c1c; border: 1px solid #333; padding: 1rem; border-radius: 6px; color: #aaa; }
-    .bottom-nav { position: fixed; bottom: 0; width: 100%; background-color: #1a1a1a; border-top: 1px solid #333; display: flex; justify-content: space-around; padding: 0.5rem 0; }
-    .bottom-nav a { color: #888; text-decoration: none; font-size: 1.3rem; }
+    body {
+      background-color: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 1rem;
+      border-bottom: 1px solid #333;
+      background-color: #1a1a1a;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .container {
+      padding: 1rem;
+      padding-bottom: 6rem;
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+    }
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 8px;
+      margin-top: 1rem;
+    }
+    .achievement-tile {
+      background-color: #1c1c1c;
+      border: 2px solid #333;
+      padding: 0.8rem;
+      aspect-ratio: 1/1;
+      font-size: 0.75rem;
+      color: #ccc;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .achievement-tile:hover {
+      border-color: #666;
+    }
+    .achievement-tile.selected {
+      border-color: #00bfff;
+      box-shadow: 0 0 8px #00bfff55;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.2rem;
+      background-color: #1a1a1a;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .preview {
+      margin-top: 2rem;
+      background-color: #1c1c1c;
+      border: 1px solid #333;
+      padding: 1rem;
+      border-radius: 6px;
+      color: #aaa;
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+    }
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
     .live-counter {
       position: fixed;
       font-size: 0.9rem;
@@ -43,12 +113,13 @@
   <header>Publish a Stat</header>
 
   <div class="container">
-    <p>Select a stat to share with the void:</p>
-    <div class="achievements-grid" id="statGrid"></div>
+    <p>Select one of your current stats to publish:</p>
+    <div class="achievements-grid" id="achievementGrid"></div>
     <button onclick="publish()">Post to the Void</button>
     <div class="preview" id="preview" style="display:none;"></div>
   </div>
 
+  <!-- Live stats display -->
   <div id="scroll-counter" class="live-counter"></div>
   <div id="like-counter" class="live-counter"></div>
   <div id="comment-counter" class="live-counter"></div>
@@ -69,13 +140,12 @@
   </div>
 
   <script>
-  const stats = [
-    "reelsViewed", "storiesViewed", "commentsGiven", "repostsDone", "postsBookmarked",
-    "scrollCount", "profilesVisited", "postsPosted", "likesGiven", "secondsWasted"
-  ];
+    const stats = [
+      "reelsViewed", "storiesViewed", "commentsGiven", "repostsDone", "postsBookmarked",
+      "scrollCount", "profilesVisited", "postsPosted", "likesGiven", "secondsWasted"
+    ];
 
-  function getStatLabel(key) {
-    const map = {
+    const statLabels = {
       reelsViewed: "Reels viewed",
       storiesViewed: "Stories viewed",
       commentsGiven: "Comments given",
@@ -87,72 +157,63 @@
       likesGiven: "Likes given",
       secondsWasted: "Minutes wasted"
     };
-    return map[key];
-  }
 
-  function updateLiveStats() {
-    stats.forEach(key => {
-      const el = document.getElementById(key + "-counter");
-      if (!el) return;
-      let val = parseInt(localStorage.getItem(key)) || 0;
-      if (key === "secondsWasted") val = Math.floor(val / 60);
-      el.textContent = `${getStatLabel(key)}: ${val}`;
-    });
-  }
-
-  const container = document.querySelector(".container");
-  const statKeys = [
-    "reelsViewed", "storiesViewed", "commentsGiven", "repostsDone", "postsBookmarked",
-    "scrollCount", "profilesVisited", "postsPosted", "likesGiven", "secondsWasted"
-  ];
-
-  statKeys.forEach(key => {
-    const div = document.createElement("div");
-    div.className = "achievement-tile";
-    div.setAttribute("data-key", key);
-    div.innerHTML = `<strong>${getStatLabel(key)}</strong><br>Click to share`;
-    div.onclick = () => {
-      document.querySelectorAll(".achievement-tile").forEach(el => el.classList.remove("selected"));
-      div.classList.add("selected");
-      selectedKey = key;
-    };
-    document.getElementById("achievementGrid").appendChild(div);
-  });
-
-  let selectedKey = null;
-  const preview = document.getElementById("preview");
-
-  function publish() {
-    if (!selectedKey) {
-      preview.style.display = "block";
-      preview.textContent = "Please select a stat.";
-      return;
+    function updateLiveStats() {
+      stats.forEach(key => {
+        const el = document.getElementById(key.replace("Count", "") + "-counter");
+        if (!el) return;
+        let val = parseInt(localStorage.getItem(key)) || 0;
+        if (key === "secondsWasted") val = Math.floor(val / 60);
+        el.textContent = `${statLabels[key]}: ${val}`;
+      });
     }
 
-    const key = selectedKey;
-    let val = parseInt(localStorage.getItem(key)) || 0;
-    let label = getStatLabel(key);
-    if (key === "secondsWasted") val = Math.floor(val / 60);
-    const postText = `${label}: ${val}`;
+    const grid = document.getElementById("achievementGrid");
+    let selectedKey = null;
 
-    // Save to fake post history
-    const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
-    posts.unshift(postText);
-    localStorage.setItem("sharedPosts", JSON.stringify(posts));
+    stats.forEach(key => {
+      let val = parseInt(localStorage.getItem(key)) || 0;
+      if (key === "secondsWasted") val = Math.floor(val / 60);
+      const tile = document.createElement("div");
+      tile.className = "achievement-tile";
+      tile.innerHTML = `<strong>${statLabels[key]}</strong><br>${val}`;
+      tile.onclick = () => {
+        document.querySelectorAll(".achievement-tile").forEach(t => t.classList.remove("selected"));
+        tile.classList.add("selected");
+        selectedKey = key;
+      };
+      grid.appendChild(tile);
+    });
 
-    // Increment postsPosted
-    let posted = parseInt(localStorage.getItem("postsPosted")) || 0;
-    localStorage.setItem("postsPosted", posted + 1);
+    function publish() {
+      if (!selectedKey) {
+        preview.style.display = "block";
+        preview.textContent = "Please select a stat first.";
+        return;
+      }
 
-    // Show confirmation
-    preview.style.display = "block";
-    preview.textContent = `"${postText}" published... and immediately lost in the void.`;
+      let val = parseInt(localStorage.getItem(selectedKey)) || 0;
+      if (selectedKey === "secondsWasted") val = Math.floor(val / 60);
+      const label = statLabels[selectedKey];
+      const postText = `${label}: ${val}`;
+
+      // Save to shared post log
+      const posts = JSON.parse(localStorage.getItem("sharedPosts")) || [];
+      posts.unshift(postText);
+      localStorage.setItem("sharedPosts", JSON.stringify(posts));
+
+      // Increment "postsPosted"
+      let posted = parseInt(localStorage.getItem("postsPosted")) || 0;
+      localStorage.setItem("postsPosted", posted + 1);
+
+      // Show preview
+      preview.style.display = "block";
+      preview.textContent = `"${postText}" was posted... then quickly ignored.`;
+
+      updateLiveStats();
+    }
 
     updateLiveStats();
-  }
-
-  updateLiveStats();
-</script>
-
+  </script>
 </body>
 </html>
