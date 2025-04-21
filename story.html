@@ -5,12 +5,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Void Stories</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      overflow: hidden;
       background-color: #0f0f0f;
-      color: #fff;
       font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .layout-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 1600px;
       height: 100vh;
+    }
+
+    #live-stats {
+      flex-shrink: 0;
+      width: 180px;
+      margin-right: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 10px;
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+    }
+
+    #app-frame {
+      width: min(645px, 95vw);
+      height: 100vh;
+      background-color: #0f0f0f;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .content-wrapper {
+      flex: 1;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -18,10 +69,31 @@
       position: relative;
     }
 
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+      z-index: 10;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
+
+    /* Story Styles */
     .story-wrapper {
-      width: 90%;
-      max-width: 540px;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -85,10 +157,11 @@
       border: 1px solid #444;
       padding: 0.5rem 1rem;
       border-radius: 6px;
-      position: fixed;
+      position: absolute;
       top: 10px;
       left: 10px;
       z-index: 999;
+      background-color: #1a1a1a;
     }
 
     .next-button, .prev-button {
@@ -116,150 +189,142 @@
     .prev-button {
       left: -60px;
     }
-
-    .live-counter {
-      position: fixed;
-      font-size: 0.9rem;
-      color: #666;
-      background-color: #1a1a1a;
-      padding: 6px 10px;
-      border-radius: 6px;
-      border: 1px solid #333;
-      z-index: 999;
-      right: 10px;
-    }
-
-    #waste-counter { bottom: 50px; }
-    #like-counter { bottom: 80px; }
-    #scroll-counter { bottom: 110px; }
-    #reel-counter { bottom: 140px; }
-    #story-counter { bottom: 170px; }
-    #comment-counter { bottom: 200px; }
-    #repost-counter { bottom: 230px; }
-    #bookmark-counter { bottom: 260px; }
-    #profile-counter { bottom: 290px; }
-    #post-counter { bottom: 320px; }
   </style>
 </head>
 <body>
-  <a class="back-button" href="index.html">← Back to Feed</a>
+  <div class="layout-wrapper">
+    <div id="live-stats">
+      <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+      <div>Likes Given: <span id="stat-likes">0</span></div>
+      <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+      <div>Reels Viewed: <span id="stat-reels">0</span></div>
+      <div>Stories Viewed: <span id="stat-stories">0</span></div>
+      <div>Comments Given: <span id="stat-comments">0</span></div>
+      <div>Reposts Done: <span id="stat-reposts">0</span></div>
+      <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+      <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+      <div>Posts Posted: <span id="stat-posts">0</span></div>
+    </div>
 
-  <div class="story-wrapper">
-    <div class="prev-button" onclick="prevStory()">‹</div>
-    <div class="next-button" onclick="nextStory()">›</div>
-    <div id="storyWrapper"></div>
-  </div>
+    <div id="app-frame">
+      <div class="content-wrapper">
+        <a class="back-button" href="index.html">← Back to Feed</a>
 
-  <!-- Live stat trackers -->
-  <div id="waste-counter" class="live-counter"></div>
-  <div id="like-counter" class="live-counter"></div>
-  <div id="scroll-counter" class="live-counter"></div>
-  <div id="reel-counter" class="live-counter"></div>
-  <div id="story-counter" class="live-counter"></div>
-  <div id="comment-counter" class="live-counter"></div>
-  <div id="repost-counter" class="live-counter"></div>
-  <div id="bookmark-counter" class="live-counter"></div>
-  <div id="profile-counter" class="live-counter"></div>
-  <div id="post-counter" class="live-counter"></div>
+        <div class="story-wrapper">
+          <div class="prev-button" onclick="prevStory()">‹</div>
+          <div class="next-button" onclick="nextStory()">›</div>
+          <div id="storyWrapper"></div>
+        </div>
+      </div> <!-- closes .content-wrapper -->
 
-  <script>
-    const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
-    const messages = [
-      "This story is entirely meaningless.",
-      "Nothing to see here.",
-      "Still wasting time, huh?",
-      "You've made it to another void.",
-      "One more swipe. Or five.",
-      "Fake story. Real regret."
-    ];
+      <div class="bottom-nav">
+        <a href="index.html">🏠</a>
+        <a href="search.html">🔍</a>
+        <a href="publish.html">➕</a>
+        <a href="reels.html">🎞️</a>
+        <a href="profile.html">👤</a>
+      </div>
 
-    const storyWrapper = document.getElementById("storyWrapper");
-    let currentIndex = 0;
+      <script>
+        const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
+        const messages = [
+          "This story is entirely meaningless.",
+          "Nothing to see here.",
+          "Still wasting time, huh?",
+          "You've made it to another void.",
+          "One more swipe. Or five.",
+          "Fake story. Real regret."
+        ];
 
-    const stats = {
-      secondsWasted: "secondsWasted",
-      likesGiven: "likesGiven",
-      scrollCount: "scrollCount",
-      reelsViewed: "reelsViewed",
-      storiesViewed: "storiesViewed",
-      commentsGiven: "commentsGiven",
-      repostsDone: "repostsDone",
-      postsBookmarked: "postsBookmarked",
-      profilesVisited: "profilesVisited",
-      postsPosted: "postsPosted"
-    };
+        const storyWrapper = document.getElementById("storyWrapper");
+        let currentIndex = 0;
 
-    function getStat(key) {
-      return parseInt(localStorage.getItem(key)) || 0;
-    }
+        const stats = {
+          secondsWasted: "secondsWasted",
+          likesGiven: "likesGiven",
+          scrollCount: "scrollCount",
+          reelsViewed: "reelsViewed",
+          storiesViewed: "storiesViewed",
+          commentsGiven: "commentsGiven",
+          repostsDone: "repostsDone",
+          postsBookmarked: "postsBookmarked",
+          profilesVisited: "profilesVisited",
+          postsPosted: "postsPosted"
+        };
 
-    function setStat(key, value) {
-      localStorage.setItem(key, value);
-    }
+        function getStat(key) {
+          return parseInt(localStorage.getItem(key)) || 0;
+        }
 
-    function incrementStat(key) {
-      let val = getStat(key) + 1;
-      setStat(key, val);
-      updateStats();
-    }
+        function setStat(key, value) {
+          localStorage.setItem(key, value);
+        }
 
-    function updateStats() {
-      document.getElementById("waste-counter").textContent = `Minutes wasted: ${Math.floor(getStat(stats.secondsWasted) / 60)}`;
-      document.getElementById("like-counter").textContent = `Likes given: ${getStat(stats.likesGiven)}`;
-      document.getElementById("scroll-counter").textContent = `Scrolls done: ${getStat(stats.scrollCount)}`;
-      document.getElementById("reel-counter").textContent = `Reels viewed: ${getStat(stats.reelsViewed)}`;
-      document.getElementById("story-counter").textContent = `Stories viewed: ${getStat(stats.storiesViewed)}`;
-      document.getElementById("comment-counter").textContent = `Comments given: ${getStat(stats.commentsGiven)}`;
-      document.getElementById("repost-counter").textContent = `Reposts done: ${getStat(stats.repostsDone)}`;
-      document.getElementById("bookmark-counter").textContent = `Bookmarks: ${getStat(stats.postsBookmarked)}`;
-      document.getElementById("profile-counter").textContent = `Profiles visited: ${getStat(stats.profilesVisited)}`;
-      document.getElementById("post-counter").textContent = `Posts posted: ${getStat(stats.postsPosted)}`;
-    }
+        function incrementStat(key) {
+          let val = getStat(key) + 1;
+          setStat(key, val);
+          updateSidebarStats();
+        }
 
-    function startWastedTimer() {
-      setInterval(() => {
-        incrementStat(stats.secondsWasted);
-      }, 1000);
-    }
+        function updateSidebarStats() {
+          document.getElementById("stat-minutes").textContent = Math.floor(getStat(stats.secondsWasted) / 60);
+          document.getElementById("stat-likes").textContent = getStat(stats.likesGiven);
+          document.getElementById("stat-scrolls").textContent = getStat(stats.scrollCount);
+          document.getElementById("stat-reels").textContent = getStat(stats.reelsViewed);
+          document.getElementById("stat-stories").textContent = getStat(stats.storiesViewed);
+          document.getElementById("stat-comments").textContent = getStat(stats.commentsGiven);
+          document.getElementById("stat-reposts").textContent = getStat(stats.repostsDone);
+          document.getElementById("stat-bookmarks").textContent = getStat(stats.postsBookmarked);
+          document.getElementById("stat-profiles").textContent = getStat(stats.profilesVisited);
+          document.getElementById("stat-posts").textContent = getStat(stats.postsPosted);
+        }
 
-    function showStory(index) {
-      const slides = document.querySelectorAll(".story-slide");
-      slides.forEach(slide => slide.classList.remove("active"));
-      slides[index].classList.add("active");
-      incrementStat(stats.storiesViewed);
-    }
+        function startWastedTimer() {
+          setInterval(() => {
+            incrementStat(stats.secondsWasted);
+          }, 1000);
+        }
 
-    function nextStory() {
-      currentIndex = (currentIndex + 1) % usernames.length;
-      showStory(currentIndex);
-    }
+        function showStory(index) {
+          const slides = document.querySelectorAll(".story-slide");
+          slides.forEach(slide => slide.classList.remove("active"));
+          slides[index].classList.add("active");
+          incrementStat(stats.storiesViewed);
+        }
 
-    function prevStory() {
-      currentIndex = (currentIndex - 1 + usernames.length) % usernames.length;
-      showStory(currentIndex);
-    }
+        function nextStory() {
+          currentIndex = (currentIndex + 1) % usernames.length;
+          showStory(currentIndex);
+        }
 
-    // Build slides
-    usernames.forEach((username, i) => {
-      const message = messages[i % messages.length];
-      const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+        function prevStory() {
+          currentIndex = (currentIndex - 1 + usernames.length) % usernames.length;
+          showStory(currentIndex);
+        }
 
-      const slide = document.createElement("div");
-      slide.className = "story-slide";
-      if (i === 0) slide.classList.add("active");
+        // Build slides
+        usernames.forEach((username, i) => {
+          const message = messages[i % messages.length];
+          const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 
-      slide.innerHTML = `
-        <img class="avatar" src="${avatar}" alt="avatar">
-        <div class="username">@${username}</div>
-        <div class="message">${message}</div>
-      `;
+          const slide = document.createElement("div");
+          slide.className = "story-slide";
+          if (i === 0) slide.classList.add("active");
 
-      storyWrapper.appendChild(slide);
-    });
+          slide.innerHTML = `
+            <img class="avatar" src="${avatar}" alt="avatar">
+            <div class="username">@${username}</div>
+            <div class="message">${message}</div>
+          `;
 
-    updateStats();
-    startWastedTimer();
-    incrementStat(stats.storiesViewed);
-  </script>
+          storyWrapper.appendChild(slide);
+        });
+
+        updateSidebarStats();
+        startWastedTimer();
+        incrementStat(stats.storiesViewed);
+      </script>
+    </div> <!-- closes #app-frame -->
+  </div> <!-- closes .layout-wrapper -->
 </body>
 </html>
