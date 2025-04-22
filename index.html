@@ -513,10 +513,19 @@ for (let i = 0; i < 10; i++) {
 }
 
 document.querySelector(".content-wrapper").addEventListener("scroll", () => {
+  const wrapper = document.querySelector(".content-wrapper");
   scrollCount++;
   localStorage.setItem("scrollCount", scrollCount);
   updateStats();
+
+  if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
+    for (let i = 0; i < 5; i++) {
+      const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+      createPost(msg);
+    }
+  }
 });
+
 
 updateStats();
 </script>
