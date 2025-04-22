@@ -251,19 +251,40 @@
     }
     .like-popup {
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, 0);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #222;
   color: #fff;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  pointer-events: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
   opacity: 0;
+  pointer-events: none;
+  z-index: 5;
   animation: floatUpFade 2.5s ease-out forwards;
-  z-index: 2;
 }
+
+@keyframes floatUpFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, -10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+}
+
 
 @keyframes floatUpFade {
   0% {
@@ -426,41 +447,21 @@ function handleBookmark(btn) {
   showPopup(btn, ["This post is now... saved?", "Marked for future disappointment.", "Pinned to forget."]);
 }
 
-.like-popup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  pointer-events: none;
-  opacity: 0;
-  animation: floatUpFade 2.5s ease-out forwards;
-  z-index: 2;
+function showPopup(btn, messages) {
+  const popup = document.createElement("div");
+  popup.className = "like-popup";
+  popup.textContent = messages[Math.floor(Math.random() * messages.length)];
+
+  const post = btn.closest(".post");
+  const imageArea = post.querySelector(".post-image");
+
+  // Ensure image area is positioned so the popup places correctly
+  imageArea.style.position = "relative";
+  imageArea.appendChild(popup);
+
+  setTimeout(() => popup.remove(), 2800);
 }
 
-@keyframes floatUpFade {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 20px);
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-    transform: translate(-50%, -30px);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -40px);
-  }
-}
-
-}
 
 function toggleCommentBox(btn) {
   const box = btn.closest(".post").querySelector(".comment-box");
