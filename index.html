@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>InstaVoid</title>
@@ -312,6 +314,8 @@
       100% { opacity: 0; }
     }
   </style>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 <body>
   <div class="layout-wrapper">
@@ -344,12 +348,13 @@
 </div>
 
 <div class="bottom-nav">
-  <a href="index.html">🏠</a>
-  <a href="search.html">🔍</a>
-  <a href="publish.html">➕</a>
-  <a href="reels.html">🎞️</a>
-  <a href="profile.html">👤</a>
+  <a href="index.html"><i data-lucide="home"></i></a>
+  <a href="search.html"><i data-lucide="search"></i></a>
+  <a href="publish.html"><i data-lucide="plus-circle"></i></a>
+  <a href="reels.html"><i data-lucide="video"></i></a>
+  <a href="profile.html"><i data-lucide="user"></i></a>
 </div>
+
 
 <script>
 const feed = document.getElementById("feed");
@@ -414,12 +419,12 @@ function createPost(message) {
   <span>@${username}</span>
 </a>
     <div class="post-image">${message}</div>
-    <div class="post-actions">
-      <button onclick="handleLike(this)">❤️</button>
-      <button onclick="toggleCommentBox(this)">💬</button>
-      <button onclick="handleRepost(this)">🔁</button>
-      <button onclick="handleBookmark(this)">📌</button>
-    </div>
+<div class="post-actions">
+  <button onclick="handleLike(this)"><i data-lucide="heart"></i></button>
+  <button onclick="toggleCommentBox(this)"><i data-lucide="message-circle"></i></button>
+  <button onclick="handleRepost(this)"><i data-lucide="repeat"></i></button>
+  <button onclick="handleBookmark(this)"><i data-lucide="bookmark"></i></button>
+</div>
     <div class="comment-box">
       <input type="text" placeholder="Say something...">
       <button onclick="submitFakeComment(this)">➤</button>
@@ -550,6 +555,9 @@ document.addEventListener("click", function (e) {
 });
 
 updateStats();
+  
+lucide.createIcons();
+
 </script>
 </div> <!-- closes #app-frame -->
 </div> <!-- closes .layout-wrapper -->
