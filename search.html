@@ -202,6 +202,7 @@
           { name: "pixelpirate", desc: "Stealing screen space." },
           { name: "feedghost", desc: "Lurks and vanishes." },
           { name: "drainwave", desc: "Drained and proud." }
+          { name: "loopergeist", desc: "Circling the void like it’s a job." }
         ];
 
         let showAllAccounts = false;
@@ -211,7 +212,7 @@
           container.innerHTML = "";
 
 
-          const shownAccounts = showAllAccounts ? fakeAccounts : fakeAccounts.slice(0, 5);
+          const shownAccounts = showAllAccounts ? fakeAccounts : fakeAccounts.slice(0, 10);
           shownAccounts.forEach(account => {
             const div = document.createElement("a");
             div.className = "account";
