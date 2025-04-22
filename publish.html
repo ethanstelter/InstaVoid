@@ -110,7 +110,7 @@
     }
     .achievements-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
       margin-top: 1rem;
     }
@@ -127,6 +127,7 @@
       align-items: center;
       cursor: pointer;
       transition: 0.2s;
+      transition: box-shadow 0.3s, border-color 0.3s;
     }
     .achievement-tile:hover {
       border-color: #666;
