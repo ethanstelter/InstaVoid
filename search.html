@@ -288,6 +288,18 @@
           document.getElementById("stat-posts").textContent = get("postsPosted");
           document.getElementById("stat-minutes").textContent = Math.floor(get("secondsWasted") / 60);
         }
+// Track profile clicks globally on the page
+document.addEventListener("click", function (e) {
+  const anchor = e.target.closest("a[href^='user.html?user=']");
+  if (anchor) {
+    let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
+    localStorage.setItem("profilesVisited", visited + 1);
+
+    // Optional: if sidebar should update instantly
+    const statEl = document.getElementById("stat-profiles");
+    if (statEl) statEl.textContent = visited + 1;
+  }
+});
 
         renderAccounts();
         renderLeaderboard();
