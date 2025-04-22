@@ -301,13 +301,17 @@ generatedSeeds.forEach(seed => {
 });
 
 
-  const avatarGrid = document.getElementById("avatarOptions");
-  let selectedAvatar = null;
+ const avatarGrid = document.getElementById("avatarOptions");
+let selectedAvatar = null;
 
-  avatarSeeds.forEach(seed => {
+function generateAvatars() {
+  avatarGrid.innerHTML = "";
+  const seeds = Array.from({ length: 24 }, (_, i) => `voidseed${i}_${Math.floor(Math.random() * 9999)}`);
+  seeds.forEach(seed => {
     const img = document.createElement("img");
     img.src = `https://api.dicebear.com/7.x/personas/svg?seed=${seed}`;
     img.dataset.seed = seed;
+    img.alt = seed;
     img.onclick = () => {
       document.querySelectorAll(".avatar-grid img").forEach(i => i.classList.remove("selected"));
       img.classList.add("selected");
@@ -315,6 +319,8 @@ generatedSeeds.forEach(seed => {
     };
     avatarGrid.appendChild(img);
   });
+}
+
 
   function saveSetup() {
     const username = document.getElementById("setup-username").value.trim();
@@ -343,13 +349,17 @@ generatedSeeds.forEach(seed => {
     document.getElementById("bioDisplay").textContent = bio;
   }
 
-  window.addEventListener("DOMContentLoaded", () => {
-    const hasSetup = localStorage.getItem("username") && localStorage.getItem("bio") && localStorage.getItem("avatarSeed");
-    if (hasSetup) {
-      document.getElementById("setup-overlay").style.display = "none";
-      loadUserData();
-    }
-  });
+ window.addEventListener("DOMContentLoaded", () => {
+  const hasSetup = localStorage.getItem("username") && localStorage.getItem("bio") && localStorage.getItem("avatarSeed");
+
+  if (hasSetup) {
+    document.getElementById("setup-overlay").style.display = "none";
+    loadUserData();
+  } else {
+    generateAvatars(); // 👈 this line shows the avatars in the grid
+  }
+});
+
 
   const statLabels = [
     "Minutes Wasted", "Likes Given", "Scrolls Done", "Reels Viewed", "Stories Viewed",
