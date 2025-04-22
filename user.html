@@ -147,31 +147,58 @@
       <script>
         const params = new URLSearchParams(window.location.search);
         const user = params.get("user") || "unknown_user";
+        const isYou = user === "you";
+
         document.getElementById("username").textContent = `@${user}`;
         document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${user}`;
 
         const statGrid = document.getElementById("statGrid");
-        const stats = [
-          { label: "Minutes Wasted", max: 1200 },
-          { label: "Likes Given", max: 2000 },
-          { label: "Scrolls Done", max: 4000 },
-          { label: "Reels Viewed", max: 3000 },
-          { label: "Stories Viewed", max: 2500 },
-          { label: "Comments Given", max: 1200 },
-          { label: "Reposts Done", max: 1000 },
-          { label: "Bookmarks", max: 800 },
-          { label: "Profiles Visited", max: 700 },
-          { label: "Posts Posted", max: 300 }
+
+        const statLabels = [
+          "Minutes Wasted",
+          "Likes Given",
+          "Scrolls Done",
+          "Reels Viewed",
+          "Stories Viewed",
+          "Comments Given",
+          "Reposts Done",
+          "Bookmarks",
+          "Profiles Visited",
+          "Posts Posted"
         ];
 
-        stats.forEach(stat => {
+        const statKeys = [
+          "secondsWasted",
+          "likesGiven",
+          "scrollCount",
+          "reelsViewed",
+          "storiesViewed",
+          "commentsGiven",
+          "repostsDone",
+          "postsBookmarked",
+          "profilesVisited",
+          "postsPosted"
+        ];
+
+        statKeys.forEach((key, index) => {
           const div = document.createElement("div");
-          const value = Math.floor(Math.random() * stat.max);
-          div.innerHTML = `<strong>${value}</strong>${stat.label}`;
+          let value = 0;
+          if (isYou) {
+            value = parseInt(localStorage.getItem(key)) || 0;
+            if (key === "secondsWasted") value = Math.floor(value / 60);
+          } else {
+            const fakeMax = [1200, 2000, 4000, 3000, 2500, 1200, 1000, 800, 700, 300];
+            value = Math.floor(Math.random() * fakeMax[index]);
+          }
+          div.innerHTML = `<strong>${value}</strong>${statLabels[index]}`;
           statGrid.appendChild(div);
         });
 
-        document.getElementById("postCount").textContent = Math.floor(Math.random() * 30) + 1;
+        if (isYou) {
+          document.getElementById("postCount").textContent = parseInt(localStorage.getItem("postsPosted")) || 0;
+        } else {
+          document.getElementById("postCount").textContent = Math.floor(Math.random() * 30) + 1;
+        }
       </script>
     </div>
   </div>
