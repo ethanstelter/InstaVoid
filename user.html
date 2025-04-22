@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fake User Profile</title>
-  <style>
-    html, body {
-      height: 100%;
-      overflow: hidden;
-      background-color: #eeeeee;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0;
-      padding: 0;
-    }
-    .layout-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      max-width: 1600px;
-      height: 100vh;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fake User Profile</title>
+<style>
+html, body {
+height: 100%;
+overflow: hidden;
+background-color: #eeeeee;
+color: #fff;
+font-family: Arial, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0;
+padding: 0;
+}
+.layout-wrapper {
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+max-width: 1600px;
+height: 100vh;
+}
     #live-stats {
       flex-shrink: 0;
       width: 180px;
@@ -42,106 +42,211 @@
       top: 20px;
       height: fit-content;
     }
-    #app-frame {
-      width: min(645px, 95vw);
-      height: 100vh;
-      background-color: #0f0f0f;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-    .content-wrapper {
-      flex: 1;
-      overflow-y: auto;
-      padding-bottom: 60px;
-    }
-    .content-wrapper::-webkit-scrollbar {
-      width: 8px;
-    }
-    .content-wrapper::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .content-wrapper::-webkit-scrollbar-thumb {
-      background-color: rgba(100, 100, 100, 0.3);
-      border-radius: 4px;
-    }
-    header {
-      text-align: center;
-      padding: 1rem;
-      border-bottom: 1px solid #333;
-      background-color: #1a1a1a;
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-    .profile {
-      padding: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-    .profile img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background-color: #444;
-    }
-    .stats {
-      display: flex;
-      gap: 1rem;
-    }
-    .stat {
-      text-align: center;
-    }
-    .stat strong {
-      display: block;
-      font-size: 1.1rem;
-      color: #fff;
-    }
-    .bio {
-      padding: 0 1.5rem 1rem;
-      color: #aaa;
-    }
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background-color: #333;
-    }
-    .stat-grid div {
-      background-color: #1c1c1c;
-      aspect-ratio: 1 / 1;
-      color: #ccc;
-      font-size: 0.8rem;
-      padding: 0.5rem;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-    .bottom-nav {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: #1a1a1a;
-      border-top: 1px solid #333;
-      display: flex;
-      justify-content: space-around;
-      padding: 0.5rem 0;
-      z-index: 10;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-    }
-    .bottom-nav a {
-      color: #888;
-      text-decoration: none;
-      font-size: 1.3rem;
-    }
-  </style>
+#app-frame {
+width: min(645px, 95vw);
+height: 100vh;
+background-color: #0f0f0f;
+border-radius: 20px;
+box-shadow: 0 0 15px rgba(0,0,0,0.3);
+overflow: hidden;
+display: flex;
+flex-direction: column;
+position: relative;
+}
+.content-wrapper {
+flex: 1;
+overflow-y: auto;
+padding-bottom: 60px;
+}
+header {
+text-align: center;
+padding: 1rem;
+border-bottom: 1px solid #333;
+background-color: #1a1a1a;
+font-weight: bold;
+font-size: 1.2rem;
+}
+.profile {
+padding: 1.5rem;
+display: flex;
+align-items: center;
+gap: 1.5rem;
+}
+.profile img {
+width: 80px;
+height: 80px;
+border-radius: 50%;
+background-color: #444;
+}
+.stats {
+display: flex;
+gap: 1rem;
+}
+.stat {
+text-align: center;
+}
+.stat strong {
+display: block;
+font-size: 1.1rem;
+color: #fff;
+}
+.bio {
+padding: 0 1.5rem 1rem;
+color: #aaa;
+}
+.stat-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 1px;
+background-color: #333;
+}
+.stat-grid div {
+background-color: #1c1c1c;
+aspect-ratio: 1 / 1;
+color: #ccc;
+font-size: 0.8rem;
+padding: 0.5rem;
+text-align: center;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+}
+.bottom-nav {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+background-color: #1a1a1a;
+border-top: 1px solid #333;
+display: flex;
+justify-content: space-around;
+padding: 0.5rem 0;
+z-index: 10;
+border-bottom-left-radius: 20px;
+border-bottom-right-radius: 20px;
+}
+.bottom-nav a {
+color: #888;
+text-decoration: none;
+font-size: 1.3rem;
+}
+</style>
 </head>
 <body>
-<!-- (script block and HTML unchanged) -->
+<div class="layout-wrapper">
+    <div id="live-stats">
+      <div>Reels Viewed: <span id="stat-reels">0</span></div>
+      <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+      <div>Likes Given: <span id="stat-likes">0</span></div>
+      <div>Comments Given: <span id="stat-comments">0</span></div>
+      <div>Reposts Done: <span id="stat-reposts">0</span></div>
+      <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+      <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+      <div>Posts Posted: <span id="stat-posts">0</span></div>
+      <div>Stories Viewed: <span id="stat-stories">0</span></div>
+      <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+    </div>
+<div id="app-frame">
+<div class="content-wrapper">
+<header id="username">@username</header>
+
+<div class="profile">
+<img id="avatar" src="" alt="avatar">
+<div class="stats">
+<div class="stat"><strong id="postCount">0</strong> posts</div>
+<div class="stat"><strong>0</strong> followers</div>
+<div class="stat"><strong>0</strong> following</div>
+</div>
+</div>
+
+<div class="bio">Too cool to achieve anything. Just stats.</div>
+
+<div class="stat-grid" id="statGrid"></div>
+</div>
+
+<div class="bottom-nav">
+<a href="index.html">🏠</a>
+<a href="search.html">🔍</a>
+<a href="publish.html">➕</a>
+<a href="reels.html">🎞️</a>
+<a href="profile.html">👤</a>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const user = params.get("user") || "unknown_user";
+const isYou = user === "you";
+
+document.getElementById("username").textContent = `@${user}`;
+document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${user}`;
+
+const statGrid = document.getElementById("statGrid");
+
+const statLabels = [
+"Minutes Wasted",
+"Likes Given",
+"Scrolls Done",
+"Reels Viewed",
+"Stories Viewed",
+"Comments Given",
+"Reposts Done",
+"Bookmarks",
+"Profiles Visited",
+"Posts Posted"
+];
+
+const statKeys = [
+"secondsWasted",
+"likesGiven",
+"scrollCount",
+"reelsViewed",
+"storiesViewed",
+"commentsGiven",
+"repostsDone",
+"postsBookmarked",
+"profilesVisited",
+"postsPosted"
+];
+
+statKeys.forEach((key, index) => {
+const div = document.createElement("div");
+let value = 0;
+if (isYou) {
+value = parseInt(localStorage.getItem(key)) || 0;
+if (key === "secondsWasted") value = Math.floor(value / 60);
+} else {
+const fakeMax = [1200, 2000, 4000, 3000, 2500, 1200, 1000, 800, 700, 300];
+value = Math.floor(Math.random() * fakeMax[index]);
+}
+div.innerHTML = `<strong>${value}</strong>${statLabels[index]}`;
+statGrid.appendChild(div);
+});
+
+if (isYou) {
+document.getElementById("postCount").textContent = parseInt(localStorage.getItem("postsPosted")) || 0;
+} else {
+document.getElementById("postCount").textContent = Math.floor(Math.random() * 30) + 1;
+}
+
+        // Populate live-stats sidebar with real user data
+        function updateLiveStats() {
+          const get = key => parseInt(localStorage.getItem(key)) || 0;
+          document.getElementById("stat-reels").textContent = get("reelsViewed");
+          document.getElementById("stat-scrolls").textContent = get("scrollCount");
+          document.getElementById("stat-likes").textContent = get("likesGiven");
+          document.getElementById("stat-comments").textContent = get("commentsGiven");
+          document.getElementById("stat-reposts").textContent = get("repostsDone");
+          document.getElementById("stat-bookmarks").textContent = get("postsBookmarked");
+          document.getElementById("stat-profiles").textContent = get("profilesVisited");
+          document.getElementById("stat-posts").textContent = get("postsPosted");
+          document.getElementById("stat-stories").textContent = get("storiesViewed");
+          document.getElementById("stat-minutes").textContent = Math.floor(get("secondsWasted") / 60);
+        }
+
+        updateLiveStats();
+</script>
+</div>
+</div>
+</body>
+</html>
