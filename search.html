@@ -209,14 +209,7 @@
         function renderAccounts() {
           const container = document.getElementById("account-container");
           container.innerHTML = "";
-          container.innerHTML += `
-            <a href="profile.html" class="account highlight">
-              <img src="https://api.dicebear.com/7.x/personas/svg?seed=you" alt="@you">
-              <div class="account-info">
-                <div class="name">@you</div>
-                <div class="desc">Just wasting time on purpose.</div>
-              </div>
-            </a>`;
+
 
           const shownAccounts = showAllAccounts ? fakeAccounts : fakeAccounts.slice(0, 5);
           shownAccounts.forEach(account => {
