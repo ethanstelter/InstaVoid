@@ -254,13 +254,18 @@
           leaderboardUsers.forEach((user, i) => {
             const div = document.createElement("div");
             div.className = `leaderboard-item${user.highlight ? " highlight" : ""}`;
-            div.onclick = () => {
-              if (user.name === "you") {
-                window.location.href = "profile.html";
-              } else {
-                window.location.href = `user.html?user=${user.name}`;
-              }
-            };
+          div.innerHTML = `
+  <a href="user.html?user=${user.name}" class="leaderboard-link">
+    <img src="https://api.dicebear.com/7.x/personas/svg?seed=${user.name}">
+    <div class="leaderboard-info">
+      <div class="name"><span class="medal">${medal}</span>@${user.name}</div>
+      <div class="stat-columns">
+        ${user.values.map((val, idx) => `<div>${stats[idx]}: ${val}</div>`).join("")}
+      </div>
+    </div>
+  </a>
+`;
+
 
             const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
             div.innerHTML = `
