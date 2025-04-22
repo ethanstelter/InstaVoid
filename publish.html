@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Publish to Void</title>
@@ -180,6 +182,8 @@ button:hover {
 }
 
   </style>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 <body>
   <div class="layout-wrapper">
@@ -209,13 +213,14 @@ button:hover {
         </div>
       </div> <!-- closes .content-wrapper -->
 
-      <div class="bottom-nav">
-        <a href="index.html">🏠</a>
-        <a href="search.html">🔍</a>
-        <a href="publish.html">➕</a>
-        <a href="reels.html">🎞️</a>
-        <a href="profile.html">👤</a>
-      </div>
+     <div class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i></a>
+  <a href="search.html"><i data-lucide="search"></i></a>
+  <a href="publish.html"><i data-lucide="plus-circle"></i></a>
+  <a href="reels.html"><i data-lucide="video"></i></a>
+  <a href="profile.html"><i data-lucide="user"></i></a>
+</div>
+
 
       <script>
         const stats = [
@@ -301,6 +306,8 @@ button:hover {
         }
 
         updateLiveStats();
+        lucide.createIcons();
+
       </script>
     </div> <!-- closes #app-frame -->
   </div> <!-- closes .layout-wrapper -->
