@@ -195,18 +195,17 @@
               <strong id="postCount">0</strong>
               posts
             </div>
-            <div class="stat">
-  <strong>0</strong>
+           <div class="stat">
+  <strong id="follower-count">0</strong>
   followers
   <div style="font-size: 0.7rem; color: #888;">all bots probably</div>
 </div>
 
 <div class="stat">
-  <strong>0</strong>
+  <strong id="following-count">0</strong>
   following
   <div style="font-size: 0.7rem; color: #888;">mostly meme pages</div>
 </div>
-
           </div>
         </div>
 
@@ -272,6 +271,21 @@
         document.getElementById("stat-stories").textContent = stats.storiesViewed;
         document.getElementById("stat-profiles").textContent = stats.profilesVisited;
         document.getElementById("stat-posts").textContent = stats.postsPosted;
+
+        // Assign persistent random values for followers/following
+let followerCount = localStorage.getItem("fakeFollowerCount");
+let followingCount = localStorage.getItem("fakeFollowingCount");
+
+if (!followerCount) {
+  followerCount = Math.floor(Math.random() * 150) + 10; // 10–160
+  followingCount = Math.floor(Math.random() * 200) + 30; // 30–230
+  localStorage.setItem("fakeFollowerCount", followerCount);
+  localStorage.setItem("fakeFollowingCount", followingCount);
+}
+
+document.getElementById("follower-count").textContent = followerCount;
+document.getElementById("following-count").textContent = followingCount;
+
       </script>
     </div> <!-- closes #app-frame -->
   </div> <!-- closes .layout-wrapper -->
