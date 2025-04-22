@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fake User Profile</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       height: 100%;
       overflow: hidden;
@@ -15,8 +14,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      margin: 0;
+      padding: 0;
     }
-
     .layout-wrapper {
       display: flex;
       justify-content: center;
@@ -25,25 +25,6 @@
       max-width: 1600px;
       height: 100vh;
     }
-
-    #live-stats {
-      flex-shrink: 0;
-      width: 180px;
-      margin-right: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      padding: 10px;
-      background-color: #1a1a1a;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      font-size: 0.85rem;
-      line-height: 1.6;
-      position: sticky;
-      top: 20px;
-      height: fit-content;
-    }
-
     #app-frame {
       width: min(645px, 95vw);
       height: 100vh;
@@ -55,26 +36,65 @@
       flex-direction: column;
       position: relative;
     }
-
     .content-wrapper {
       flex: 1;
       overflow-y: auto;
-      padding-bottom: 80px;
+      padding-bottom: 60px;
     }
-
-    .content-wrapper::-webkit-scrollbar {
-      width: 8px;
+    header {
+      text-align: center;
+      padding: 1rem;
+      border-bottom: 1px solid #333;
+      background-color: #1a1a1a;
+      font-weight: bold;
+      font-size: 1.2rem;
     }
-
-    .content-wrapper::-webkit-scrollbar-track {
-      background: transparent;
+    .profile {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
     }
-
-    .content-wrapper::-webkit-scrollbar-thumb {
-      background-color: rgba(100, 100, 100, 0.3);
-      border-radius: 4px;
+    .profile img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #444;
     }
-
+    .stats {
+      display: flex;
+      gap: 1rem;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat strong {
+      display: block;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+    .bio {
+      padding: 0 1.5rem 1rem;
+      color: #aaa;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background-color: #333;
+    }
+    .stat-grid div {
+      background-color: #1c1c1c;
+      aspect-ratio: 1 / 1;
+      color: #ccc;
+      font-size: 0.8rem;
+      padding: 0.5rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
     .bottom-nav {
       position: absolute;
       bottom: 0;
@@ -89,108 +109,23 @@
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
     }
-
     .bottom-nav a {
       color: #888;
       text-decoration: none;
       font-size: 1.3rem;
     }
-
-    /* Profile page styles */
-    header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0.8rem 1rem;
-      background-color: #1a1a1a;
-      border-bottom: 1px solid #333;
-    }
-
-    .username {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #fff;
-    }
-
-    .profile {
-      padding: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .profile img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background-color: #444;
-    }
-
-    .stats {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 1.1rem;
-      color: #fff;
-    }
-
-    .bio {
-      padding: 0 1.5rem 1rem;
-      color: #aaa;
-    }
-
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background-color: #333;
-    }
-
-    .stat-grid div {
-      background-color: #1c1c1c;
-      aspect-ratio: 1 / 1;
-      color: #ccc;
-      font-size: 0.8rem;
-      padding: 0.5rem;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
   </style>
 </head>
 <body>
   <div class="layout-wrapper">
-    <div id="live-stats">
-      <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
-      <div>Likes Given: <span id="stat-likes">0</span></div>
-      <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
-      <div>Reels Viewed: <span id="stat-reels">0</span></div>
-      <div>Stories Viewed: <span id="stat-stories">0</span></div>
-      <div>Comments Given: <span id="stat-comments">0</span></div>
-      <div>Reposts Done: <span id="stat-reposts">0</span></div>
-      <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
-      <div>Profiles Visited: <span id="stat-profiles">0</span></div>
-      <div>Posts Posted: <span id="stat-posts">0</span></div>
-    </div>
-
     <div id="app-frame">
       <div class="content-wrapper">
-        <header>
-          <div class="username" id="username">@user</div>
-        </header>
+        <header id="username">@username</header>
+
         <div class="profile">
           <img id="avatar" src="" alt="avatar">
           <div class="stats">
-            <div class="stat"><strong id="postCount">10</strong> posts</div>
+            <div class="stat"><strong id="postCount">0</strong> posts</div>
             <div class="stat"><strong>0</strong> followers</div>
             <div class="stat"><strong>0</strong> following</div>
           </div>
@@ -199,7 +134,7 @@
         <div class="bio">Too cool to achieve anything. Just stats.</div>
 
         <div class="stat-grid" id="statGrid"></div>
-      </div> <!-- closes .content-wrapper -->
+      </div>
 
       <div class="bottom-nav">
         <a href="index.html">🏠</a>
@@ -217,16 +152,16 @@
 
         const statGrid = document.getElementById("statGrid");
         const stats = [
-          { label: "Minutes Wasted", max: 999, id: "stat-minutes" },
-          { label: "Likes Given", max: 500, id: "stat-likes" },
-          { label: "Scrolls Done", max: 800, id: "stat-scrolls" },
-          { label: "Reels Viewed", max: 700, id: "stat-reels" },
-          { label: "Stories Viewed", max: 600, id: "stat-stories" },
-          { label: "Comments Given", max: 400, id: "stat-comments" },
-          { label: "Reposts Done", max: 300, id: "stat-reposts" },
-          { label: "Bookmarks", max: 200, id: "stat-bookmarks" },
-          { label: "Profiles Visited", max: 100, id: "stat-profiles" },
-          { label: "Posts Posted", max: 100, id: "stat-posts" }
+          { label: "Minutes Wasted", max: 80000 },
+          { label: "Likes Given", max: 150000 },
+          { label: "Scrolls Done", max: 1000000 },
+          { label: "Reels Viewed", max: 90000 },
+          { label: "Stories Viewed", max: 70000 },
+          { label: "Comments Given", max: 25000 },
+          { label: "Reposts Done", max: 15000 },
+          { label: "Bookmarks", max: 10000 },
+          { label: "Profiles Visited", max: 7000 },
+          { label: "Posts Posted", max: 3000 }
         ];
 
         stats.forEach(stat => {
@@ -234,16 +169,11 @@
           const value = Math.floor(Math.random() * stat.max);
           div.innerHTML = `<strong>${value}</strong>${stat.label}`;
           statGrid.appendChild(div);
-          // Update live sidebar if that stat exists
-          const sidebarEl = document.getElementById(stat.id);
-          if (sidebarEl) {
-            sidebarEl.textContent = stat.label.includes("Minutes") ? Math.floor(value) : value;
-          }
         });
 
         document.getElementById("postCount").textContent = Math.floor(Math.random() * 30) + 1;
       </script>
-    </div> <!-- closes #app-frame -->
-  </div> <!-- closes .layout-wrapper -->
+    </div>
+  </div>
 </body>
 </html>
