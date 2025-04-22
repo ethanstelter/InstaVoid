@@ -311,14 +311,27 @@
           slide.className = "story-slide";
           if (i === 0) slide.classList.add("active");
 
-          slide.innerHTML = `
-            <img class="avatar" src="${avatar}" alt="avatar">
-            <div class="username">@${username}</div>
-            <div class="message">${message}</div>
-          `;
+        slide.innerHTML = `
+  <a href="user.html?user=${username}" class="story-profile-link" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+    <img class="avatar" src="${avatar}" alt="avatar">
+    <div class="username">@${username}</div>
+  </a>
+  <div class="message">${message}</div>
+`;
 
           storyWrapper.appendChild(slide);
         });
+
+        document.addEventListener("click", function (e) {
+  const anchor = e.target.closest("a[href^='user.html?user=']");
+  if (anchor) {
+    let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
+    localStorage.setItem("profilesVisited", visited + 1);
+
+    const statEl = document.getElementById("stat-profiles");
+    if (statEl) statEl.textContent = visited + 1;
+  }
+});
 
         updateSidebarStats();
         startWastedTimer();
