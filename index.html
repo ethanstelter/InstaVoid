@@ -250,16 +250,39 @@
       cursor: pointer;
     }
     .like-popup {
-      position: absolute;
-      top: 0;
-      right: 10px;
-      background-color: #222;
-      border: 1px solid #444;
-      color: #ccc;
-      padding: 5px 10px;
-      font-size: 0.8rem;
-      border-radius: 4px;
-      animation: fadeout 3s forwards;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  pointer-events: none;
+  opacity: 0;
+  animation: floatUpFade 2.5s ease-out forwards;
+  z-index: 2;
+}
+
+@keyframes floatUpFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, -30px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40px);
+  }
+}
+
     }
     @keyframes fadeout {
       0% { opacity: 1; }
@@ -403,12 +426,40 @@ function handleBookmark(btn) {
   showPopup(btn, ["This post is now... saved?", "Marked for future disappointment.", "Pinned to forget."]);
 }
 
-function showPopup(btn, messages) {
-  const popup = document.createElement("div");
-  popup.className = "like-popup";
-  popup.textContent = messages[Math.floor(Math.random() * messages.length)];
-  btn.closest(".post").appendChild(popup);
-  setTimeout(() => popup.remove(), 3000);
+.like-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  pointer-events: none;
+  opacity: 0;
+  animation: floatUpFade 2.5s ease-out forwards;
+  z-index: 2;
+}
+
+@keyframes floatUpFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, -30px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40px);
+  }
+}
+
 }
 
 function toggleCommentBox(btn) {
