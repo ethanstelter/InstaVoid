@@ -1,396 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Void Reels</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      height: 100%;
-      overflow: hidden;
-      background-color: #0f0f0f;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .layout-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      max-width: 1600px;
-      height: 100vh;
-    }
-    #live-stats {
-      flex-shrink: 0;
-      width: 180px;
-      margin-right: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      padding: 10px;
-      background-color: #1a1a1a;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      font-size: 0.85rem;
-      line-height: 1.6;
-      position: sticky;
-      top: 20px;
-      height: fit-content;
-    }
-    #app-frame {
-      width: min(645px, 95vw);
-      height: 100vh;
-      background-color: #0f0f0f;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-    .content-wrapper {
-      flex: 1;
-      overflow-y: auto;
-      scroll-snap-type: y mandatory;
-    }
-    .content-wrapper::-webkit-scrollbar {
-      width: 8px;
-    }
-    .content-wrapper::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .content-wrapper::-webkit-scrollbar-thumb {
-      background-color: rgba(100, 100, 100, 0.3);
-      border-radius: 4px;
-    }
-    .bottom-nav {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: #1a1a1a;
-      border-top: 1px solid #333;
-      display: flex;
-      justify-content: space-around;
-      padding: 0.5rem 0;
-      z-index: 10;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-    }
-    .bottom-nav a {
-      color: #888;
-      text-decoration: none;
-      font-size: 1.3rem;
-    }
-
-    /* REELS UI — now flush with content box */
-    .reel {
-      scroll-snap-align: start;
-      height: 100%;
-      background-color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-    .reel-inner {
-      width: 100%;
-      height: 100%;
-      background-color: #1c1c1c;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 0;
-      position: relative;
-    }
-    .caption-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #f0f0f0;
-      text-shadow: 0 0 6px #000;
-      max-width: 80%;
-    }
-    .user-info {
-      position: absolute;
-      bottom: 80px;
-      left: 10px;
-      display: flex;
-      align-items: center;
-      transition: transform 0.3s ease;
-    }
-    .user-info img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-      border: 2px solid #f44;
-    }
-    .username {
-      font-weight: bold;
-      font-size: 0.9rem;
-      color: #ccc;
-    }
-    .actions {
-      position: absolute;
-      bottom: 80px;
-      right: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      transition: transform 0.3s ease;
-    }
-    .actions button {
-      background: none;
-      border: none;
-      color: #ccc;
-      font-size: 1.4rem;
-      cursor: pointer;
-    }
-    .comment-box {
-      position: absolute;
-      bottom: 58px;
-      left: 10px;
-      right: 10px;
-      display: none;
-      gap: 10px;
-      z-index: 10;
-    }
-    .comment-box input {
-      flex: 1;
-      padding: 0.5rem;
-      background-color: #111;
-      border: 1px solid #444;
-      border-radius: 4px;
-      color: #ccc;
-    }
-    .comment-box button {
-      padding: 0.5rem 0.8rem;
-      background-color: #222;
-      border: 1px solid #444;
-      border-radius: 4px;
-      color: #ccc;
-      cursor: pointer;
-    }
-    .popup {
-      position: absolute;
-      bottom: 140px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #1a1a1a;
-      border: 1px solid #444;
-      padding: 8px 14px;
-      border-radius: 6px;
-      color: #bbb;
-      font-size: 1rem;
-      opacity: 0;
-      animation: fadePop 2.5s forwards;
-      pointer-events: none;
-      z-index: 2;
-    }
-    @keyframes fadePop {
-      0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
-      20% { opacity: 1; }
-      100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-    }
-  </style>
-</head>
-<body>
-  <div class="layout-wrapper">
-    <div id="live-stats">
-      <div>Reels Viewed: <span id="stat-reels">0</span></div>
-      <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
-      <div>Likes Given: <span id="stat-likes">0</span></div>
-      <div>Comments Given: <span id="stat-comments">0</span></div>
-      <div>Reposts Done: <span id="stat-reposts">0</span></div>
-      <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
-      <div>Profiles Visited: <span id="stat-profiles">0</span></div>
-      <div>Posts Posted: <span id="stat-posts">0</span></div>
-      <div>Stories Viewed: <span id="stat-stories">0</span></div>
-      <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
-    </div>
-
-    <div id="app-frame">
-      <div class="content-wrapper" id="reelWrapper">
-      </div> <!-- closes .content-wrapper -->
-
-      <div class="bottom-nav">
-        <a href="index.html">🏠</a>
-        <a href="search.html">🔍</a>
-        <a href="publish.html">➕</a>
-        <a href="reels.html">🎞️</a>
-        <a href="profile.html">👤</a>
-      </div>
-
-      <script>
-        const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
-        const captions = [
-          "You're watching nothing.",
-          "Keep staring... it's not real.",
-          "Every frame is the same.",
-          "This video changed nothing.",
-          "Still scrolling?",
-          "Now in 4K: pure void."
-        ];
-
-        let reelCount = parseInt(localStorage.getItem("reelsViewed")) || 0;
-        let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
-        let likes = parseInt(localStorage.getItem("likesGiven")) || 0;
-        let comments = parseInt(localStorage.getItem("commentsGiven")) || 0;
-        let reposts = parseInt(localStorage.getItem("repostsDone")) || 0;
-        let bookmarks = parseInt(localStorage.getItem("postsBookmarked")) || 0;
-        let profiles = parseInt(localStorage.getItem("profilesVisited")) || 0;
-        let posts = parseInt(localStorage.getItem("postsPosted")) || 0;
-        let stories = parseInt(localStorage.getItem("storiesViewed")) || 0;
-        let time = parseInt(localStorage.getItem("secondsWasted")) || 0;
-
-        const viewedReels = new Set();
-
-        function updateStats() {
-          document.getElementById("stat-reels").textContent = reelCount;
-          document.getElementById("stat-scrolls").textContent = scrollCount;
-          document.getElementById("stat-likes").textContent = likes;
-          document.getElementById("stat-comments").textContent = comments;
-          document.getElementById("stat-reposts").textContent = reposts;
-          document.getElementById("stat-bookmarks").textContent = bookmarks;
-          document.getElementById("stat-profiles").textContent = profiles;
-          document.getElementById("stat-posts").textContent = posts;
-          document.getElementById("stat-stories").textContent = stories;
-          document.getElementById("stat-minutes").textContent = Math.floor(time / 60);
-        }
-
-        setInterval(() => {
-          time++;
-          localStorage.setItem("secondsWasted", time);
-          updateStats();
-        }, 1000);
-
-        function createReel(username, caption) {
-          const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
-          const reel = document.createElement("div");
-          reel.className = "reel";
-          const inner = document.createElement("div");
-          inner.className = "reel-inner";
-          inner.innerHTML = `
-            <div class="caption-center">${caption}</div>
-            <div class="user-info">
-              <img src="${avatar}" alt="avatar">
-              <div class="username">@${username}</div>
-            </div>
-            <div class="actions">
-              <button onclick="handleLike(this)">❤️</button>
-              <button onclick="toggleCommentBox(this)">💬</button>
-              <button onclick="handleRepost(this)">🔁</button>
-              <button onclick="handleBookmark(this)">📌</button>
-            </div>
-            <div class="comment-box">
-              <input type="text" placeholder="Say something...">
-              <button onclick="submitFakeComment(this)">➤</button>
-            </div>`;
-          reel.appendChild(inner);
-          document.getElementById("reelWrapper").appendChild(reel);
-        }
-
-        function handleLike(btn) {
-          likes++;
-          localStorage.setItem("likesGiven", likes);
-          updateStats();
-          showPopup(btn, "This like did nothing.");
-        }
-
-        function handleRepost(btn) {
-          reposts++;
-          localStorage.setItem("repostsDone", reposts);
-          updateStats();
-          showPopup(btn, "Echoed into the abyss.");
-        }
-
-        function handleBookmark(btn) {
-          bookmarks++;
-          localStorage.setItem("postsBookmarked", bookmarks);
-          updateStats();
-          showPopup(btn, "📌 Marked meaningless.");
-        }
-
-        function showPopup(btn, message) {
-          const popup = document.createElement("div");
-          popup.className = "popup";
-          popup.textContent = message;
-          btn.closest(".reel-inner").appendChild(popup);
-          setTimeout(() => popup.remove(), 2500);
-        }
-
-        function toggleCommentBox(btn) {
-          const inner = btn.closest(".reel-inner");
-          const box = inner.querySelector(".comment-box");
-          const userInfo = inner.querySelector(".user-info");
-          const actions = inner.querySelector(".actions");
-          const isOpen = box.style.display === "flex";
-          box.style.display = isOpen ? "none" : "flex";
-          userInfo.style.transform = isOpen ? "translateY(0)" : "translateY(-30px)";
-          actions.style.transform = isOpen ? "translateY(0)" : "translateY(-30px)";
-        }
-
-        function submitFakeComment(button) {
-          const input = button.previousElementSibling;
-          if (input.value.trim() !== "") {
-            comments++;
-            localStorage.setItem("commentsGiven", comments);
-            updateStats();
-            input.style.transition = "opacity 0.5s ease";
-            input.style.opacity = 0;
-            setTimeout(() => {
-              input.value = "";
-              input.style.opacity = 1;
-              input.closest(".comment-box").style.display = "none";
-            }, 600);
-          }
-        }
-
-        function loadInitialReels(count = 10) {
-          for (let i = 0; i < count; i++) {
-            const user = usernames[Math.floor(Math.random() * usernames.length)];
-            const cap = captions[Math.floor(Math.random() * captions.length)];
-            createReel(user, cap);
-          }
-        }
-
-        const viewedReels = new Set();
-let lastReelIndex = -1;
-
-function trackVisibleReels() {
-  const allReels = document.querySelectorAll(".reel");
-
-  allReels.forEach((reel, index) => {
-    const rect = reel.getBoundingClientRect();
-    const isInView = rect.top >= 0 && rect.bottom <= window.innerHeight + 1;
-
-    if (isInView && !viewedReels.has(reel)) {
-      viewedReels.add(reel);
-      reelCount++;
-      localStorage.setItem("reelsViewed", reelCount);
-
-      if (index !== lastReelIndex) {
-        scrollCount++;
-        localStorage.setItem("scrollCount", scrollCount);
-        lastReelIndex = index;
-      }
-
-      updateCounters();
-    }
-  });
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Void Reels</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+height: 100%;
+overflow: hidden;
+background-color: #0f0f0f;
+color: #fff;
+font-family: Arial, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.layout-wrapper {
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+max-width: 1600px;
+height: 100vh;
+}
+#live-stats {
+flex-shrink: 0;
+width: 180px;
+margin-right: 20px;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+padding: 10px;
+background-color: #1a1a1a;
+border-radius: 12px;
+box-shadow: 0 0 10px rgba(0,0,0,0.5);
+font-size: 0.85rem;
+line-height: 1.6;
+position: sticky;
+top: 20px;
+height: fit-content;
+}
+#app-frame {
+width: min(645px, 95vw);
+height: 100vh;
+background-color: #0f0f0f;
+border-radius: 20px;
+box-shadow: 0 0 15px rgba(0,0,0,0.3);
+overflow: hidden;
+display: flex;
+flex-direction: column;
+position: relative;
+}
+.content-wrapper {
+flex: 1;
+overflow-y: auto;
+scroll-snap-type: y mandatory;
+}
+.content-wrapper::-webkit-scrollbar {
+width: 8px;
+}
+.content-wrapper::-webkit-scrollbar-track {
+background: transparent;
+}
+.content-wrapper::-webkit-scrollbar-thumb {
+background-color: rgba(100, 100, 100, 0.3);
+border-radius: 4px;
+}
+.bottom-nav {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+background-color: #1a1a1a;
+border-top: 1px solid #333;
+display: flex;
+justify-content: space-around;
+padding: 0.5rem 0;
+z-index: 10;
+border-bottom-left-radius: 20px;
+border-bottom-right-radius: 20px;
+}
+.bottom-nav a {
+color: #888;
+text-decoration: none;
+font-size: 1.3rem;
 }
 
+/* REELS UI — now flush with content box */
+.reel {
+scroll-snap-align: start;
+height: 100%;
+background-color: #000;
+display: flex;
+justify-content: center;
+align-items: center;
+position: relative;
+}
+.reel-inner {
+width: 100%;
+height: 100%;
+background-color: #1c1c1c;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 0;
+position: relative;
+}
+.caption-center {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+text-align: center;
+font-size: 1.3rem;
+font-weight: bold;
+color: #f0f0f0;
+text-shadow: 0 0 6px #000;
+max-width: 80%;
+}
+.user-info {
+position: absolute;
+bottom: 80px;
+left: 10px;
+display: flex;
+align-items: center;
+transition: transform 0.3s ease;
+}
+.user-info img {
+width: 40px;
+height: 40px;
+border-radius: 50%;
+margin-right: 10px;
+border: 2px solid #f44;
+}
+.username {
+font-weight: bold;
+font-size: 0.9rem;
+color: #ccc;
+}
+.actions {
+position: absolute;
+bottom: 80px;
+right: 10px;
+display: flex;
+flex-direction: column;
+gap: 15px;
+transition: transform 0.3s ease;
+}
+.actions button {
+background: none;
+border: none;
+color: #ccc;
+font-size: 1.4rem;
+cursor: pointer;
+}
+.comment-box {
+position: absolute;
+bottom: 58px;
+left: 10px;
+right: 10px;
+display: none;
+gap: 10px;
+z-index: 10;
+}
+.comment-box input {
+flex: 1;
+padding: 0.5rem;
+background-color: #111;
+border: 1px solid #444;
+border-radius: 4px;
+color: #ccc;
+}
+.comment-box button {
+padding: 0.5rem 0.8rem;
+background-color: #222;
+border: 1px solid #444;
+border-radius: 4px;
+color: #ccc;
+cursor: pointer;
+}
+.popup {
+position: absolute;
+bottom: 140px;
+left: 50%;
+transform: translateX(-50%);
+background-color: #1a1a1a;
+border: 1px solid #444;
+padding: 8px 14px;
+border-radius: 6px;
+color: #bbb;
+font-size: 1rem;
+opacity: 0;
+animation: fadePop 2.5s forwards;
+pointer-events: none;
+z-index: 2;
+}
+@keyframes fadePop {
+0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+20% { opacity: 1; }
+100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+}
+</style>
+</head>
+<body>
+<div class="layout-wrapper">
+<div id="live-stats">
+<div>Reels Viewed: <span id="stat-reels">0</span></div>
+<div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+<div>Likes Given: <span id="stat-likes">0</span></div>
+<div>Comments Given: <span id="stat-comments">0</span></div>
+<div>Reposts Done: <span id="stat-reposts">0</span></div>
+<div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+<div>Profiles Visited: <span id="stat-profiles">0</span></div>
+<div>Posts Posted: <span id="stat-posts">0</span></div>
+<div>Stories Viewed: <span id="stat-stories">0</span></div>
+<div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+</div>
 
+<div id="app-frame">
+<div class="content-wrapper" id="reelWrapper">
+</div> <!-- closes .content-wrapper -->
+
+<div class="bottom-nav">
+<a href="index.html">🏠</a>
+<a href="search.html">🔍</a>
+<a href="publish.html">➕</a>
+<a href="reels.html">🎞️</a>
+<a href="profile.html">👤</a>
+</div>
+
+<script>
+const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
+const captions = [
+"You're watching nothing.",
+"Keep staring... it's not real.",
+"Every frame is the same.",
+"This video changed nothing.",
+"Still scrolling?",
+"Now in 4K: pure void."
+];
+
+let reelCount = parseInt(localStorage.getItem("reelsViewed")) || 0;
+let scrollCount = parseInt(localStorage.getItem("scrollCount")) || 0;
+let likes = parseInt(localStorage.getItem("likesGiven")) || 0;
+let comments = parseInt(localStorage.getItem("commentsGiven")) || 0;
+let reposts = parseInt(localStorage.getItem("repostsDone")) || 0;
+let bookmarks = parseInt(localStorage.getItem("postsBookmarked")) || 0;
+let profiles = parseInt(localStorage.getItem("profilesVisited")) || 0;
+let posts = parseInt(localStorage.getItem("postsPosted")) || 0;
+let stories = parseInt(localStorage.getItem("storiesViewed")) || 0;
+let time = parseInt(localStorage.getItem("secondsWasted")) || 0;
+
+const viewedReels = new Set();
+
+function updateStats() {
+document.getElementById("stat-reels").textContent = reelCount;
+document.getElementById("stat-scrolls").textContent = scrollCount;
+document.getElementById("stat-likes").textContent = likes;
+document.getElementById("stat-comments").textContent = comments;
+document.getElementById("stat-reposts").textContent = reposts;
+document.getElementById("stat-bookmarks").textContent = bookmarks;
+document.getElementById("stat-profiles").textContent = profiles;
+document.getElementById("stat-posts").textContent = posts;
+document.getElementById("stat-stories").textContent = stories;
+document.getElementById("stat-minutes").textContent = Math.floor(time / 60);
+}
+
+setInterval(() => {
+time++;
+localStorage.setItem("secondsWasted", time);
+updateStats();
+}, 1000);
+
+function createReel(username, caption) {
+const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+const reel = document.createElement("div");
+reel.className = "reel";
+const inner = document.createElement("div");
+inner.className = "reel-inner";
+inner.innerHTML = `
+           <div class="caption-center">${caption}</div>
+           <div class="user-info">
+             <img src="${avatar}" alt="avatar">
+             <div class="username">@${username}</div>
+           </div>
+           <div class="actions">
+             <button onclick="handleLike(this)">❤️</button>
+             <button onclick="toggleCommentBox(this)">💬</button>
+             <button onclick="handleRepost(this)">🔁</button>
+             <button onclick="handleBookmark(this)">📌</button>
+           </div>
+           <div class="comment-box">
+             <input type="text" placeholder="Say something...">
+             <button onclick="submitFakeComment(this)">➤</button>
+           </div>`;
+reel.appendChild(inner);
+document.getElementById("reelWrapper").appendChild(reel);
+}
+
+function handleLike(btn) {
+likes++;
+localStorage.setItem("likesGiven", likes);
+updateStats();
+showPopup(btn, "This like did nothing.");
+}
+
+function handleRepost(btn) {
+reposts++;
+localStorage.setItem("repostsDone", reposts);
+updateStats();
+showPopup(btn, "Echoed into the abyss.");
+}
+
+function handleBookmark(btn) {
+bookmarks++;
+localStorage.setItem("postsBookmarked", bookmarks);
+updateStats();
+showPopup(btn, "📌 Marked meaningless.");
+}
+
+function showPopup(btn, message) {
+const popup = document.createElement("div");
+popup.className = "popup";
+popup.textContent = message;
+btn.closest(".reel-inner").appendChild(popup);
+setTimeout(() => popup.remove(), 2500);
+}
+
+function toggleCommentBox(btn) {
+const inner = btn.closest(".reel-inner");
+const box = inner.querySelector(".comment-box");
+const userInfo = inner.querySelector(".user-info");
+const actions = inner.querySelector(".actions");
+const isOpen = box.style.display === "flex";
+box.style.display = isOpen ? "none" : "flex";
+userInfo.style.transform = isOpen ? "translateY(0)" : "translateY(-30px)";
+actions.style.transform = isOpen ? "translateY(0)" : "translateY(-30px)";
+}
+
+function submitFakeComment(button) {
+const input = button.previousElementSibling;
+if (input.value.trim() !== "") {
+comments++;
+localStorage.setItem("commentsGiven", comments);
+updateStats();
+input.style.transition = "opacity 0.5s ease";
+input.style.opacity = 0;
+setTimeout(() => {
+input.value = "";
+input.style.opacity = 1;
+input.closest(".comment-box").style.display = "none";
+}, 600);
+}
+}
+
+function loadInitialReels(count = 10) {
+for (let i = 0; i < count; i++) {
+const user = usernames[Math.floor(Math.random() * usernames.length)];
+const cap = captions[Math.floor(Math.random() * captions.length)];
+createReel(user, cap);
+}
+}
+
+function trackVisibleReels() {
+const allReels = document.querySelectorAll(".reel");
+allReels.forEach((reel) => {
+const rect = reel.getBoundingClientRect();
+const isInView = rect.top >= 0 && rect.bottom <= window.innerHeight + 1;
+if (isInView && !viewedReels.has(reel)) {
+viewedReels.add(reel);
+reelCount++;
+localStorage.setItem("reelsViewed", reelCount);
+updateStats();
+}
+});
+}
+
+        document.getElementById("reelWrapper").addEventListener("scroll", () => {
+          scrollCount++;
+          localStorage.setItem("scrollCount", scrollCount);
+          updateStats();
+          trackVisibleReels();
 const reelWrapper = document.getElementById("reelWrapper");
 let scrollCooldown = false;
 
@@ -413,12 +405,17 @@ reelWrapper.addEventListener("scroll", () => {
   }
 });
 
+          const wrapper = document.getElementById("reelWrapper");
+          if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
+            loadInitialReels(5);
+          }
+        });
 
-        updateStats();
-        loadInitialReels();
-        trackVisibleReels();
-      </script>
-    </div> <!-- closes #app-frame -->
-  </div> <!-- closes .layout-wrapper -->
+updateStats();
+loadInitialReels();
+trackVisibleReels();
+</script>
+</div> <!-- closes #app-frame -->
+</div> <!-- closes .layout-wrapper -->
 </body>
 </html>
