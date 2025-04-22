@@ -190,12 +190,23 @@
       font-size: 0.75rem;
       color: #999;
     }
-    .avatar-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      margin-top: 10px;
-    }
+   .avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+  max-height: 210px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.avatar-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.avatar-grid::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
     .avatar-grid img {
       width: 64px;
       height: 64px;
@@ -272,9 +283,23 @@
 </div> <!-- closes layout-wrapper -->
 
 <script>
-  const avatarSeeds = [
-    "void_vibes", "doomposter", "tapbot", "glitchlord", "pixelpirate", "feedghost", "lostinloop", "drainwave", "scrollqueen"
-  ];
+  const avatarGrid = document.getElementById("avatarOptions");
+let selectedAvatar = null;
+
+const generatedSeeds = Array.from({ length: 24 }, (_, i) => `user${Math.floor(Math.random() * 10000)}_${i}`);
+
+generatedSeeds.forEach(seed => {
+  const img = document.createElement("img");
+  img.src = `https://api.dicebear.com/7.x/personas/svg?seed=${seed}`;
+  img.dataset.seed = seed;
+  img.onclick = () => {
+    document.querySelectorAll(".avatar-grid img").forEach(i => i.classList.remove("selected"));
+    img.classList.add("selected");
+    selectedAvatar = seed;
+  };
+  avatarGrid.appendChild(img);
+});
+
 
   const avatarGrid = document.getElementById("avatarOptions");
   let selectedAvatar = null;
