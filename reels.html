@@ -378,17 +378,28 @@
           });
         }
 
-        document.getElementById("reelWrapper").addEventListener("scroll", () => {
-          scrollCount++;
-          localStorage.setItem("scrollCount", scrollCount);
-          updateStats();
-          trackVisibleReels();
+const reelWrapper = document.getElementById("reelWrapper");
+let scrollCooldown = false;
 
-          const wrapper = document.getElementById("reelWrapper");
-          if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
-            loadInitialReels(5);
-          }
-        });
+reelWrapper.addEventListener("scroll", () => {
+  if (!scrollCooldown) {
+    scrollCount++;
+    localStorage.setItem("scrollCount", scrollCount);
+    updateCounters();
+
+    scrollCooldown = true;
+    setTimeout(() => {
+      scrollCooldown = false;
+    }, 500); // 0.5s delay between scrolls
+  }
+
+  trackVisibleReels();
+
+  if (reelWrapper.scrollTop + reelWrapper.clientHeight >= reelWrapper.scrollHeight - 10) {
+    loadInitialReels(5);
+  }
+});
+
 
         updateStats();
         loadInitialReels();
