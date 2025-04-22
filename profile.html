@@ -143,6 +143,7 @@
       font-size: 1.3rem;
     }
 
+    /* Onboarding Modal with Avatar Picker */
     #setup-overlay {
       position: fixed;
       inset: 0;
@@ -157,7 +158,7 @@
       border: 1px solid #444;
       padding: 2rem;
       border-radius: 12px;
-      max-width: 300px;
+      max-width: 340px;
       width: 90%;
       text-align: center;
       color: #ccc;
@@ -189,19 +190,40 @@
       font-size: 0.75rem;
       color: #999;
     }
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .avatar-grid img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .avatar-grid img.selected {
+      border-color: #f44;
+      box-shadow: 0 0 8px #f44;
+    }
   </style>
 </head>
 <body>
+
+<!-- Setup Modal -->
 <div id="setup-overlay">
   <div id="setup-box">
     <h3>Create Your Account</h3>
     <input type="text" id="setup-username" placeholder="Choose a username">
     <input type="text" id="setup-bio" placeholder="Write your bio">
+    <div class="avatar-grid" id="avatarOptions"></div>
     <button onclick="saveSetup()">Finish</button>
-    <small>Once you submit, you won’t be able to change these.</small>
+    <small>Once submitted, nothing can be changed.</small>
   </div>
 </div>
 
+<!-- App Content Wrapper -->
 <div class="layout-wrapper">
   <div id="live-stats">
     <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
@@ -215,6 +237,7 @@
     <div>Posts Posted: <span id="stat-posts">0</span></div>
     <div>Profiles Visited: <span id="stat-profiles">0</span></div>
   </div>
+
   <div id="app-frame">
     <div class="content-wrapper">
       <header id="username">@username</header>
@@ -245,35 +268,59 @@
       <a href="reels.html">🎞️</a>
       <a href="profile.html">👤</a>
     </div>
+  </div>
+</div> <!-- closes layout-wrapper -->
+
 <script>
+  const avatarSeeds = [
+    "void_vibes", "doomposter", "tapbot", "glitchlord", "pixelpirate", "feedghost", "lostinloop", "drainwave", "scrollqueen"
+  ];
+
+  const avatarGrid = document.getElementById("avatarOptions");
+  let selectedAvatar = null;
+
+  avatarSeeds.forEach(seed => {
+    const img = document.createElement("img");
+    img.src = `https://api.dicebear.com/7.x/personas/svg?seed=${seed}`;
+    img.dataset.seed = seed;
+    img.onclick = () => {
+      document.querySelectorAll(".avatar-grid img").forEach(i => i.classList.remove("selected"));
+      img.classList.add("selected");
+      selectedAvatar = seed;
+    };
+    avatarGrid.appendChild(img);
+  });
+
   function saveSetup() {
     const username = document.getElementById("setup-username").value.trim();
     const bio = document.getElementById("setup-bio").value.trim();
 
-    if (!username || !bio) {
-      alert("Please fill out both fields before continuing.");
+    if (!username || !bio || !selectedAvatar) {
+      alert("Fill out everything and choose an avatar.");
       return;
     }
 
     localStorage.setItem("username", username);
     localStorage.setItem("bio", bio);
+    localStorage.setItem("avatarSeed", selectedAvatar);
+
     document.getElementById("setup-overlay").style.display = "none";
     loadUserData();
   }
 
   function loadUserData() {
-    const savedUsername = localStorage.getItem("username") || "you";
-    const savedBio = localStorage.getItem("bio") || "Just wasting time on purpose.";
-    document.getElementById("username").textContent = `@${savedUsername}`;
-    document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${savedUsername}`;
-    document.getElementById("bioDisplay").textContent = savedBio;
+    const username = localStorage.getItem("username") || "you";
+    const bio = localStorage.getItem("bio") || "Just wasting time on purpose.";
+    const avatarSeed = localStorage.getItem("avatarSeed") || "doomposter";
+
+    document.getElementById("username").textContent = `@${username}`;
+    document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${avatarSeed}`;
+    document.getElementById("bioDisplay").textContent = bio;
   }
 
   window.addEventListener("DOMContentLoaded", () => {
-    const hasUsername = !!localStorage.getItem("username");
-    const hasBio = !!localStorage.getItem("bio");
-
-    if (hasUsername && hasBio) {
+    const hasSetup = localStorage.getItem("username") && localStorage.getItem("bio") && localStorage.getItem("avatarSeed");
+    if (hasSetup) {
       document.getElementById("setup-overlay").style.display = "none";
       loadUserData();
     }
