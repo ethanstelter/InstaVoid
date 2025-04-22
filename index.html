@@ -409,10 +409,10 @@ function createPost(message) {
   const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
   const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
   post.innerHTML = `
-    <div class="post-header">
-      <img src="${avatarUrl}" alt="avatar">
-      <span>@${username}</span>
-    </div>
+   <a href="user.html?user=${username}" class="post-header" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+  <img src="${avatarUrl}" alt="avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+  <span>@${username}</span>
+</a>
     <div class="post-image">${message}</div>
     <div class="post-actions">
       <button onclick="handleLike(this)">❤️</button>
@@ -537,6 +537,17 @@ wrapper.addEventListener("scroll", () => {
   }
 });
 
+// Track profile clicks across the app
+document.addEventListener("click", function (e) {
+  const anchor = e.target.closest("a[href^='user.html?user=']");
+  if (anchor) {
+    let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
+    localStorage.setItem("profilesVisited", visited + 1);
+
+    const statEl = document.getElementById("stat-profiles");
+    if (statEl) statEl.textContent = visited + 1;
+  }
+});
 
 updateStats();
 </script>
