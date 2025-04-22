@@ -238,18 +238,18 @@
           renderAccounts();
         }
 
-        const leaderboardUsers = [
-          { name: "you", highlight: true, values: [123, 43, 87, 14, 6, 10, 322, 15, 8, 119] },
-          { name: "scrollqueen", values: [90, 35, 120, 8, 2, 5, 300, 10, 4, 100] },
-          { name: "doomqueen", values: [60, 28, 100, 12, 3, 9, 270, 18, 6, 92] },
-          { name: "taplord", values: [85, 40, 150, 7, 5, 6, 310, 14, 9, 111] },
-          { name: "tapbot", values: [100, 25, 95, 10, 6, 7, 290, 9, 5, 87] },
-          { name: "glitchlord", values: [72, 30, 130, 9, 4, 4, 280, 12, 6, 98] },
-          { name: "noiserider", values: [50, 22, 65, 5, 2, 3, 210, 8, 3, 70] },
-          { name: "pixelpirate", values: [98, 41, 155, 11, 7, 8, 340, 20, 10, 134] },
-          { name: "feedghost", values: [76, 29, 102, 6, 3, 6, 260, 13, 5, 90] },
-          { name: "drainwave", values: [83, 33, 111, 9, 4, 5, 285, 11, 7, 101] }
-        ];
+       const leaderboardUsers = [
+  { name: "doomscroll_god", values: [99999, 99999, 999999, 88888, 77777, 66666, 9999999, 88888, 11111, 69420] },
+  { name: "tapmonster", values: [88888, 77777, 888888, 55555, 44444, 33333, 8000000, 44444, 12345, 42069] },
+  { name: "voidlord", values: [77777, 66666, 777777, 22222, 99999, 11111, 7000000, 33333, 42000, 39000] },
+  { name: "ghostthumb", values: [69696, 123456, 654321, 99999, 54321, 100000, 6666666, 30000, 11111, 1337] },
+  { name: "scrollboi", values: [42042, 55555, 999000, 12121, 21212, 23232, 5555555, 77777, 77777, 2024] },
+  { name: "numbfingerz", values: [50505, 80808, 888888, 66666, 55555, 44444, 4444444, 22222, 88888, 55555] },
+  { name: "eyebleed", values: [34343, 45454, 67676, 12121, 22222, 12345, 3333333, 99999, 55555, 1234] },
+  { name: "flickfiend", values: [101010, 123123, 543210, 8080, 7070, 6060, 2222222, 44444, 55555, 1984] },
+  { name: "ratking", values: [66666, 55555, 44444, 33333, 22222, 11111, 1111111, 12345, 10000, 777] },
+  { name: "swipeghoul", values: [99990, 88880, 77770, 66660, 55550, 44440, 10000000, 43210, 22222, 99999] }
+];
 
         function renderLeaderboard() {
           const container = document.getElementById("leaderboard");
@@ -266,6 +266,14 @@
                 window.location.href = `user.html?user=${user.name}`;
               }
             };
+            const bottomNote = document.createElement("p");
+bottomNote.style.textAlign = "center";
+bottomNote.style.fontSize = "0.85rem";
+bottomNote.style.color = "#777";
+bottomNote.style.marginTop = "1rem";
+bottomNote.textContent = "You're not even on the board. Try harder or don't.";
+container.appendChild(bottomNote);
+
             const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
             div.innerHTML = `
               <img src="https://api.dicebear.com/7.x/personas/svg?seed=${user.name}">
