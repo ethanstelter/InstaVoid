@@ -246,39 +246,32 @@
   { name: "ratking", values: [84444, 56789, 120888, 3890, 2550, 2999, 860000, 5000, 1555, 63000] },
   { name: "swipeghoul", values: [98001, 73333, 149222, 4720, 3333, 3500, 995321, 6420, 2180, 79000] }
 ];
-        function renderLeaderboard() {
-          const container = document.getElementById("leaderboard");
-          container.innerHTML = "";
-          const stats = ["Reels", "Stories", "Likes", "Comments", "Reposts", "Bookmarks", "Scrolls", "Profiles", "Posts", "Time"];
+       function renderLeaderboard() {
+  const container = document.getElementById("leaderboard");
+  container.innerHTML = "";
+  const stats = ["Reels", "Stories", "Likes", "Comments", "Reposts", "Bookmarks", "Scrolls", "Profiles", "Posts", "Time"];
 
-          leaderboardUsers.forEach((user, i) => {
-            const div = document.createElement("div");
-            div.className = `leaderboard-item${user.highlight ? " highlight" : ""}`;
-          div.innerHTML = `
-  <a href="user.html?user=${user.name}" class="leaderboard-link">
-    <img src="https://api.dicebear.com/7.x/personas/svg?seed=${user.name}">
-    <div class="leaderboard-info">
-      <div class="name"><span class="medal">${medal}</span>@${user.name}</div>
-      <div class="stat-columns">
-        ${user.values.map((val, idx) => `<div>${stats[idx]}: ${val}</div>`).join("")}
-      </div>
-    </div>
-  </a>
-`;
+  leaderboardUsers.forEach((user, i) => {
+    const div = document.createElement("div");
+    div.className = "leaderboard-item";
 
+    const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
 
-            const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
-            div.innerHTML = `
-              <img src="https://api.dicebear.com/7.x/personas/svg?seed=${user.name}">
-              <div class="leaderboard-info">
-                <div class="name"><span class="medal">${medal}</span>@${user.name}</div>
-                <div class="stat-columns">
-                  ${user.values.map((val, idx) => `<div>${stats[idx]}: ${val}</div>`).join("")}
-                </div>
-              </div>`;
-            container.appendChild(div);
-          });
-        }
+    div.innerHTML = `
+      <a href="user.html?user=${user.name}" class="leaderboard-link" style="display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit;">
+        <img src="https://api.dicebear.com/7.x/personas/svg?seed=${user.name}">
+        <div class="leaderboard-info">
+          <div class="name"><span class="medal">${medal}</span>@${user.name}</div>
+          <div class="stat-columns">
+            ${user.values.map((val, idx) => `<div>${stats[idx]}: ${val}</div>`).join("")}
+          </div>
+        </div>
+      </a>
+    `;
+
+    container.appendChild(div);
+  });
+}
 
         function updateLiveStats() {
           const get = key => parseInt(localStorage.getItem(key)) || 0;
