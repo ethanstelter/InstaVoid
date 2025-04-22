@@ -142,130 +142,186 @@
       text-decoration: none;
       font-size: 1.3rem;
     }
+
+    #setup-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #setup-box {
+      background: #1a1a1a;
+      border: 1px solid #444;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 300px;
+      width: 90%;
+      text-align: center;
+      color: #ccc;
+      box-shadow: 0 0 20px #000;
+    }
+    #setup-box input {
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.6rem;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background-color: #111;
+      color: #eee;
+      font-size: 1rem;
+    }
+    #setup-box button {
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      background-color: #f44;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #setup-box small {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: #999;
+    }
   </style>
 </head>
 <body>
-  <div class="layout-wrapper">
-    <div id="live-stats">
-      <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
-      <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
-      <div>Likes Given: <span id="stat-likes">0</span></div>
-      <div>Comments Given: <span id="stat-comments">0</span></div>
-      <div>Reposts Done: <span id="stat-reposts">0</span></div>
-      <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
-      <div>Reels Viewed: <span id="stat-reels">0</span></div>
-      <div>Stories Viewed: <span id="stat-stories">0</span></div>
-      <div>Posts Posted: <span id="stat-posts">0</span></div>
-      <div>Profiles Visited: <span id="stat-profiles">0</span></div>
-    </div>
-    <div id="app-frame">
-      <div class="content-wrapper">
-        <header id="username">@username</header>
+<div id="setup-overlay">
+  <div id="setup-box">
+    <h3>Create Your Account</h3>
+    <input type="text" id="setup-username" placeholder="Choose a username">
+    <input type="text" id="setup-bio" placeholder="Write your bio">
+    <button onclick="saveSetup()">Finish</button>
+    <small>Once you submit, you won’t be able to change these.</small>
+  </div>
+</div>
 
-        <div class="profile">
-          <img id="avatar" src="" alt="avatar">
-          <div class="stats">
-            <div class="stat"><strong id="postCount">0</strong> posts</div>
-            <div class="stat">
-              <strong id="follower-count">0</strong> followers
-              <div style="font-size: 0.7rem; color: #888;">all bots probably</div>
-            </div>
-            <div class="stat">
-              <strong id="following-count">0</strong> following
-              <div style="font-size: 0.7rem; color: #888;">mostly meme pages</div>
-            </div>
+<div class="layout-wrapper">
+  <div id="live-stats">
+    <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+    <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+    <div>Likes Given: <span id="stat-likes">0</span></div>
+    <div>Comments Given: <span id="stat-comments">0</span></div>
+    <div>Reposts Done: <span id="stat-reposts">0</span></div>
+    <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+    <div>Reels Viewed: <span id="stat-reels">0</span></div>
+    <div>Stories Viewed: <span id="stat-stories">0</span></div>
+    <div>Posts Posted: <span id="stat-posts">0</span></div>
+    <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+  </div>
+  <div id="app-frame">
+    <div class="content-wrapper">
+      <header id="username">@username</header>
+
+      <div class="profile">
+        <img id="avatar" src="" alt="avatar">
+        <div class="stats">
+          <div class="stat"><strong id="postCount">0</strong> posts</div>
+          <div class="stat">
+            <strong id="follower-count">0</strong> followers
+            <div style="font-size: 0.7rem; color: #888;">all bots probably</div>
+          </div>
+          <div class="stat">
+            <strong id="following-count">0</strong> following
+            <div style="font-size: 0.7rem; color: #888;">mostly meme pages</div>
           </div>
         </div>
-
-        <div class="bio" id="bioDisplay">Loading bio...</div>
-
-        <div class="stat-grid" id="statGrid"></div>
       </div>
 
-      <div class="bottom-nav">
-        <a href="index.html">🏠</a>
-        <a href="search.html">🔍</a>
-        <a href="publish.html">➕</a>
-        <a href="reels.html">🎞️</a>
-        <a href="profile.html">👤</a>
-      </div>
-
-      <script>
-        // Persistent username setup
-        let savedUsername = localStorage.getItem("username");
-        if (!savedUsername) {
-          savedUsername = prompt("Choose your username. You can't ever change it, so choose wisely!");
-          if (!savedUsername || savedUsername.trim() === "") savedUsername = "you";
-          localStorage.setItem("username", savedUsername);
-        }
-        document.getElementById("username").textContent = `@${savedUsername}`;
-
-        document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${savedUsername}`;
-
-        // Persistent bio setup
-        const savedBio = localStorage.getItem("bio");
-        if (!savedBio) {
-          const input = prompt("Write your bio. One shot only. You won't get another chance.");
-          const finalBio = input && input.trim() !== "" ? input : "Just wasting time on purpose.";
-          localStorage.setItem("bio", finalBio);
-          document.getElementById("bioDisplay").textContent = finalBio;
-        } else {
-          document.getElementById("bioDisplay").textContent = savedBio;
-        }
-
-        const statLabels = [
-          "Minutes Wasted",
-          "Likes Given",
-          "Scrolls Done",
-          "Reels Viewed",
-          "Stories Viewed",
-          "Comments Given",
-          "Reposts Done",
-          "Bookmarks",
-          "Profiles Visited",
-          "Posts Posted"
-        ];
-
-        const statKeys = [
-          "secondsWasted",
-          "likesGiven",
-          "scrollCount",
-          "reelsViewed",
-          "storiesViewed",
-          "commentsGiven",
-          "repostsDone",
-          "postsBookmarked",
-          "profilesVisited",
-          "postsPosted"
-        ];
-
-        const statGrid = document.getElementById("statGrid");
-        statKeys.forEach((key, index) => {
-          const div = document.createElement("div");
-          let value = parseInt(localStorage.getItem(key)) || 0;
-          if (key === "secondsWasted") value = Math.floor(value / 60);
-          div.innerHTML = `<strong>${value}</strong>${statLabels[index]}`;
-          statGrid.appendChild(div);
-        });
-
-        // Live stats box update
-        function updateLiveStats() {
-          const get = key => parseInt(localStorage.getItem(key)) || 0;
-          document.getElementById("stat-reels").textContent = get("reelsViewed");
-          document.getElementById("stat-scrolls").textContent = get("scrollCount");
-          document.getElementById("stat-likes").textContent = get("likesGiven");
-          document.getElementById("stat-comments").textContent = get("commentsGiven");
-          document.getElementById("stat-reposts").textContent = get("repostsDone");
-          document.getElementById("stat-bookmarks").textContent = get("postsBookmarked");
-          document.getElementById("stat-profiles").textContent = get("profilesVisited");
-          document.getElementById("stat-posts").textContent = get("postsPosted");
-          document.getElementById("stat-stories").textContent = get("storiesViewed");
-          document.getElementById("stat-minutes").textContent = Math.floor(get("secondsWasted") / 60);
-        }
-
-        updateLiveStats();
-      </script>
+      <div class="bio" id="bioDisplay">Loading bio...</div>
+      <div class="stat-grid" id="statGrid"></div>
     </div>
-  </div>
+
+    <div class="bottom-nav">
+      <a href="index.html">🏠</a>
+      <a href="search.html">🔍</a>
+      <a href="publish.html">➕</a>
+      <a href="reels.html">🎞️</a>
+      <a href="profile.html">👤</a>
+    </div>
+<script>
+  function saveSetup() {
+    const username = document.getElementById("setup-username").value.trim();
+    const bio = document.getElementById("setup-bio").value.trim();
+
+    if (!username || !bio) {
+      alert("Please fill out both fields before continuing.");
+      return;
+    }
+
+    localStorage.setItem("username", username);
+    localStorage.setItem("bio", bio);
+    document.getElementById("setup-overlay").style.display = "none";
+    loadUserData();
+  }
+
+  function loadUserData() {
+    const savedUsername = localStorage.getItem("username") || "you";
+    const savedBio = localStorage.getItem("bio") || "Just wasting time on purpose.";
+    document.getElementById("username").textContent = `@${savedUsername}`;
+    document.getElementById("avatar").src = `https://api.dicebear.com/7.x/personas/svg?seed=${savedUsername}`;
+    document.getElementById("bioDisplay").textContent = savedBio;
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const hasUsername = !!localStorage.getItem("username");
+    const hasBio = !!localStorage.getItem("bio");
+
+    if (hasUsername && hasBio) {
+      document.getElementById("setup-overlay").style.display = "none";
+      loadUserData();
+    }
+  });
+
+  const statLabels = [
+    "Minutes Wasted", "Likes Given", "Scrolls Done", "Reels Viewed", "Stories Viewed",
+    "Comments Given", "Reposts Done", "Bookmarks", "Profiles Visited", "Posts Posted"
+  ];
+  const statKeys = [
+    "secondsWasted", "likesGiven", "scrollCount", "reelsViewed", "storiesViewed",
+    "commentsGiven", "repostsDone", "postsBookmarked", "profilesVisited", "postsPosted"
+  ];
+  const statGrid = document.getElementById("statGrid");
+  statKeys.forEach((key, index) => {
+    const div = document.createElement("div");
+    let value = parseInt(localStorage.getItem(key)) || 0;
+    if (key === "secondsWasted") value = Math.floor(value / 60);
+    div.innerHTML = `<strong>${value}</strong>${statLabels[index]}`;
+    statGrid.appendChild(div);
+  });
+
+  let followerCount = localStorage.getItem("fakeFollowerCount");
+  let followingCount = localStorage.getItem("fakeFollowingCount");
+  if (!followerCount) {
+    followerCount = Math.floor(Math.random() * 150) + 10;
+    followingCount = Math.floor(Math.random() * 200) + 30;
+    localStorage.setItem("fakeFollowerCount", followerCount);
+    localStorage.setItem("fakeFollowingCount", followingCount);
+  }
+  document.getElementById("follower-count").textContent = followerCount;
+  document.getElementById("following-count").textContent = followingCount;
+
+  function updateLiveStats() {
+    const get = key => parseInt(localStorage.getItem(key)) || 0;
+    document.getElementById("stat-reels").textContent = get("reelsViewed");
+    document.getElementById("stat-scrolls").textContent = get("scrollCount");
+    document.getElementById("stat-likes").textContent = get("likesGiven");
+    document.getElementById("stat-comments").textContent = get("commentsGiven");
+    document.getElementById("stat-reposts").textContent = get("repostsDone");
+    document.getElementById("stat-bookmarks").textContent = get("postsBookmarked");
+    document.getElementById("stat-profiles").textContent = get("profilesVisited");
+    document.getElementById("stat-posts").textContent = get("postsPosted");
+    document.getElementById("stat-stories").textContent = get("storiesViewed");
+    document.getElementById("stat-minutes").textContent = Math.floor(get("secondsWasted") / 60);
+  }
+
+  updateLiveStats();
+</script>
 </body>
 </html>
