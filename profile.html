@@ -283,24 +283,7 @@
 </div> <!-- closes layout-wrapper -->
 
 <script>
-  const avatarGrid = document.getElementById("avatarOptions");
-let selectedAvatar = null;
-
-const generatedSeeds = Array.from({ length: 24 }, (_, i) => `user${Math.floor(Math.random() * 10000)}_${i}`);
-
-generatedSeeds.forEach(seed => {
-  const img = document.createElement("img");
-  img.src = `https://api.dicebear.com/7.x/personas/svg?seed=${seed}`;
-  img.dataset.seed = seed;
-  img.onclick = () => {
-    document.querySelectorAll(".avatar-grid img").forEach(i => i.classList.remove("selected"));
-    img.classList.add("selected");
-    selectedAvatar = seed;
-  };
-  avatarGrid.appendChild(img);
-});
-
-
+ 
  const avatarGrid = document.getElementById("avatarOptions");
 let selectedAvatar = null;
 
