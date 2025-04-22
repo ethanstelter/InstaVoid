@@ -283,10 +283,10 @@ function createReel(username, caption) {
   inner.className = "reel-inner";
   inner.innerHTML = `
     <div class="caption-center">${caption}</div>
-    <div class="user-info">
-      <img src="${avatar}" alt="avatar">
-      <div class="username">@${username}</div>
-    </div>
+   <a href="user.html?user=${username}" class="user-info" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+  <img src="${avatar}" alt="avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; border: 2px solid #f44;">
+  <div class="username">@${username}</div>
+</a>
     <div class="actions">
       <button onclick="handleLike(this)">❤️</button>
       <button onclick="toggleCommentBox(this)">💬</button>
@@ -398,6 +398,16 @@ reelWrapper.addEventListener("scroll", () => {
 
   if (reelWrapper.scrollTop + reelWrapper.clientHeight >= reelWrapper.scrollHeight - 10) {
     loadInitialReels(5);
+  }
+});
+document.addEventListener("click", function (e) {
+  const anchor = e.target.closest("a[href^='user.html?user=']");
+  if (anchor) {
+    let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
+    localStorage.setItem("profilesVisited", visited + 1);
+
+    const statEl = document.getElementById("stat-profiles");
+    if (statEl) statEl.textContent = visited + 1;
   }
 });
 
