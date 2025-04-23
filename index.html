@@ -122,11 +122,14 @@
       background-color: #1a1a1a;
       border-bottom: 1px solid #333;
     }
-    .logo {
-      font-size: 1.4rem;
-      font-weight: bold;
-      letter-spacing: 1px;
-      color: #fff;
+.logo-img {
+  height: 32px;
+  max-width: 200px;
+  object-fit: contain;
+  margin-left: 1rem;
+  filter: drop-shadow(0 0 2px #f44);
+}
+
     }
     .nav-icons {
       display: flex;
@@ -335,13 +338,14 @@
 
     <div id="app-frame">
 <div class="content-wrapper">
-  <header>
-    <div class="logo">InstaVoid</div>
-    <div class="nav-icons">
-      <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
-      <div id="notificationDropdown"></div>
-    </div>
-  </header>
+<header>
+  <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
+  <div class="nav-icons">
+    <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
+    <div id="notificationDropdown"></div>
+  </div>
+</header>
+
 
   <div class="stories" id="storiesBar"></div>
   <main id="feed"></main>
