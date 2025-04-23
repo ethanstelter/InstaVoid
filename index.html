@@ -418,24 +418,37 @@ function createPost(message) {
   const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
   const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
   post.innerHTML = `
-   <a href="user.html?user=${username}" class="post-header" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-  <img src="${avatarUrl}" alt="avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
-  <span>@${username}</span>
-</a>
+    <div class="post-header">
+      <img src="${avatarUrl}" alt="avatar">
+      <span>@${username}</span>
+    </div>
     <div class="post-image">${message}</div>
-<div class="post-actions">
-  <button onclick="handleLike(this)"><i data-lucide="heart"></i></button>
-  <button onclick="toggleCommentBox(this)"><i data-lucide="message-circle"></i></button>
-  <button onclick="handleRepost(this)"><i data-lucide="repeat"></i></button>
-  <button onclick="handleBookmark(this)"><i data-lucide="bookmark"></i></button>
-</div>
+    <div class="post-actions">
+      <button class="like-btn"><i data-lucide="heart"></i></button>
+      <button class="comment-toggle"><i data-lucide="message-circle"></i></button>
+      <button class="repost-btn"><i data-lucide="repeat"></i></button>
+      <button class="bookmark-btn"><i data-lucide="bookmark"></i></button>
+    </div>
     <div class="comment-box">
       <input type="text" placeholder="Say something...">
-      <button onclick="submitFakeComment(this)">➤</button>
+      <button class="submit-comment">➤</button>
     </div>
   `;
+
+  // Add to DOM
   feed.appendChild(post);
+
+  // Attach behavior to new buttons
+  post.querySelector(".like-btn").onclick = () => handleLike(post.querySelector(".like-btn"));
+  post.querySelector(".repost-btn").onclick = () => handleRepost(post.querySelector(".repost-btn"));
+  post.querySelector(".bookmark-btn").onclick = () => handleBookmark(post.querySelector(".bookmark-btn"));
+  post.querySelector(".comment-toggle").onclick = () => toggleCommentBox(post.querySelector(".comment-toggle"));
+  post.querySelector(".submit-comment").onclick = () => submitFakeComment(post.querySelector(".submit-comment"));
+
+  // Activate icons
+  lucide.createIcons();
 }
+
 
 function handleLike(btn) {
   likesGiven++;
