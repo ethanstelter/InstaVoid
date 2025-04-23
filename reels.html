@@ -359,13 +359,20 @@ function submitFakeComment(button) {
     updateStats();
     input.style.transition = "opacity 0.5s ease";
     input.style.opacity = 0;
+
     setTimeout(() => {
       input.value = "";
       input.style.opacity = 1;
       input.closest(".comment-box").style.display = "none";
+
+      // ⬇️ Reset user-info and actions position after comment box closes
+      const inner = input.closest(".reel-inner");
+      inner.querySelector(".user-info").style.transform = "translateY(0)";
+      inner.querySelector(".actions").style.transform = "translateY(0)";
     }, 600);
   }
 }
+
 
 function loadInitialReels(count = 10) {
   for (let i = 0; i < count; i++) {
