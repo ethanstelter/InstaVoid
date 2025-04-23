@@ -390,6 +390,7 @@ function generateAvatars() {
   }
 
   updateLiveStats();
+  document.getElementById("postCount").textContent = localStorage.getItem("postsPosted") || 0;
   lucide.createIcons();
 
 </script>
