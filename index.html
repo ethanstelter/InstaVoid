@@ -467,30 +467,45 @@
     margin-bottom: 8px;
   }
 }
+@media (min-width: 769px) {
+  .live-stats-desktop {
+    position: sticky;
+    top: 20px;
+    background-color: #1a1a1a;
+    padding: 12px;
+    width: 200px; /* Made it a little wider so nothing wraps */
+    font-size: 0.85rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+  }
+
+  .live-stats-desktop .stat {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap; /* 🚀 THIS is the magic that keeps everything on one line */
+  }
+
+  .live-stats-desktop .stat i {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0; /* keeps icons from getting squished */
+  }
+}
 
   </style>
   <script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 <body>
-  <div class="layout-wrapper">
-    <div class="live-stats-desktop">
-  <div class="stat"><i data-lucide="clock"></i> <span id="stat-minutes">0</span> Minutes Wasted</div>
-  <div class="stat"><i data-lucide="chevrons-down"></i> <span id="stat-scrolls">0</span> Scrolls Done</div>
-  <div class="stat"><i data-lucide="heart"></i> <span id="stat-likes">0</span> Likes Given</div>
-  <div class="stat"><i data-lucide="message-circle"></i> <span id="stat-comments">0</span> Comments Given</div>
-  <div class="stat"><i data-lucide="repeat"></i> <span id="stat-reposts">0</span> Reposts Done</div>
-  <div class="stat"><i data-lucide="bookmark"></i> <span id="stat-bookmarks">0</span> Bookmarks</div>
-  <div class="stat"><i data-lucide="video"></i> <span id="stat-reels">0</span> Reels Viewed</div>
-  <div class="stat"><i data-lucide="user-circle"></i> <span id="stat-stories">0</span> Stories Viewed</div>
-  <div class="stat"><i data-lucide="plus-circle"></i> <span id="stat-posts">0</span> Posts Posted</div>
-  <div class="stat"><i data-lucide="user"></i> <span id="stat-profiles">0</span> Profiles Visited</div>
-</div>
-
-<!-- Sticky Toggle Button for Mobile -->
+<!-- ✅ MOBILE STATS (goes ABOVE layout-wrapper) -->
 <div class="stats-toggle-bar" onclick="toggleStats()">Show Stats ▼</div>
 
-<!-- Hidden/Visible Stats Container -->
 <div id="stats-container" class="collapsed">
   <div class="live-stats-sidebar">
     <div class="stat"><i data-lucide="clock"></i> <span id="stat-minutes">0</span> Minutes Wasted</div>
@@ -506,11 +521,23 @@
   </div>
 </div>
 
-<!-- Leave this part below -->
+<!-- ✅ DESKTOP LAYOUT STARTS -->
 <div class="layout-wrapper">
+  <div class="live-stats-desktop">
+    <div class="stat"><i data-lucide="clock"></i> <span id="stat-minutes">0</span> Minutes Wasted</div>
+    <div class="stat"><i data-lucide="chevrons-down"></i> <span id="stat-scrolls">0</span> Scrolls Done</div>
+    <div class="stat"><i data-lucide="heart"></i> <span id="stat-likes">0</span> Likes Given</div>
+    <div class="stat"><i data-lucide="message-circle"></i> <span id="stat-comments">0</span> Comments Given</div>
+    <div class="stat"><i data-lucide="repeat"></i> <span id="stat-reposts">0</span> Reposts Done</div>
+    <div class="stat"><i data-lucide="bookmark"></i> <span id="stat-bookmarks">0</span> Bookmarks</div>
+    <div class="stat"><i data-lucide="video"></i> <span id="stat-reels">0</span> Reels Viewed</div>
+    <div class="stat"><i data-lucide="user-circle"></i> <span id="stat-stories">0</span> Stories Viewed</div>
+    <div class="stat"><i data-lucide="plus-circle"></i> <span id="stat-posts">0</span> Posts Posted</div>
+    <div class="stat"><i data-lucide="user"></i> <span id="stat-profiles">0</span> Profiles Visited</div>
+  </div>
 
-
-
+  <!-- Your #app-frame goes here next -->
+  <!-- Example: <div id="app-frame"> ... </div> -->
 
     <div id="app-frame">
 <div class="content-wrapper">
