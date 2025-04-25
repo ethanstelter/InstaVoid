@@ -316,106 +316,9 @@
       80% { opacity: 1; }
       100% { opacity: 0; }
     }
-    @media (max-width: 600px) {
-  .layout-wrapper {
-  margin-top: 40px; /* pushes page down so toggle bar doesn’t cover content */
-}
+  
 
-      .live-stats-sidebar {
-    position: sticky;
-    top: 0;
-    background-color: #111; /* Or whatever your background is */
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, auto);
-    gap: 4px;
-    padding: 8px;
-    font-size: 10px;
-    z-index: 999;
-  }
 
-  .live-stats-sidebar .stat {
-    text-align: center;
-    padding: 2px;
-    word-wrap: break-word;
-  }
-
-  /* Optional: If icons or emojis are used */
-  .live-stats-sidebar .stat-icon {
-    font-size: 12px;
-    display: block;
-  }
-
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    max-width: 100%;
-    background-color: #000; /* Adjust to match theme */
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0;
-    z-index: 1000;
-  }
-
-  /* Avoid overlap between nav and content */
-  .main-content {
-    padding-bottom: 60px; /* space for bottom nav */
-  }
-}
-@media (max-width: 600px) {
-  .live-stats-sidebar {
-    position: sticky;
-    top: 0;
-    background-color: #111;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, auto);
-    gap: 4px;
-    padding: 8px;
-    font-size: 10px;
-    z-index: 999;
-  }
-
-  .live-stats-sidebar .stat {
-    text-align: center;
-    padding: 4px 2px;
-    line-height: 1.2;
-  }
-
-  .stat-icon {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 2px;
-  }
-}
-@media (max-width: 600px) {
-  .stats-toggle-bar {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    background-color: #1a1a1a;
-    color: #fff;
-    text-align: center;
-    padding: 8px 0;
-    font-size: 14px;
-    cursor: pointer;
-    z-index: 1001;
-    border-bottom: 1px solid #333;
-  }
-
-  #stats-container.collapsed {
-    display: none;
-  }
-
-  #stats-container {
-    position: sticky;
-    top: 40px; /* adjust if needed to sit below the bar */
-    background-color: #111;
-    z-index: 999;
-  }
-}
 @media (max-width: 600px) {
   .stats-toggle-bar {
     position: sticky;
@@ -495,6 +398,78 @@
     width: 18px;
     height: 18px;
     flex-shrink: 0; /* keeps icons from getting squished */
+  }
+}
+@media (max-width: 600px) {
+  .layout-wrapper {
+    margin-top: 40px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #app-frame {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .live-stats-sidebar {
+    position: sticky;
+    top: 0;
+    background-color: #111;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 4px;
+    padding: 8px;
+    font-size: 10px;
+    z-index: 999;
+  }
+
+  .live-stats-sidebar .stat {
+    text-align: center;
+    padding: 4px 2px;
+    line-height: 1.2;
+  }
+
+  .stats-toggle-bar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 9999;
+    border-bottom: 1px solid #333;
+  }
+
+  #stats-container.collapsed {
+    display: none;
+  }
+
+  #stats-container {
+    background-color: #111;
+    z-index: 9998;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    z-index: 1000;
+  }
+
+  .main-content {
+    padding-bottom: 60px;
   }
 }
 
@@ -589,17 +564,22 @@ let postsPosted = parseInt(localStorage.getItem("postsPosted"));
 let notifications = [];
 
 function updateStats() {
-  document.getElementById("stat-minutes").textContent = Math.floor(secondsWasted / 60);
-  document.getElementById("stat-likes").textContent = likesGiven;
-  document.getElementById("stat-scrolls").textContent = scrollCount;
-  document.getElementById("stat-comments").textContent = commentsGiven;
-  document.getElementById("stat-reposts").textContent = repostsDone;
-  document.getElementById("stat-bookmarks").textContent = postsBookmarked;
-  document.getElementById("stat-reels").textContent = reelsViewed;
-  document.getElementById("stat-stories").textContent = storiesViewed;
-  document.getElementById("stat-profiles").textContent = profilesVisited;
-  document.getElementById("stat-posts").textContent = postsPosted;
+  const update = (id, value) => {
+    document.querySelectorAll(`#${id}`).forEach(el => el.textContent = value);
+  };
+
+  update("stat-minutes", Math.floor(secondsWasted / 60));
+  update("stat-likes", likesGiven);
+  update("stat-scrolls", scrollCount);
+  update("stat-comments", commentsGiven);
+  update("stat-reposts", repostsDone);
+  update("stat-bookmarks", postsBookmarked);
+  update("stat-reels", reelsViewed);
+  update("stat-stories", storiesViewed);
+  update("stat-profiles", profilesVisited);
+  update("stat-posts", postsPosted);
 }
+
 
 setInterval(() => {
   secondsWasted++;
@@ -777,18 +757,6 @@ document.addEventListener("click", function (e) {
 updateStats();
   
 lucide.createIcons();
-function toggleStats() {
-  const container = document.getElementById('stats-container');
-  const toggleBar = document.querySelector('.stats-toggle-bar');
-  
-  if (container.classList.contains('collapsed')) {
-    container.classList.remove('collapsed');
-    toggleBar.innerHTML = 'Hide Stats ▲';
-  } else {
-    container.classList.add('collapsed');
-    toggleBar.innerHTML = 'Show Stats ▼';
-  }
-}
 function toggleStats() {
   const container = document.getElementById('stats-container');
   const toggleBar = document.querySelector('.stats-toggle-bar');
