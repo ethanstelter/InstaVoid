@@ -317,7 +317,11 @@
       100% { opacity: 0; }
     }
     @media (max-width: 600px) {
-  .live-stats-sidebar {
+  .layout-wrapper {
+  margin-top: 40px; /* pushes page down so toggle bar doesn’t cover content */
+}
+
+      .live-stats-sidebar {
     position: sticky;
     top: 0;
     background-color: #111; /* Or whatever your background is */
@@ -436,6 +440,33 @@
     z-index: 9998;
   }
 }
+@media (min-width: 601px) {
+  .stats-toggle-bar,
+  #stats-container {
+    display: none !important;
+  }
+}
+@media (min-width: 769px) {
+  .live-stats-desktop {
+    position: sticky;
+    top: 20px;
+    left: 0;
+    background-color: #1a1a1a;
+    padding: 12px;
+    width: 180px;
+    font-size: 0.85rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+  }
+
+  .live-stats-desktop .stat {
+    margin-bottom: 8px;
+  }
+}
 
   </style>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -443,6 +474,19 @@
 </head>
 <body>
   <div class="layout-wrapper">
+    <div class="live-stats-desktop">
+  <div class="stat"><i data-lucide="clock"></i> <span id="stat-minutes">0</span> Minutes Wasted</div>
+  <div class="stat"><i data-lucide="chevrons-down"></i> <span id="stat-scrolls">0</span> Scrolls Done</div>
+  <div class="stat"><i data-lucide="heart"></i> <span id="stat-likes">0</span> Likes Given</div>
+  <div class="stat"><i data-lucide="message-circle"></i> <span id="stat-comments">0</span> Comments Given</div>
+  <div class="stat"><i data-lucide="repeat"></i> <span id="stat-reposts">0</span> Reposts Done</div>
+  <div class="stat"><i data-lucide="bookmark"></i> <span id="stat-bookmarks">0</span> Bookmarks</div>
+  <div class="stat"><i data-lucide="video"></i> <span id="stat-reels">0</span> Reels Viewed</div>
+  <div class="stat"><i data-lucide="user-circle"></i> <span id="stat-stories">0</span> Stories Viewed</div>
+  <div class="stat"><i data-lucide="plus-circle"></i> <span id="stat-posts">0</span> Posts Posted</div>
+  <div class="stat"><i data-lucide="user"></i> <span id="stat-profiles">0</span> Profiles Visited</div>
+</div>
+
 <!-- Sticky Toggle Button for Mobile -->
 <div class="stats-toggle-bar" onclick="toggleStats()">Show Stats ▼</div>
 
