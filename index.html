@@ -100,12 +100,17 @@
         flex-direction: column;
         align-items: center;
       }
-      #live-stats {
-        width: 100%;
-        margin: 0 0 20px 0;
-        flex-direction: row;
-        justify-content: space-around;
-      }
+     #live-stats {
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+#live-stats > div {
+  flex: 0 0 calc(50% - 10px); /* Half-width with gap spacing */
+}
+
       #app-frame {
         width: 100%;
         height: 100%;
@@ -119,6 +124,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 1rem;
+      padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
       background-color: #1a1a1a;
       border-bottom: 1px solid #333;
     }
@@ -379,6 +385,21 @@
     z-index: 100;
   }
 }
+.stats-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  font-size: 1rem;
+}
+
+.stats-label {
+  font-size: 0.95rem;
+  color: #ddd;
+}
 
   </style>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -410,8 +431,9 @@
   <div class="nav-icons">
     <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
     <div id="notificationDropdown"></div>
-    <button id="toggleStats" class="mobile-only" aria-label="Toggle Stats">
+   <button id="toggleStats" class="mobile-only stats-toggle-btn">
   <i data-lucide="bar-chart-2"></i>
+  <span class="stats-label">View Stats</span>
 </button>
   </div>
 </header>
