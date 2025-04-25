@@ -120,14 +120,15 @@
 
     /* Original styles */
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem;
-      padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
-      background-color: #1a1a1a;
-      border-bottom: 1px solid #333;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 1rem); /* 👈 add this */
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+
 .logo-img {
   height: 48px;
   max-width: 200px;
@@ -323,54 +324,78 @@
       100% { opacity: 0; }
     }
     /* Make toggle button visible only on small screens */
+/* General hidden class */
 .mobile-only {
   display: none;
 }
 
+/* Show only on screens 768px or smaller */
 @media (max-width: 768px) {
   .mobile-only {
-    display: inline-block;
-    background: none;
-    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    font-size: 0.95rem;
     color: #ccc;
-    font-size: 1.5rem;
     cursor: pointer;
-    margin-right: 1rem;
   }
 
-  #live-stats {
-    display: none;
+  .bottom-nav {
     position: fixed;
-    top: 0;
-    left: 0;
     bottom: 0;
-    height: 100vh;
-    width: 260px;
-    background: #1a1a1a;
-    z-index: 1000;
-    padding: 1rem;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    z-index: 100;
   }
+}
 
-  #live-stats.active {
-    transform: translateX(0%);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-  }
 
-  #live-stats .close-btn {
-    align-self: flex-end;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    font-size: 1.3rem;
-    background: none;
-    color: #ccc;
-    border: none;
-  }
+ #live-stats {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100vh;
+  width: 260px;
+  background: #1a1a1a;
+  z-index: 1000;
+  padding: 20px 16px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-size: 0.85rem;
+  overflow-y: auto;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+#live-stats.active {
+  transform: translateX(0%);
+  display: flex;
+}
+
+#live-stats > div {
+  margin-bottom: 12px;
+}
+
+#live-stats .close-btn {
+  align-self: flex-end;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  background: none;
+  color: #ccc;
+  border: none;
+  cursor: pointer;
+}
+
 
   .layout-wrapper {
     flex-direction: column;
@@ -431,10 +456,11 @@
   <div class="nav-icons">
     <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
     <div id="notificationDropdown"></div>
-   <button id="toggleStats" class="mobile-only stats-toggle-btn">
+  <button id="toggleStats" class="mobile-only" aria-label="Toggle Stats">
   <i data-lucide="bar-chart-2"></i>
   <span class="stats-label">View Stats</span>
 </button>
+
   </div>
 </header>
 
