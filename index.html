@@ -316,6 +316,70 @@
       80% { opacity: 1; }
       100% { opacity: 0; }
     }
+    /* Make toggle button visible only on small screens */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 1rem;
+  }
+
+  #live-stats {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 260px;
+    background: #1a1a1a;
+    z-index: 1000;
+    padding: 1rem;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  #live-stats.active {
+    transform: translateX(0%);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  #live-stats .close-btn {
+    align-self: flex-end;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    font-size: 1.3rem;
+    background: none;
+    color: #ccc;
+    border: none;
+  }
+
+  .layout-wrapper {
+    flex-direction: column;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    z-index: 100;
+  }
+}
+
   </style>
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -323,6 +387,9 @@
 <body>
   <div class="layout-wrapper">
    <div id="live-stats">
+     <button class="close-btn mobile-only" aria-label="Close Stats">
+  <i data-lucide="x"></i>
+</button>
   <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
   <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
   <div>Likes Given: <span id="stat-likes">0</span></div>
@@ -343,6 +410,9 @@
   <div class="nav-icons">
     <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
     <div id="notificationDropdown"></div>
+    <button id="toggleStats" class="mobile-only" aria-label="Toggle Stats">
+  <i data-lucide="bar-chart-2"></i>
+</button>
   </div>
 </header>
 
@@ -574,6 +644,17 @@ document.addEventListener("click", function (e) {
 updateStats();
   
 lucide.createIcons();
+const toggleBtn = document.getElementById("toggleStats");
+const liveStats = document.getElementById("live-stats");
+const closeStats = document.querySelector("#live-stats .close-btn");
+
+toggleBtn.addEventListener("click", () => {
+  liveStats.classList.add("active");
+});
+
+closeStats.addEventListener("click", () => {
+  liveStats.classList.remove("active");
+});
 
 </script>
 </div> <!-- closes #app-frame -->
