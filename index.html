@@ -474,6 +474,33 @@
     display: none;
   }
 }
+@media (max-width: 600px) {
+  #app-frame {
+    padding-top: 40px; /* makes room for the sticky toggle button */
+  }
+}
+@media (max-width: 600px) {
+  #stats-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .live-stats-sidebar {
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 4px;
+    padding: 8px;
+    font-size: 10px;
+    background-color: #111;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-bottom: 1px solid #333;
+    border-top: 1px solid #333;
+  }
+}
 
   </style>
   <script src="https://unpkg.com/lucide@latest"></script>
