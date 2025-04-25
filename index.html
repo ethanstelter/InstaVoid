@@ -386,6 +386,32 @@
     margin-bottom: 2px;
   }
 }
+@media (max-width: 600px) {
+  .stats-toggle-bar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 1001;
+    border-bottom: 1px solid #333;
+  }
+
+  #stats-container.collapsed {
+    display: none;
+  }
+
+  #stats-container {
+    position: sticky;
+    top: 40px; /* adjust if needed to sit below the bar */
+    background-color: #111;
+    z-index: 999;
+  }
+}
 
   </style>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -393,7 +419,8 @@
 </head>
 <body>
   <div class="layout-wrapper">
-<div class="live-stats-sidebar">
+<div id="stats-container" class="collapsed">
+  <div class="live-stats-sidebar">
   <div class="stat"><i data-lucide="clock"></i> <span id="stat-minutes">0</span> Minutes Wasted</div>
   <div class="stat"><i data-lucide="chevrons-down"></i> <span id="stat-scrolls">0</span> Scrolls Done</div>
   <div class="stat"><i data-lucide="heart"></i> <span id="stat-likes">0</span> Likes Given</div>
@@ -404,8 +431,8 @@
  <div class="stat"><i data-lucide="user-circle"></i> <span id="stat-stories">0</span> Stories Viewed</div>
   <div class="stat"><i data-lucide="plus-circle"></i> <span id="stat-posts">0</span> Posts Posted</div>
   <div class="stat"><i data-lucide="user"></i> <span id="stat-profiles">0</span> Profiles Visited</div>
+  </div>
 </div>
-
 
 
 
@@ -647,6 +674,18 @@ document.addEventListener("click", function (e) {
 updateStats();
   
 lucide.createIcons();
+function toggleStats() {
+  const container = document.getElementById('stats-container');
+  const toggleBar = document.querySelector('.stats-toggle-bar');
+  
+  if (container.classList.contains('collapsed')) {
+    container.classList.remove('collapsed');
+    toggleBar.innerHTML = 'Hide Stats ▲';
+  } else {
+    container.classList.add('collapsed');
+    toggleBar.innerHTML = 'Show Stats ▼';
+  }
+}
 
 </script>
 </div> <!-- closes #app-frame -->
