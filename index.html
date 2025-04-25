@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>InstaVoid</title>
-  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -22,10 +23,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: env(safe-area-inset-top, 20px) 0 0 0;
+      padding: 0;
     }
     .layout-wrapper {
       display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
       max-width: 1600px;
       height: 100vh;
@@ -63,6 +66,16 @@
       overflow-y: auto;
       padding-bottom: 60px;
     }
+    .content-wrapper::-webkit-scrollbar {
+      width: 8px;
+    }
+    .content-wrapper::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .content-wrapper::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 100, 100, 0.3);
+      border-radius: 4px;
+    }
     .bottom-nav {
       position: absolute;
       bottom: 0;
@@ -82,6 +95,25 @@
       text-decoration: none;
       font-size: 1.3rem;
     }
+    @media (max-width: 768px) {
+      .layout-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+      #live-stats {
+        width: 100%;
+        margin: 0 0 20px 0;
+        flex-direction: row;
+        justify-content: space-around;
+      }
+      #app-frame {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+      }
+    }
+
+    /* Original styles */
     header {
       display: flex;
       align-items: center;
@@ -90,17 +122,20 @@
       background-color: #1a1a1a;
       border-bottom: 1px solid #333;
     }
-    .logo-img {
-      height: 48px;
-      max-width: 200px;
-      object-fit: contain;
-      margin-left: 1rem;
-      filter: drop-shadow(0 0 2px #f44);
+.logo-img {
+  height: 48px;
+  max-width: 200px;
+  object-fit: contain;
+  margin-left: 1rem;
+  filter: drop-shadow(0 0 2px #f44);
+}
+
     }
     .nav-icons {
       display: flex;
       align-items: center;
       gap: 15px;
+      position: relative;
     }
     .nav-icons img {
       width: 24px;
@@ -145,84 +180,187 @@
       background-position: center;
       background-color: #444;
     }
-    .mobile-only {
+    main {
+      padding: 1rem;
+    }
+    .post {
+      background-color: #1c1c1c;
+      border: 1px solid #333;
+      margin: 2rem auto;
+      width: 100%;
+      max-width: 550px;
+      color: #fff;
+      position: relative;
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+    .post-header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .post-header span {
+      font-weight: bold;
+      color: #ccc;
+    }
+    .post-image {
+      width: 100%;
+      height: 400px;
+      background-color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #eee;
+    }
+    .post-actions {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+    }
+    .post-actions button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #ccc;
+      font-size: 1.1rem;
+    }
+    .comment-box {
+      padding: 0.5rem 1rem 1rem;
+      display: flex;
+      gap: 10px;
+      align-items: center;
       display: none;
     }
-    @media (max-width: 768px) {
-      .layout-wrapper {
-        flex-direction: column;
-      }
-      #live-stats {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 240px;
-        z-index: 1000;
-        padding: 1rem;
-        background: #1a1a1a;
-        box-shadow: 2px 0 12px rgba(0,0,0,0.6);
-      }
-      #live-stats.active {
-        display: flex;
-      }
-      .mobile-only {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #2a2a2a;
-        color: #ccc;
-        font-size: 0.95rem;
-        border: 1px solid #444;
-        border-radius: 8px;
-        padding: 6px 10px;
-        cursor: pointer;
-      }
+    .comment-box input {
+      flex: 1;
+      padding: 0.5rem;
+      background-color: #111;
+      border: 1px solid #444;
+      color: #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    .comment-box button {
+      padding: 0.5rem 0.8rem;
+      background-color: #222;
+      border: 1px solid #444;
+      color: #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .like-popup {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #222;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+  animation: floatUpFade 2.5s ease-out forwards;
+}
+
+@keyframes floatUpFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, -10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-100%, -20px);
+  }
+}
+
+
+@keyframes floatUpFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -5px);
+  }
+}
+
+    }
+    @keyframes fadeout {
+      0% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
     }
   </style>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 <body>
   <div class="layout-wrapper">
-    <div id="live-stats">
-      <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
-      <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
-      <div>Likes Given: <span id="stat-likes">0</span></div>
-      <div>Comments Given: <span id="stat-comments">0</span></div>
-      <div>Reposts Done: <span id="stat-reposts">0</span></div>
-      <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
-      <div>Reels Viewed: <span id="stat-reels">0</span></div>
-      <div>Stories Viewed: <span id="stat-stories">0</span></div>
-      <div>Posts Posted: <span id="stat-posts">0</span></div>
-      <div>Profiles Visited: <span id="stat-profiles">0</span></div>
-    </div>
+   <div id="live-stats">
+  <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+  <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+  <div>Likes Given: <span id="stat-likes">0</span></div>
+  <div>Comments Given: <span id="stat-comments">0</span></div>
+  <div>Reposts Done: <span id="stat-reposts">0</span></div>
+  <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+  <div>Reels Viewed: <span id="stat-reels">0</span></div>
+  <div>Stories Viewed: <span id="stat-stories">0</span></div>
+  <div>Posts Posted: <span id="stat-posts">0</span></div>
+  <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+</div>
+
 
     <div id="app-frame">
-      <div class="content-wrapper">
-        <header>
-          <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
-          <div class="nav-icons">
-            <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
-            <button id="toggleStats" class="mobile-only">
-              <i data-lucide="bar-chart-2"></i><span>View Stats</span>
-            </button>
-            <div id="notificationDropdown"></div>
-          </div>
-        </header>
-        <div class="stories" id="storiesBar"></div>
-        <main id="feed"></main>
-      </div>
-      <div class="bottom-nav">
-        <a href="index.html"><i data-lucide="home"></i></a>
-        <a href="search.html"><i data-lucide="search"></i></a>
-        <a href="publish.html"><i data-lucide="plus-circle"></i></a>
-        <a href="reels.html"><i data-lucide="video"></i></a>
-        <a href="profile.html"><i data-lucide="user"></i></a>
-      </div>
-    </div>
+<div class="content-wrapper">
+<header>
+  <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
+  <div class="nav-icons">
+    <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
+    <div id="notificationDropdown"></div>
   </div>
-  <script>
- <script>
+</header>
+
+
+  <div class="stories" id="storiesBar"></div>
+  <main id="feed"></main>
+</div>
+
+<div class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i></a>
+  <a href="search.html"><i data-lucide="search"></i></a>
+  <a href="publish.html"><i data-lucide="plus-circle"></i></a>
+  <a href="reels.html"><i data-lucide="video"></i></a>
+  <a href="profile.html"><i data-lucide="user"></i></a>
+</div>
+
+
+<script>
 const feed = document.getElementById("feed");
 const storiesBar = document.getElementById("storiesBar");
 const notifDropdown = document.getElementById("notificationDropdown");
@@ -297,16 +435,20 @@ function createPost(message) {
     </div>
   `;
 
+  // Add to DOM
   feed.appendChild(post);
 
+  // Attach behavior to new buttons
   post.querySelector(".like-btn").onclick = () => handleLike(post.querySelector(".like-btn"));
   post.querySelector(".repost-btn").onclick = () => handleRepost(post.querySelector(".repost-btn"));
   post.querySelector(".bookmark-btn").onclick = () => handleBookmark(post.querySelector(".bookmark-btn"));
   post.querySelector(".comment-toggle").onclick = () => toggleCommentBox(post.querySelector(".comment-toggle"));
   post.querySelector(".submit-comment").onclick = () => submitFakeComment(post.querySelector(".submit-comment"));
 
+  // Activate icons
   lucide.createIcons();
 }
+
 
 function handleLike(btn) {
   likesGiven++;
@@ -336,11 +478,14 @@ function showPopup(btn, messages) {
 
   const post = btn.closest(".post");
   const imageArea = post.querySelector(".post-image");
+
+  // Ensure image area is positioned so the popup places correctly
   imageArea.style.position = "relative";
   imageArea.appendChild(popup);
 
   setTimeout(() => popup.remove(), 2800);
 }
+
 
 function toggleCommentBox(btn) {
   const box = btn.closest(".post").querySelector(".comment-box");
@@ -398,12 +543,14 @@ wrapper.addEventListener("scroll", () => {
     scrollCount++;
     localStorage.setItem("scrollCount", scrollCount);
     updateStats();
+
     scrollCooldown = true;
     setTimeout(() => {
       scrollCooldown = false;
-    }, 500);
+    }, 500); // 0.5 seconds cooldown
   }
 
+  // Infinite scroll behavior
   if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
     for (let i = 0; i < 5; i++) {
       const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
@@ -412,20 +559,24 @@ wrapper.addEventListener("scroll", () => {
   }
 });
 
+// Track profile clicks across the app
 document.addEventListener("click", function (e) {
   const anchor = e.target.closest("a[href^='user.html?user=']");
   if (anchor) {
     let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
     localStorage.setItem("profilesVisited", visited + 1);
+
     const statEl = document.getElementById("stat-profiles");
     if (statEl) statEl.textContent = visited + 1;
   }
 });
 
 updateStats();
+  
 lucide.createIcons();
-</script>
 
-  </script>
+</script>
+</div> <!-- closes #app-frame -->
+</div> <!-- closes .layout-wrapper -->
 </body>
 </html>
