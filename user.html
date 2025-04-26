@@ -214,8 +214,9 @@ html, body {
 </head>
 <body>
 <!-- (script block and HTML unchanged) -->
-
-<div class="layout-wrapper">
+<div id="app-frame">
+     <div class="content-wrapper">
+<header id="username">@username</header>
 <div id="live-stats">
 <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
 <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
@@ -228,10 +229,7 @@ html, body {
 <div>Posts Posted: <span id="stat-posts">0</span></div>
 <div>Profiles Visited: <span id="stat-profiles">0</span></div>
 </div>
-
-<div id="app-frame">
-<div class="content-wrapper">
-<header id="username">@username</header>
+<div class="layout-wrapper">
 
 <div class="profile">
 <img id="avatar" src="" alt="avatar">
