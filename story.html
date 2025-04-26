@@ -219,12 +219,18 @@
     background-color: #0f0f0f;
   }
 
-  .content-wrapper {
-    padding-top: 20px; /* small padding for top breathing room */
-    padding-bottom: 180px; /* 🔥 make room for live-stats + nav bar */
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 🔥 Center story vertically */
+  align-items: center;
+  padding-top: 40px; /* 🔥 Some breathing room at top */
+  padding-bottom: 180px; /* 🔥 Room for live-stats and nav */
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 
   #live-stats {
     position: fixed;
