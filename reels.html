@@ -208,19 +208,6 @@ z-index: 2;
 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
 @media (max-width: 768px) {
-  .caption-center {
-    padding-bottom: 60px; /* push up text a little to stay clear */
-  }
-
-  .user-info {
-    bottom: 750px; /* move profile and username higher */
-  }
-
-  .actions {
-    bottom: 750px; /* move action buttons higher */
-  }
-}
-
   body, html {
     margin: 0;
     padding: 0;
@@ -237,36 +224,35 @@ z-index: 2;
     min-height: 100vh;
   }
 
-#live-stats {
-position: fixed;
-top: 0;
-left: 0;
-right: 0;
-width: 100%;
-margin: 0;
-padding: 10px 6px;
-font-size: 0.75rem;
-background-color: #1a1a1a;
-display: grid;
-grid-template-columns: repeat(2, 1fr); /* 2 columns */
-grid-template-rows: repeat(5, auto);   /* 5 rows */
-text-align: center;
-border-radius: 0;
-transform: translateY(0);
-z-index: 1000;
-transition: transform 0.3s ease-in-out;
-gap: 4px;
-}
+  #live-stats {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px 6px;
+    font-size: 0.75rem;
+    background-color: #1a1a1a;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);
+    text-align: center;
+    border-radius: 0;
+    transform: translateY(0);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    gap: 4px;
+  }
 
-#live-stats div {
-  display: flex;
-  flex-direction: row; /* 🔥 align words and numbers horizontally */
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap; /* 🔥 keep text from wrapping */
-  gap: 4px; /* 🔥 small gap between label and number */
-}
-
+  #live-stats div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 4px;
+  }
 
   #app-frame {
     width: 100vw;
@@ -278,45 +264,53 @@ gap: 4px;
     background: #0f0f0f;
   }
 
-.reel {
-  scroll-snap-align: start;
-  width: 100vw;
-  height: calc(100vh - 60px); /* ⬅️ match the content-wrapper height */
-  min-height: calc(100vh - 60px);
-  background: #000;
-}
+  .content-wrapper {
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: auto;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+  }
 
-
-
-
-.reel {
-  scroll-snap-align: start;
-  height: calc(100vh - 140px); /* 🔥 Adjust this to whatever looks good */
-  min-height: calc(100vh - 140px);
-  width: 100vw;
-  background: #000;
-}
-
-
-
+  .reel {
+    scroll-snap-align: start;
+    width: 100vw;
+    height: 100vh; /* Full height reel */
+    min-height: 100vh;
+    background: #000;
+  }
 
   .reel-inner {
     height: 100%;
     width: 100%;
   }
 
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100vw;
-  height: 60px; /* ⬅️ Make sure nav height is defined */
-  background-color: #1a1a1a;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 100;
+  .caption-center {
+    padding-bottom: 80px; /* Push up caption */
+  }
+
+  .user-info {
+    bottom: 120px; /* Move up profile */
+  }
+
+  .actions {
+    bottom: 120px; /* Move up action buttons */
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 60px;
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+  }
 }
 
 
