@@ -197,7 +197,7 @@
     margin: 0;
     padding: 0;
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     background-color: #0f0f0f;
     overflow-x: hidden;
     overflow-y: auto;
@@ -206,32 +206,32 @@
   .layout-wrapper {
     display: block;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100vh; /* 🔥 force full height */
     background-color: #0f0f0f;
   }
 
   #app-frame {
     display: block;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100vh; /* 🔥 make sure app frame fills page */
     background-color: #0f0f0f;
   }
 
   .content-wrapper {
-    /* 🔥 LEAVE CONTENT WRAPPER NORMAL */
-    padding: 0;
-    margin: 0;
+    display: block;
+    width: 100%;
+    min-height: 100vh; /* 🔥 story content must stretch full screen */
     overflow-x: hidden;
     overflow-y: auto;
   }
 
   #live-stats {
     position: fixed;
-    bottom: 60px; /* 🔥 Sits directly above bottom nav */
+    bottom: 60px;
     left: 0;
     right: 0;
     width: 100%;
-    background-color: rgba(26, 26, 26, 0.95); /* 🔥 slightly transparent */
+    background-color: rgba(26, 26, 26, 0.95);
     font-size: 0.75rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -258,6 +258,7 @@
   }
 
 }
+
 
   </style>
 </head>
