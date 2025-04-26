@@ -360,12 +360,55 @@ transform: translate(-50%, -5px);
     padding-bottom: 60px; /* space for bottom nav */
   }
 }
+/* your existing CSS */
+.page-content {
+  margin: auto;
+  max-width: 600px;
+}
+
+/* Paste this new stuff at the very end */
+#stats-toggle-bar {
+  display: none;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 999;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+/* (rest of the mobile stats CSS here) */
 
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 <body>
+   <body>
+  <!-- Mobile Stats Toggle (hidden on desktop) -->
+  <div class="stats-toggle-bar" id="stats-toggle-bar">
+    <button id="toggle-stats-btn">Show Stats ▼</button>
+  </div>
+
+  <!-- Mobile Stats Panel (hidden by default) -->
+  <div id="mobile-stats" class="mobile-stats">
+    <div class="stats-grid">
+      <div>Minutes Wasted: 0</div>
+      <div>Scrolls Done: 0</div>
+      <div>Likes Given: 0</div>
+      <div>Comments Given: 0</div>
+      <div>Reposts Done: 0</div>
+      <div>Bookmarks: 0</div>
+      <div>Reels Viewed: 0</div>
+      <div>Stories Viewed: 0</div>
+      <div>Posts Posted: 0</div>
+      <div>Profiles Visited: 0</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Main content starts here -->
+ 
 <div class="layout-wrapper">
 <div id="live-stats">
 <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
@@ -623,6 +666,21 @@ lucide.createIcons();
 </script>
 </div> <!-- closes #app-frame -->
 </div> <!-- closes .layout-wrapper -->
-</body>
+<script>
+const toggleBtn = document.getElementById('toggle-stats-btn');
+const mobileStats = document.getElementById('mobile-stats');
+
+toggleBtn.addEventListener('click', () => {
+  if (mobileStats.style.display === 'block') {
+    mobileStats.style.display = 'none';
+    toggleBtn.textContent = 'Show Stats ▼';
+  } else {
+    mobileStats.style.display = 'block';
+    toggleBtn.textContent = 'Hide Stats ▲';
+  }
+});
+</script>
+
+   </body>
 </html>
 
