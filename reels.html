@@ -44,21 +44,22 @@ top: 20px;
 height: fit-content;
 }
 #app-frame {
-width: min(645px, 95vw);
-height: 100vh;
-background-color: #0f0f0f;
-border-radius: 20px;
-box-shadow: 0 0 15px rgba(0,0,0,0.3);
-overflow: hidden;
-display: flex;
-flex-direction: column;
-position: relative;
+  width: 100%;
+  background-color: #0f0f0f;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  min-height: calc(100vh - 80px); /* subtract bottom nav height */
 }
 .content-wrapper {
-flex: 1;
-overflow-y: auto;
-scroll-snap-type: y mandatory;
+  padding-top: 0;
+  padding-bottom: 80px;
+  flex: 1;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
 }
+
 .content-wrapper::-webkit-scrollbar {
 width: 8px;
 }
@@ -239,16 +240,17 @@ z-index: 2;
     z-index: 1000;
   }
 
-  #app-frame {
+ #app-frame {
     width: 100%;
     background-color: #0f0f0f;
     border-radius: 0;
     display: flex;
     flex-direction: column;
     overflow: visible;
+    min-height: calc(100vh - 80px);
   }
 
-  .content-wrapper {
+.content-wrapper {
     padding-top: 0;
     padding-bottom: 80px;
     flex: 1;
