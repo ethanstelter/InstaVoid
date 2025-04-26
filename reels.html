@@ -265,13 +265,14 @@ gap: 4px;
     background: #0f0f0f;
   }
 
-.content-wrapper {
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: auto;
+.reel {
+  scroll-snap-align: start;
   width: 100vw;
-  padding: 0;
+  height: calc(100vh - 60px); /* ⬅️ match the content-wrapper height */
+  min-height: calc(100vh - 60px);
+  background: #000;
 }
+
 
 
 
@@ -291,16 +292,20 @@ gap: 4px;
     width: 100%;
   }
 
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    border-radius: 0;
-    background-color: #1a1a1a;
-  }
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 60px; /* ⬅️ Make sure nav height is defined */
+  background-color: #1a1a1a;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
 }
+
 
 
 
