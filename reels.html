@@ -92,7 +92,7 @@ font-size: 1.3rem;
 .reel {
 scroll-snap-align: start;
 height: 100%;
-background-color: #000;
+background-color: #0f0f0f;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -311,12 +311,23 @@ z-index: 2;
 }
 
   .user-info {
-    bottom: 120px; /* Move up profile */
-  }
+  position: absolute;
+  bottom: 70px; /* Adjust depending on nav bar height */
+  left: 10px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
 
-  .actions {
-    bottom: 120px; /* Move up action buttons */
-  }
+ .actions {
+  position: absolute;
+  bottom: 70px; /* Match user-info */
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
   .bottom-nav {
     position: fixed;
