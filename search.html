@@ -155,6 +155,59 @@
       font-size: 1.3rem;
       margin-right: 0.3rem;
     }
+    @media (max-width: 768px) {
+  .layout-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #live-stats {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px 6px;
+    font-size: 0.75rem;
+    background-color: #1a1a1a;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-rows: repeat(5, auto);   /* 5 rows */
+    text-align: center;
+    border-radius: 0;
+    transform: translateY(0);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    gap: 4px;
+  }
+
+  .stats-spacer {
+    height: 70px;
+    width: 100%;
+  }
+
+  .content-wrapper {
+    padding-top: 80px; /* ensures you don't overlap after the stats spacer */
+    padding-bottom: 80px;
+  }
+
+  #app-frame {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
   </style>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -178,6 +231,7 @@
     <!-- App Frame -->
     <div id="app-frame">
       <div class="content-wrapper">
+        <div class="stats-spacer"></div>
         <h2>Accounts</h2>
         <div id="account-container"></div>
         <button id="toggleAccounts" onclick="toggleAccountView()">Show More</button>
@@ -307,6 +361,26 @@ document.addEventListener("click", function (e) {
         renderLeaderboard();
         updateLiveStats();
 lucide.createIcons();
+// Scroll direction detector to hide/show live stats bar on mobile
+let lastScroll = 0;
+const statsBar = document.getElementById("live-stats");
+const scrollContainer = document.querySelector(".content-wrapper");
+
+scrollContainer.addEventListener("scroll", () => {
+  const currentScroll = scrollContainer.scrollTop;
+
+  if (window.innerWidth <= 768) {
+    if (currentScroll > lastScroll) {
+      // Scrolling down
+      statsBar.style.transform = "translateY(-200%)";
+    } else {
+      // Scrolling up
+      statsBar.style.transform = "translateY(0)";
+    }
+  }
+
+  lastScroll = currentScroll;
+});
 
       </script>
     </div> <!-- closes #app-frame -->
