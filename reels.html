@@ -232,9 +232,9 @@ z-index: 2;
     box-sizing: border-box;
     border-radius: 0;
     margin: 0;
-    position: relative;
-    top: 0;
-    height: auto;
+    position: sticky; /* 🔥 MAKE STICKY */
+    top: 0; /* 🔥 PIN TO TOP */
+    z-index: 10; /* make sure it's above reels */
     font-size: 0.8rem;
     text-align: center;
   }
@@ -255,13 +255,15 @@ z-index: 2;
 
   .content-wrapper {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory; /* 🔥 FORCE SNAP SCROLL */
+    scroll-behavior: auto; /* 🔥 NO SMOOTH SCROLL */
     padding-top: 10px;
-    scroll-snap-type: y mandatory;
   }
 
   .reel {
-    min-height: 500px; /* or whatever height you prefer for reels */
+    scroll-snap-align: start;
+    min-height: 500px; /* tweak if you want */
   }
 
   .bottom-nav {
@@ -272,6 +274,7 @@ z-index: 2;
     border-radius: 0;
   }
 }
+
 
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
