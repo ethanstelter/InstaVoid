@@ -269,9 +269,15 @@ main {
   }
 }
 @media (max-width: 768px) {
+  html, body {
+    overflow: auto;
+    height: auto;
+  }
+
   .layout-wrapper {
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
     height: auto;
     overflow-y: auto;
     padding: 10px 0;
@@ -334,6 +340,7 @@ main {
     gap: 10px;
   }
 }
+
 </style>
 
 <script src="https://unpkg.com/lucide@latest"></script>
