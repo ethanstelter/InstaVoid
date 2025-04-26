@@ -299,15 +299,17 @@
   .next-button {
     right: 10px;
   }
- .back-button {
-    display: inline-block;
-    font-size: 1rem;
-    color: #aaa;
-    background: transparent;
-    border: none;
-    text-decoration: none;
-    margin-left: 6px; /* 🔥 little space from username */
-  }
+.back-button {
+  display: inline-block;
+  font-size: 1rem;
+  color: #aaa;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  margin-left: 8px; /* 🔥 little gap after username */
+  position: relative; /* ✅ no fixed/absolute */
+  top: 0;
+}
 
    .profile {
     display: flex;
