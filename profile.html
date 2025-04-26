@@ -218,7 +218,15 @@
       border-color: #f44;
       box-shadow: 0 0 8px #f44;
     }
-    @media (max-width: 768px) {
+   @media (max-width: 768px) {
+
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* 🔥 important for mobile layout */
+  }
 
   #live-stats {
     position: fixed;
@@ -238,10 +246,16 @@
     gap: 4px;
   }
 
- #profile-content {
-  padding-top: 200px;
-}
-
+  #profile-content {
+    position: absolute;
+    top: 140px; /* 🔥 start BELOW the live stats */
+    bottom: 60px; /* 🔥 end ABOVE the bottom nav */
+    left: 0;
+    right: 0;
+    overflow-y: auto; /* 🔥 allow scrolling */
+    padding: 10px;
+    box-sizing: border-box;
+  }
 }
 
   </style>
