@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,7 +30,7 @@ align-items: center;
 justify-content: center;
 width: 100%;
 max-width: 1600px;
-margin-top: 120px;
+height: 100vh;
 }
 #live-stats {
 flex-shrink: 0;
@@ -50,15 +50,16 @@ font-size: 0.85rem;
 line-height: 1.6;
 }
 #app-frame {
-  width: min(645px, 95vw);
-  background-color: #0f0f0f;
-  border-radius: 20px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+width: min(645px, 95vw);
+height: 100vh;
+background-color: #0f0f0f;
+border-radius: 20px;
+box-shadow: 0 0 15px rgba(0,0,0,0.3);
+overflow: hidden;
+display: flex;
+flex-direction: column;
+position: relative;
 }
-
 .content-wrapper {
 flex: 1;
 overflow-y: auto;
@@ -154,70 +155,65 @@ color: #888;
 font-size: 1.3rem;
 margin-right: 0.3rem;
 }
-  @media (max-width: 768px) {
-  .layout-wrapper {
-    flex-direction: column;
-    align-items: center;
-    margin-top: 150px; /* create space below stats */
-    height: auto;
-  }
-
-#live-stats {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  padding: 10px 6px;
-  background-color: #1a1a1a;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, auto);
-  text-align: center;
-  gap: 4px;
-  font-size: 0.75rem;
-  z-index: 1000;
-  transform: translateY(0);
-  transition: transform 0.3s ease-in-out;
+@media (max-width: 768px) {
+.layout-wrapper {
+flex-direction: column;
+align-items: center;
 }
 
+#live-stats {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+width: 100%;
+margin: 0;
+padding: 10px 6px;
+font-size: 0.75rem;
+background-color: #1a1a1a;
+display: grid;
+grid-template-columns: repeat(2, 1fr); /* 2 columns */
+grid-template-rows: repeat(5, auto);   /* 5 rows */
+text-align: center;
+border-radius: 0;
+transform: translateY(0);
+z-index: 1000;
+transition: transform 0.3s ease-in-out;
+gap: 4px;
+}
 
-  #app-frame {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+.stats-spacer {
+    height: 70px;
+    height: 75px;
+width: 100%;
+}
 
-  .content-wrapper {
-    padding-top: 1rem;
-    padding-bottom: 80px;
-    overflow-y: auto;
-    flex: 1;
-  }
+.content-wrapper {
+padding-top: 80px; /* ensures you don't overlap after the stats spacer */
+padding-bottom: 80px;
+}
 
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #1a1a1a;
-    border-top: 1px solid #333;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.5rem 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    z-index: 1000;
-  }
+#app-frame {
+width: 100%;
+height: 100%;
+border-radius: 0;
+}
+
+.bottom-nav {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+border-bottom-left-radius: 0;
+border-bottom-right-radius: 0;
+}
 }
 
 </style>
-  <script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+<div class="layout-wrapper">
 <!-- Live Stats Sidebar -->
 <div id="live-stats">
 <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
@@ -232,10 +228,11 @@ margin-right: 0.3rem;
 <div>Profiles Visited: <span id="stat-profiles">0</span></div>
 </div>
 
-<div class="layout-wrapper">
+
 <!-- App Frame -->
 <div id="app-frame">
 <div class="content-wrapper">
+<div class="stats-spacer"></div>
 <h2>Accounts</h2>
 <div id="account-container"></div>
 <button id="toggleAccounts" onclick="toggleAccountView()">Show More</button>
@@ -244,19 +241,12 @@ margin-right: 0.3rem;
 <div id="leaderboard"></div>
 </div> <!-- closes .content-wrapper -->
 
-      <div class="bottom-nav">
-        <a href="index.html">🏠</a>
-        <a href="search.html">🔍</a>
-        <a href="publish.html">➕</a>
-        <a href="reels.html">🎞️</a>
-        <a href="profile.html">👤</a>
-      </div>
-     <div class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i></a>
-  <a href="search.html"><i data-lucide="search"></i></a>
-  <a href="publish.html"><i data-lucide="plus-circle"></i></a>
-  <a href="reels.html"><i data-lucide="video"></i></a>
-  <a href="profile.html"><i data-lucide="user"></i></a>
+<div class="bottom-nav">
+<a href="index.html"><i data-lucide="home"></i></a>
+<a href="search.html"><i data-lucide="search"></i></a>
+<a href="publish.html"><i data-lucide="plus-circle"></i></a>
+<a href="reels.html"><i data-lucide="video"></i></a>
+<a href="profile.html"><i data-lucide="user"></i></a>
 </div>
 
 
@@ -372,6 +362,26 @@ renderAccounts();
 renderLeaderboard();
 updateLiveStats();
 lucide.createIcons();
+// Scroll direction detector to hide/show live stats bar on mobile
+let lastScroll = 0;
+const statsBar = document.getElementById("live-stats");
+const scrollContainer = document.querySelector(".content-wrapper");
+
+scrollContainer.addEventListener("scroll", () => {
+const currentScroll = scrollContainer.scrollTop;
+
+if (window.innerWidth <= 768) {
+if (currentScroll > lastScroll) {
+// Scrolling down
+statsBar.style.transform = "translateY(-200%)";
+} else {
+// Scrolling up
+statsBar.style.transform = "translateY(0)";
+}
+}
+
+lastScroll = currentScroll;
+});
 
 </script>
 </div> <!-- closes #app-frame -->
