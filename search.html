@@ -30,7 +30,7 @@ align-items: center;
 justify-content: center;
 width: 100%;
 max-width: 1600px;
-height: 100vh;
+margin-top: 120px;
 }
 #live-stats {
 flex-shrink: 0;
@@ -50,16 +50,15 @@ font-size: 0.85rem;
 line-height: 1.6;
 }
 #app-frame {
-width: min(645px, 95vw);
-height: 100vh;
-background-color: #0f0f0f;
-border-radius: 20px;
-box-shadow: 0 0 15px rgba(0,0,0,0.3);
-overflow: hidden;
-display: flex;
-flex-direction: column;
-position: relative;
+  width: min(645px, 95vw);
+  background-color: #0f0f0f;
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
+
 .content-wrapper {
 flex: 1;
 overflow-y: auto;
@@ -163,26 +162,25 @@ margin-right: 0.3rem;
     height: auto;
   }
 
-  #live-stats {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    margin: 0;
-    padding: 10px 6px;
-    font-size: 0.75rem;
-    background-color: #1a1a1a;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, auto);
-    text-align: center;
-    border-radius: 0;
-    transform: translateY(0);
-    z-index: 1000;
-    transition: transform 0.3s ease-in-out;
-    gap: 4px;
-  }
+#live-stats {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 10px 6px;
+  background-color: #1a1a1a;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, auto);
+  text-align: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  z-index: 1000;
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out;
+}
+
 
   #app-frame {
     width: 100%;
@@ -220,7 +218,6 @@ margin-right: 0.3rem;
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-<div class="layout-wrapper">
 <!-- Live Stats Sidebar -->
 <div id="live-stats">
 <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
@@ -235,7 +232,7 @@ margin-right: 0.3rem;
 <div>Profiles Visited: <span id="stat-profiles">0</span></div>
 </div>
 
-
+<div class="layout-wrapper">
 <!-- App Frame -->
 <div id="app-frame">
 <div class="content-wrapper">
