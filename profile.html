@@ -268,23 +268,22 @@
     z-index: 1000;
   }
 .layout-wrapper {
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
+  display: block; /* 🔥 Stop using flex on mobile */
   height: auto;
   min-height: 100vh;
+  width: 100%;
+  padding-top: 140px; /* enough for stats */
+  background-color: #0f0f0f;
 }
 
 #app-frame {
-  width: 100%;
+  display: block; /* 🔥 Stop flex on mobile */
   height: auto;
   min-height: 100vh;
-  border-radius: 0;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
   background-color: #0f0f0f;
 }
+
 
 }
 
