@@ -336,18 +336,16 @@ transform: translate(-50%, -5px);
 }
 
 }
-  .kofi-button-wrapper {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 9999;
+ .kofi-sidebar-button {
+  margin-top: 20px;
+  text-align: center;
 }
 
-/* Ko-fi button image styling */
-.kofi-button-wrapper img {
+.kofi-sidebar-button img {
   height: 50px;
   width: auto;
 }
+
 @keyframes fadeout {
 0% { opacity: 1; }
 80% { opacity: 1; }
@@ -396,17 +394,18 @@ transform: translate(-50%, -5px);
   .main-content {
     padding-bottom: 60px; /* space for bottom nav */
   }
-       .kofi-button-wrapper {
-    /* Example: move it to bottom-center on mobile */
+    .kofi-sidebar-button {
+    position: fixed;
     left: 50%;
-    transform: translateX(-50%);
     bottom: 10px;
+    transform: translateX(-50%);
+    margin-top: 0;
+    z-index: 9999;
   }
 
-  .kofi-button-wrapper img {
-    height: 40px; /* slightly smaller on mobile */
+  .kofi-sidebar-button img {
+    height: 40px; /* slightly smaller for mobile */
   }
-}
 }
 
 </style>
@@ -426,6 +425,11 @@ transform: translate(-50%, -5px);
 <div>Stories Viewed: <span id="stat-stories">0</span></div>
 <div>Posts Posted: <span id="stat-posts">0</span></div>
 <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+</div>
+<div class="kofi-sidebar-button">
+  <a href="https://ko-fi.com/ethanstelter" target="_blank">
+    <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Support me on Ko-fi" />
+  </a>
 </div>
 
 
@@ -694,12 +698,6 @@ scrollContainer.addEventListener("scroll", () => {
 </script>
 </div> <!-- closes #app-frame -->
 </div> <!-- closes .layout-wrapper -->
-  <div class="kofi-button-wrapper">
-  <a href="https://ko-fi.com/ethanstelter" target="_blank">
-    <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Support me on Ko-fi" />
-  </a>
-</div>
-
 </body>
 </html>
 
