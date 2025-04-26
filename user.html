@@ -212,48 +212,71 @@ html, body {
 
   </style>
 </head>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
 <body>
-<!-- (script block and HTML unchanged) -->
 
+<!-- Setup Modal -->
+<div id="setup-overlay">
+  <div id="setup-box">
+    <h3>Create Your Account</h3>
+    <input type="text" id="setup-username" placeholder="Choose a username">
+    <input type="text" id="setup-bio" placeholder="Write your bio">
+    <div class="avatar-grid" id="avatarOptions"></div>
+    <button onclick="saveSetup()">Finish</button>
+    <small>Once submitted, nothing can be changed.</small>
+  </div>
+</div>
+
+<!-- App Content Wrapper -->
 <div class="layout-wrapper">
-    <div id="live-stats">
-  <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
-  <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
-  <div>Likes Given: <span id="stat-likes">0</span></div>
-  <div>Comments Given: <span id="stat-comments">0</span></div>
-  <div>Reposts Done: <span id="stat-reposts">0</span></div>
-  <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
-  <div>Reels Viewed: <span id="stat-reels">0</span></div>
-  <div>Stories Viewed: <span id="stat-stories">0</span></div>
-  <div>Posts Posted: <span id="stat-posts">0</span></div>
-  <div>Profiles Visited: <span id="stat-profiles">0</span></div>
-</div>
+  <div id="live-stats">
+    <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+    <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+    <div>Likes Given: <span id="stat-likes">0</span></div>
+    <div>Comments Given: <span id="stat-comments">0</span></div>
+    <div>Reposts Done: <span id="stat-reposts">0</span></div>
+    <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+    <div>Reels Viewed: <span id="stat-reels">0</span></div>
+    <div>Stories Viewed: <span id="stat-stories">0</span></div>
+    <div>Posts Posted: <span id="stat-posts">0</span></div>
+    <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+  </div>
 
-<div id="app-frame">
-<div class="content-wrapper">
-<header id="username">@username</header>
+  <div id="app-frame">
+    <div class="content-wrapper">
+      <header id="username">@username</header>
 
-<div class="profile">
-<img id="avatar" src="" alt="avatar">
-<div class="stats">
-<div class="stat"><strong id="postCount">0</strong> posts</div>
-<div class="stat"><strong>0</strong> followers</div>
-<div class="stat"><strong>0</strong> following</div>
-</div>
-</div>
+      <div class="profile">
+        <img id="avatar" src="" alt="avatar">
+        <div class="stats">
+          <div class="stat"><strong id="postCount">0</strong> posts</div>
+          <div class="stat">
+            <strong id="follower-count">0</strong> followers
+            <div style="font-size: 0.7rem; color: #888;">all bots probably</div>
+          </div>
+          <div class="stat">
+            <strong id="following-count">0</strong> following
+            <div style="font-size: 0.7rem; color: #888;">mostly meme pages</div>
+          </div>
+        </div>
+      </div>
 
-<div class="bio">Too cool to achieve anything. Just stats.</div>
+      <div class="bio" id="bioDisplay">Loading bio...</div>
+      <div class="stat-grid" id="statGrid"></div>
+    </div>
 
-<div class="stat-grid" id="statGrid"></div>
-</div>
-
- <div class="bottom-nav">
+   <div class="bottom-nav">
   <a href="index.html"><i data-lucide="home"></i></a>
   <a href="search.html"><i data-lucide="search"></i></a>
   <a href="publish.html"><i data-lucide="plus-circle"></i></a>
   <a href="reels.html"><i data-lucide="video"></i></a>
   <a href="profile.html"><i data-lucide="user"></i></a>
 </div>
+
+  </div>
+</div> <!-- closes layout-wrapper -->
 
 <script>
 const params = new URLSearchParams(window.location.search);
