@@ -259,6 +259,27 @@ z-index: 2;
   }
 }
 
+.reel {
+  min-height: 100vh; /* FULL SCREEN height */
+  width: 100%;
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  border-bottom: 2px solid red; /* TEMP: add red borders to see them show up */
+}
+
+.reel-inner {
+  width: 90%;
+  height: 90%;
+  background-color: #222;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -281,8 +302,8 @@ z-index: 2;
 
 <div id="app-frame">
 <div class="content-wrapper">
-  <div style="height: 130px;"></div> <!-- Spacer so reels don't get hidden by stats -->
-  <div id="reelWrapper"></div>
+  <div style="height: 130px;"></div> <!-- Spacer to push reels below stats bar -->
+  <div id="reelWrapper" style="display: flex; flex-direction: column;"></div>
 </div>
 
 </div> <!-- closes .content-wrapper -->
@@ -486,10 +507,11 @@ if (statEl) statEl.textContent = visited + 1;
 
 document.addEventListener("DOMContentLoaded", () => {
   updateStats();
-  loadInitialReels();
+  loadInitialReels(10);
   trackVisibleReels();
   lucide.createIcons();
 });
+
 
 
 </script>
