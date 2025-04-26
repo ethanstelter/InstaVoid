@@ -155,34 +155,33 @@ color: #888;
 font-size: 1.3rem;
 margin-right: 0.3rem;
 }
-    @media (max-width: 768px) {
+   @media (max-width: 768px) {
   .layout-wrapper {
     flex-direction: column;
     align-items: center;
     height: auto;
   }
 
- #live-stats {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  margin: 0;
-  padding: 6px 4px; /* smaller padding */
-  background-color: #1a1a1a;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, auto);
-  gap: 2px; /* smaller gap */
-  font-size: 0.65rem; /* smaller text */
-  text-align: center;
-  border-radius: 0;
-  transform: translateY(0);
-  z-index: 1000;
-  transition: transform 0.3s ease-in-out;
-}
-
+  #live-stats {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px 6px; /* normal padding */
+    background-color: #1a1a1a;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);
+    gap: 4px;
+    font-size: 0.85rem; /* normal font */
+    text-align: center;
+    border-radius: 0;
+    transform: translateY(0);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+  }
 
   #app-frame {
     width: 100%;
@@ -194,8 +193,8 @@ margin-right: 0.3rem;
   }
 
   .content-wrapper {
-    padding-top: 200px; /* Enough room for stats bar height */
-    padding-bottom: 80px; /* Enough room for bottom nav */
+    padding-top: 140px; /* <-- KEY LINE */
+    padding-bottom: 80px;
     overflow-y: auto;
     flex: 1;
   }
@@ -210,6 +209,7 @@ margin-right: 0.3rem;
     z-index: 1000;
   }
 }
+
 
 </style>
   <script src="https://unpkg.com/lucide@latest"></script>
