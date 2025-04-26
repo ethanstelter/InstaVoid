@@ -34,21 +34,23 @@ max-width: 1600px;
 height: 100vh;
 }
 #live-stats {
-flex-shrink: 0;
-width: 180px;
-margin-right: 20px;
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-padding: 10px;
-background-color: #1a1a1a;
-border-radius: 12px;
-box-shadow: 0 0 10px rgba(0,0,0,0.5);
-position: sticky;
-top: 20px;
-height: fit-content;
-font-size: 0.85rem;
-line-height: 1.6;
+  flex-shrink: 0;
+  width: 180px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 10px;
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  transition: transform 0.3s ease-in-out;
+  z-index: 999;
 }
 #app-frame {
 width: min(645px, 95vw);
@@ -96,22 +98,34 @@ text-decoration: none;
 font-size: 1.3rem;
 }
 @media (max-width: 768px) {
-.layout-wrapper {
-flex-direction: column;
-align-items: center;
+  .layout-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  #live-stats {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    padding: 8px;
+    font-size: 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, auto);
+    text-align: center;
+    border-radius: 0;
+    transform: translateY(0);
+    z-index: 1000;
+  }
+  #app-frame {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
 }
-#live-stats {
-width: 100%;
-margin: 0 0 20px 0;
-flex-direction: row;
-justify-content: space-around;
-}
-#app-frame {
-width: 100%;
-height: 100%;
-border-radius: 0;
-}
-}
+
 
 /* Original styles */
 header {
@@ -619,6 +633,26 @@ if (statEl) statEl.textContent = visited + 1;
 updateStats();
 
 lucide.createIcons();
+// Scroll direction detector to hide/show live stats bar on mobile
+let lastScroll = 0;
+const statsBar = document.getElementById("live-stats");
+const scrollContainer = document.querySelector(".content-wrapper"); // the scrollable feed
+
+scrollContainer.addEventListener("scroll", () => {
+  const currentScroll = scrollContainer.scrollTop;
+  
+  if (window.innerWidth <= 768) { // only do this on mobile
+    if (currentScroll > lastScroll) {
+      // Scrolling down
+      statsBar.style.transform = "translateY(-100%)";
+    } else {
+      // Scrolling up
+      statsBar.style.transform = "translateY(0)";
+    }
+  }
+  
+  lastScroll = currentScroll;
+});
 
 </script>
 </div> <!-- closes #app-frame -->
