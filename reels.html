@@ -212,68 +212,74 @@ z-index: 2;
   flex-direction: column;
 }
 @media (max-width: 768px) {
-  html, body {
+  /* Layout switches to vertical */
+  .layout-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
     height: auto;
-    overflow: auto;
-    margin: 0;
-    padding: 0;
-    background-color: #eeeeee;
+    overflow: hidden;
   }
 
-  .layout-wrapper {
-  flex-direction: column;
-  align-items: stretch;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
+  /* Stats bar pinned at the top */
+  #live-stats {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px 6px;
+    font-size: 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);
+    text-align: center;
+    gap: 4px;
+    background-color: #1a1a1a;
+    z-index: 1000;
+    border-radius: 0;
+  }
 
-#live-stats {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background-color: #1a1a1a;
-  padding: 10px 6px;
-  font-size: 0.75rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, auto);
-  text-align: center;
-  gap: 4px;
-  border-radius: 0;
-}
-
-
+  /* Push app-frame down below stats bar */
   #app-frame {
     width: 100%;
     border-radius: 0;
-    margin-top: 140px;
     background-color: #0f0f0f;
-    overflow: hidden;
+    margin-top: 140px;
     display: flex;
     flex-direction: column;
+    height: auto;
     min-height: 100vh;
   }
 
+  /* Scrollable content */
   .content-wrapper {
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     scroll-snap-type: y mandatory;
   }
 
+  /* The wrapper for all reels */
   #reelWrapper {
     display: flex;
     flex-direction: column;
   }
 
+  /* Each individual reel */
   .reel {
-    min-height: 100vh;
+    width: 100vw;
+    height: calc(100vh - 170px); /* 140px for stats + 30px buffer */
     scroll-snap-align: start;
     background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
   }
 
+  /* Keep bottom nav fixed */
   .bottom-nav {
     position: fixed;
     bottom: 0;
