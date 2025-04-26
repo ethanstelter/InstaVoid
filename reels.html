@@ -265,23 +265,25 @@ gap: 4px;
     background: #0f0f0f;
   }
 
-  .content-wrapper {
-    flex: 1;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    scroll-behavior: auto; /* no smooth scroll */
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-  }
+.content-wrapper {
+  flex: 1;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: auto;
+  height: calc(100vh - 80px); /* 🔥 shorter to allow space */
+  width: 100vw;
+  padding: 0;
+}
+
 
  .reel {
   scroll-snap-align: start;
-  height: calc(100vh - 80px); /* 🔥 Shorten reel height a little */
+  height: calc(100vh - 80px); /* 🔥 same shorter height */
   min-height: calc(100vh - 80px);
   width: 100vw;
   background: #000;
 }
+
 
 
   .reel-inner {
