@@ -446,12 +446,7 @@
     padding-bottom: 60px;
   }
 }
-@media (max-width: 768px) {
-  .live-stats-desktop {
-    display: none;
-  }
-}
-
+    
   .live-stats-sidebar {
     position: relative;
     width: 100%;
@@ -595,6 +590,11 @@
 
   .live-stats-desktop {
     display: none;
+  }
+}
+@media (max-width: 768px) {
+  .live-stats-desktop {
+    display: none !important;
   }
 }
 
