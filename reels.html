@@ -242,12 +242,15 @@ z-index: 2;
     text-align: center;
   }
 
-  #live-stats div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+#live-stats div {
+  display: flex;
+  flex-direction: row; /* 🔥 align words and numbers horizontally */
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap; /* 🔥 keep text from wrapping */
+  gap: 4px; /* 🔥 small gap between label and number */
+}
+
 
   #app-frame {
     width: 100vw;
