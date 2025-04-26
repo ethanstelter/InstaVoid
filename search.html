@@ -184,16 +184,18 @@ margin-right: 0.3rem;
 }
 
   #app-frame {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-top: 100px; /* <-- THIS is the true fix */
+}
+
 
   .content-wrapper {
-    padding-top: 110px; /* <-- KEY LINE */
+    padding-top: 0px; /* <-- KEY LINE */
     padding-bottom: 80px;
     overflow-y: auto;
     flex: 1;
