@@ -212,7 +212,7 @@ z-index: 2;
   flex-direction: column;
 }
 @media (max-width: 768px) {
-  /* Layout switches to vertical */
+  /* Stack layout vertically instead of side-by-side */
   .layout-wrapper {
     flex-direction: column;
     align-items: stretch;
@@ -221,7 +221,7 @@ z-index: 2;
     overflow: hidden;
   }
 
-  /* Stats bar pinned at the top */
+  /* Top stats bar, always visible */
   #live-stats {
     position: fixed;
     top: 0;
@@ -241,19 +241,24 @@ z-index: 2;
     border-radius: 0;
   }
 
-  /* Push app-frame down below stats bar */
+  /* Remove sidebar stats for mobile */
+  .layout-wrapper > #live-stats:not(:only-child) {
+    display: none;
+  }
+
+  /* Move the app content below the fixed stats bar */
   #app-frame {
     width: 100%;
+    margin-top: 140px; /* adjust based on stats bar height */
     border-radius: 0;
     background-color: #0f0f0f;
-    margin-top: 140px;
     display: flex;
     flex-direction: column;
     height: auto;
     min-height: 100vh;
   }
 
-  /* Scrollable content */
+  /* Scrolling container for reels */
   .content-wrapper {
     flex: 1;
     overflow-y: auto;
@@ -261,16 +266,15 @@ z-index: 2;
     scroll-snap-type: y mandatory;
   }
 
-  /* The wrapper for all reels */
+  /* Reels stack vertically and take up screen width */
   #reelWrapper {
     display: flex;
     flex-direction: column;
   }
 
-  /* Each individual reel */
   .reel {
     width: 100vw;
-    height: calc(100vh - 170px); /* 140px for stats + 30px buffer */
+    height: calc(100vh - 170px); /* adjust for stats and nav */
     scroll-snap-align: start;
     background-color: #000;
     display: flex;
@@ -279,7 +283,7 @@ z-index: 2;
     position: relative;
   }
 
-  /* Keep bottom nav fixed */
+  /* Bottom nav bar stays pinned */
   .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -292,6 +296,7 @@ z-index: 2;
     z-index: 1000;
   }
 }
+
 
 
 </style>
