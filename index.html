@@ -319,7 +319,7 @@ transform: translate(-50%, -5px);
     @media (max-width: 600px) {
   .live-stats-sidebar {
     position: sticky;
-    top: 0;
+    top: 48;
     background-color: #111; /* Or whatever your background is */
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -404,7 +404,7 @@ transform: translate(-50%, -5px);
 
   #stats-container:not(.collapsed) .live-stats-sidebar {
     position: sticky;
-    top: 40px;
+    top: 48px;
     background-color: #111;
     width: 100%;
     max-width: 645px;
@@ -420,6 +420,21 @@ transform: translate(-50%, -5px);
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     z-index: 999;
+  }
+    .live-stats-sidebar div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+}
+@media (min-width: 769px) {
+  .stats-toggle-bar,
+  #stats-container {
+    display: none !important;
   }
 }
 
