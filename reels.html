@@ -298,9 +298,18 @@ z-index: 2;
 }
 
 
-  .caption-center {
-    padding-bottom: 80px; /* Push up caption */
-  }
+ .caption-center {
+  position: absolute;
+  top: 35%; /* 🔥 Move up from the middle */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #f0f0f0;
+  text-shadow: 0 0 6px #000;
+  max-width: 80%;
+}
 
   .user-info {
     bottom: 120px; /* Move up profile */
