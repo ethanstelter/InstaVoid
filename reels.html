@@ -207,7 +207,7 @@ z-index: 2;
 20% { opacity: 1; }
 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
-   @media (max-width: 768px) {
+  @media (max-width: 768px) {
   body {
     overflow: auto;
     align-items: flex-start;
@@ -225,16 +225,16 @@ z-index: 2;
     width: 100%;
     background: #1a1a1a;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, auto);
+    grid-template-columns: repeat(2, 1fr); /* 2 columns now */
+    grid-template-rows: repeat(5, auto); /* 5 rows */
     gap: 10px;
     padding: 10px;
     box-sizing: border-box;
     border-radius: 0;
     margin: 0;
-    position: sticky; /* 🔥 MAKE STICKY */
-    top: 0; /* 🔥 PIN TO TOP */
-    z-index: 10; /* make sure it's above reels */
+    position: sticky;
+    top: 0;
+    z-index: 10;
     font-size: 0.8rem;
     text-align: center;
   }
@@ -251,19 +251,27 @@ z-index: 2;
     height: auto;
     min-height: 100vh;
     border-radius: 0;
+    display: flex;
+    flex-direction: column;
   }
 
   .content-wrapper {
     flex: 1;
     overflow-y: scroll;
-    scroll-snap-type: y mandatory; /* 🔥 FORCE SNAP SCROLL */
-    scroll-behavior: auto; /* 🔥 NO SMOOTH SCROLL */
-    padding-top: 10px;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: auto;
+    padding-top: 0; /* no extra space */
+    height: 100vh; /* important: full viewport height */
   }
 
   .reel {
     scroll-snap-align: start;
-    min-height: 500px; /* tweak if you want */
+    min-height: 100vh; /* 🔥 each reel fills the screen */
+    height: 100vh;
+  }
+
+  .reel-inner {
+    height: 100%;
   }
 
   .bottom-nav {
