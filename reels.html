@@ -212,6 +212,16 @@ z-index: 2;
   flex-direction: column;
 }
 @media (max-width: 768px) {
+   html, body {
+  height: auto;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
   /* Stack layout vertically instead of side-by-side */
   .layout-wrapper {
     flex-direction: column;
