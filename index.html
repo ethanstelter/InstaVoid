@@ -1,370 +1,439 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  html, body {
-    height: auto;
-    overflow: auto;
-  }
-
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #eeeeee;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-  }
-
-  .layout-wrapper {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-    max-width: 1600px;
-    min-height: 100vh;
-    flex-direction: row;
-  }
-
-  #live-stats {
-    flex-shrink: 0;
-    width: 180px;
-    margin-right: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 10px;
-    background-color: #1a1a1a;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    position: sticky;
-    top: 20px;
-    height: fit-content;
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
-
-  #app-frame {
-    width: min(645px, 95vw);
-    height: 100vh;
-    background-color: #0f0f0f;
-    border-radius: 20px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-
-  .content-wrapper {
-    flex: 1;
-    overflow-y: auto;
-    padding-bottom: 60px;
-  }
-
-  .bottom-nav {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #1a1a1a;
-    border-top: 1px solid #333;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.5rem 0;
-    z-index: 10;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-  }
-
-  .bottom-nav a {
-    color: #888;
-    text-decoration: none;
-    font-size: 1.3rem;
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    background-color: #1a1a1a;
-    border-bottom: 1px solid #333;
-  }
-
-  .logo-img {
-    height: 48px;
-    max-width: 200px;
-    object-fit: contain;
-    margin-left: 1rem;
-    filter: drop-shadow(0 0 2px #f44);
-  }
-
-  .nav-icons {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    position: relative;
-  }
-
-  .nav-icons img {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    filter: invert(60%);
-  }
-
-  #notificationDropdown {
-    position: absolute;
-    top: 40px;
-    right: 0;
-    background-color: #1a1a1a;
-    border: 1px solid #333;
-    padding: 0.5rem;
-    border-radius: 6px;
-    width: 250px;
-    display: none;
-    z-index: 1000;
-    box-shadow: 0 0 10px #000;
-  }
-
-  .stories {
-    display: flex;
-    overflow-x: auto;
-    padding: 1rem;
-    border-bottom: 1px solid #333;
-  }
-
-  .story {
-    flex: 0 0 auto;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin-right: 10px;
-    border: 2px solid #f44;
-    background-size: cover;
-    background-position: center;
-    background-color: #444;
-  }
-
-  main {
-    padding: 1rem;
-  }
-
-  .post {
-    background-color: #1c1c1c;
-    border: 1px solid #333;
-    margin: 2rem auto;
-    width: 100%;
-    max-width: 550px;
-    color: #fff;
-    position: relative;
-  }
-
-  .post-header {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-  }
-
-  .post-header img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-
-  .post-header span {
-    font-weight: bold;
-    color: #ccc;
-  }
-
-  .post-image {
-    width: 100%;
-    height: 400px;
-    background-color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #eee;
-  }
-
-  .post-actions {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-  }
-
-  .post-actions button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #ccc;
-    font-size: 1.1rem;
-  }
-
-  /* MOBILE STYLES */
-  @media (max-width: 768px) {
-    .layout-wrapper {
-      flex-direction: column;
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InstaVoid</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+html, body {
+height: 100%;
+overflow: hidden;
+}
+body {
+font-family: Arial, sans-serif;
+background-color: #eeeeee;
+color: #fff;
+display: flex;
+justify-content: center;
+align-items: center;
+      padding: env(safe-area-inset-top, 20px) 0 0 0;
+      padding: 0;
+}
+.layout-wrapper {
+display: flex;
       align-items: center;
-    }
-
-    #app-frame {
-      padding-top: 40px;
-      padding-left: 12px;
-      padding-right: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      height: auto;
-      border-radius: 0;
-    }
-
-    .stats-toggle-bar {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      background-color: #1a1a1a;
-      color: #fff;
-      text-align: center;
-      padding: 8px 0;
-      font-size: 14px;
-      cursor: pointer;
-      z-index: 1000;
-      border-bottom: 1px solid #333;
-    }
-
-    #stats-container {
-      width: 100%;
-      display: flex;
       justify-content: center;
-      flex-direction: column;
+width: 100%;
+max-width: 1600px;
+height: 100vh;
+}
+#live-stats {
+flex-shrink: 0;
+width: 180px;
+margin-right: 20px;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+padding: 10px;
+background-color: #1a1a1a;
+border-radius: 12px;
+box-shadow: 0 0 10px rgba(0,0,0,0.5);
+position: sticky;
+top: 20px;
+height: fit-content;
+font-size: 0.85rem;
+line-height: 1.6;
+}
+#app-frame {
+width: min(645px, 95vw);
+height: 100vh;
+background-color: #0f0f0f;
+border-radius: 20px;
+box-shadow: 0 0 15px rgba(0,0,0,0.3);
+overflow: hidden;
+display: flex;
+flex-direction: column;
+position: relative;
+}
+.content-wrapper {
+flex: 1;
+overflow-y: auto;
+padding-bottom: 60px;
+}
+    .content-wrapper::-webkit-scrollbar {
+      width: 8px;
+    }
+    .content-wrapper::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .content-wrapper::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 100, 100, 0.3);
+      border-radius: 4px;
+    }
+.bottom-nav {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+background-color: #1a1a1a;
+border-top: 1px solid #333;
+display: flex;
+justify-content: space-around;
+padding: 0.5rem 0;
+z-index: 10;
+border-bottom-left-radius: 20px;
+border-bottom-right-radius: 20px;
+}
+.bottom-nav a {
+color: #888;
+text-decoration: none;
+font-size: 1.3rem;
+}
+    @media (max-width: 768px) {
+      .layout-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+      #live-stats {
+        width: 100%;
+        margin: 0 0 20px 0;
+        flex-direction: row;
+        justify-content: space-around;
+      }
+      #app-frame {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+      }
     }
 
-    #stats-container.collapsed {
-      display: none;
-    }
+    /* Original styles */
+header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 1rem;
+background-color: #1a1a1a;
+border-bottom: 1px solid #333;
+}
+    .logo-img {
+      height: 48px;
+      max-width: 200px;
+      object-fit: contain;
+      margin-left: 1rem;
+      filter: drop-shadow(0 0 2px #f44);
+.logo-img {
+  height: 48px;
+  max-width: 200px;
+  object-fit: contain;
+  margin-left: 1rem;
+  filter: drop-shadow(0 0 2px #f44);
+}
 
-    #stats-container:not(.collapsed) .live-stats-sidebar {
-      position: sticky;
-      top: 40px;
-      background-color: #111;
+}
+.nav-icons {
+display: flex;
+align-items: center;
+gap: 15px;
+      position: relative;
+}
+.nav-icons img {
+width: 24px;
+height: 24px;
+cursor: pointer;
+filter: invert(60%);
+}
+#notificationDropdown {
+position: absolute;
+top: 40px;
+right: 0;
+background-color: #1a1a1a;
+border: 1px solid #333;
+padding: 0.5rem;
+border-radius: 6px;
+width: 250px;
+display: none;
+z-index: 1000;
+box-shadow: 0 0 10px #000;
+}
+#notificationDropdown p {
+font-size: 0.9rem;
+color: #ccc;
+margin-bottom: 0.5rem;
+border-bottom: 1px solid #333;
+padding-bottom: 0.5rem;
+}
+.stories {
+display: flex;
+overflow-x: auto;
+padding: 1rem;
+border-bottom: 1px solid #333;
+}
+.story {
+flex: 0 0 auto;
+width: 60px;
+height: 60px;
+border-radius: 50%;
+margin-right: 10px;
+border: 2px solid #f44;
+background-size: cover;
+background-position: center;
+background-color: #444;
+}
+    .mobile-only {
+    main {
+      padding: 1rem;
+    }
+    .post {
+      background-color: #1c1c1c;
+      border: 1px solid #333;
+      margin: 2rem auto;
       width: 100%;
-      max-width: 645px;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 4px;
-      padding: 8px;
-      font-size: 10px;
-      border-top: 1px solid #333;
-      border-bottom: 1px solid #333;
-      border-bottom-left-radius: 12px;
-      border-bottom-right-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      z-index: 999;
+      max-width: 550px;
+      color: #fff;
+      position: relative;
     }
-
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
+    .post-header {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+    .post-header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .post-header span {
+      font-weight: bold;
+      color: #ccc;
+    }
+    .post-image {
       width: 100%;
-      max-width: 100%;
-      background-color: #000;
+      height: 400px;
+      background-color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #eee;
+    }
+    .post-actions {
       display: flex;
       justify-content: space-around;
-      padding: 8px 0;
-      z-index: 1000;
+      padding: 10px;
     }
+    .post-actions button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #ccc;
+      font-size: 1.1rem;
+    }
+    .comment-box {
+      padding: 0.5rem 1rem 1rem;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+display: none;
+}
+    @media (max-width: 768px) {
+      .layout-wrapper {
+        flex-direction: column;
+      }
+      #live-stats {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 240px;
+        z-index: 1000;
+        padding: 1rem;
+        background: #1a1a1a;
+        box-shadow: 2px 0 12px rgba(0,0,0,0.6);
+      }
+      #live-stats.active {
+        display: flex;
+      }
+      .mobile-only {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #2a2a2a;
+        color: #ccc;
+        font-size: 0.95rem;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+    .comment-box input {
+      flex: 1;
+      padding: 0.5rem;
+      background-color: #111;
+      border: 1px solid #444;
+      color: #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    .comment-box button {
+      padding: 0.5rem 0.8rem;
+      background-color: #222;
+      border: 1px solid #444;
+      color: #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .like-popup {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #222;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+  animation: floatUpFade 2.5s ease-out forwards;
+}
 
-    .live-stats-desktop {
-      display: none !important;
-    }
+@keyframes floatUpFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
   }
-</style>
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, -10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-100%, -20px);
+  }
+}
 
+
+@keyframes floatUpFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -5px);
+  }
+}
+
+    }
+    @keyframes fadeout {
+      0% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+}
+</style>
   <script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 <body>
-
-<!-- ✅ DESKTOP LAYOUT STARTS -->
 <div class="layout-wrapper">
-  <div class="live-stats-desktop">
-    <div class="stat"><i data-lucide="clock"></i> <span id="stat-minutes">0</span> Minutes Wasted</div>
-    <div class="stat"><i data-lucide="chevrons-down"></i> <span id="stat-scrolls">0</span> Scrolls Done</div>
-    <div class="stat"><i data-lucide="heart"></i> <span id="stat-likes">0</span> Likes Given</div>
-    <div class="stat"><i data-lucide="message-circle"></i> <span id="stat-comments">0</span> Comments Given</div>
-    <div class="stat"><i data-lucide="repeat"></i> <span id="stat-reposts">0</span> Reposts Done</div>
-    <div class="stat"><i data-lucide="bookmark"></i> <span id="stat-bookmarks">0</span> Bookmarks</div>
-    <div class="stat"><i data-lucide="video"></i> <span id="stat-reels">0</span> Reels Viewed</div>
-    <div class="stat"><i data-lucide="user-circle"></i> <span id="stat-stories">0</span> Stories Viewed</div>
-    <div class="stat"><i data-lucide="plus-circle"></i> <span id="stat-posts">0</span> Posts Posted</div>
-    <div class="stat"><i data-lucide="user"></i> <span id="stat-profiles">0</span> Profiles Visited</div>
-  </div>
-
-  <!-- Your #app-frame goes here next -->
-  <!-- Example: <div id="app-frame"> ... </div> -->
-
-  <div id="app-frame">
-
-  <!-- ✅ Sticky Toggle Button (always at top) -->
-  <div class="stats-toggle-bar" onclick="toggleStats()">Show Stats ▼</div>
-
-  <!-- ✅ Stats Container (hidden unless opened) -->
-  <div id="stats-container" class="collapsed">
-    <div class="live-stats-sidebar">
-      <div class="stat"><i data-lucide="clock"></i> <span id="stat-minutes">0</span> Minutes Wasted</div>
-      <div class="stat"><i data-lucide="chevrons-down"></i> <span id="stat-scrolls">0</span> Scrolls Done</div>
-      <div class="stat"><i data-lucide="heart"></i> <span id="stat-likes">0</span> Likes Given</div>
-      <div class="stat"><i data-lucide="message-circle"></i> <span id="stat-comments">0</span> Comments Given</div>
-      <div class="stat"><i data-lucide="repeat"></i> <span id="stat-reposts">0</span> Reposts Done</div>
-      <div class="stat"><i data-lucide="bookmark"></i> <span id="stat-bookmarks">0</span> Bookmarks</div>
-      <div class="stat"><i data-lucide="video"></i> <span id="stat-reels">0</span> Reels Viewed</div>
-      <div class="stat"><i data-lucide="user-circle"></i> <span id="stat-stories">0</span> Stories Viewed</div>
-      <div class="stat"><i data-lucide="plus-circle"></i> <span id="stat-posts">0</span> Posts Posted</div>
-      <div class="stat"><i data-lucide="user"></i> <span id="stat-profiles">0</span> Profiles Visited</div>
+    <div id="live-stats">
+      <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+      <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+      <div>Likes Given: <span id="stat-likes">0</span></div>
+      <div>Comments Given: <span id="stat-comments">0</span></div>
+      <div>Reposts Done: <span id="stat-reposts">0</span></div>
+      <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+      <div>Reels Viewed: <span id="stat-reels">0</span></div>
+      <div>Stories Viewed: <span id="stat-stories">0</span></div>
+      <div>Posts Posted: <span id="stat-posts">0</span></div>
+      <div>Profiles Visited: <span id="stat-profiles">0</span></div>
     </div>
-  </div>
+   <div id="live-stats">
+  <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+  <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+  <div>Likes Given: <span id="stat-likes">0</span></div>
+  <div>Comments Given: <span id="stat-comments">0</span></div>
+  <div>Reposts Done: <span id="stat-reposts">0</span></div>
+  <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+  <div>Reels Viewed: <span id="stat-reels">0</span></div>
+  <div>Stories Viewed: <span id="stat-stories">0</span></div>
+  <div>Posts Posted: <span id="stat-posts">0</span></div>
+  <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+</div>
 
-  <!-- ✅ Content Wrapper (scrollable feed) -->
-  <div class="content-wrapper">
 
-    <header>
-      <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
-      <div class="nav-icons">
-        <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
-        <div id="notificationDropdown"></div>
+<div id="app-frame">
+      <div class="content-wrapper">
+        <header>
+          <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
+          <div class="nav-icons">
+            <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
+            <button id="toggleStats" class="mobile-only">
+              <i data-lucide="bar-chart-2"></i><span>View Stats</span>
+            </button>
+            <div id="notificationDropdown"></div>
+          </div>
+        </header>
+        <div class="stories" id="storiesBar"></div>
+        <main id="feed"></main>
       </div>
-    </header>
+      <div class="bottom-nav">
+        <a href="index.html"><i data-lucide="home"></i></a>
+        <a href="search.html"><i data-lucide="search"></i></a>
+        <a href="publish.html"><i data-lucide="plus-circle"></i></a>
+        <a href="reels.html"><i data-lucide="video"></i></a>
+        <a href="profile.html"><i data-lucide="user"></i></a>
+      </div>
+    </div>
+<div class="content-wrapper">
+<header>
+  <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
+  <div class="nav-icons">
+    <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
+    <div id="notificationDropdown"></div>
+</div>
+  <script>
+ <script>
+</header>
 
-    <div class="stories" id="storiesBar"></div>
-    <main id="feed"></main>
 
-  </div> <!-- closes .content-wrapper -->
+  <div class="stories" id="storiesBar"></div>
+  <main id="feed"></main>
+</div>
 
-  <!-- ✅ Bottom Navigation (fixed at bottom) -->
-  <div class="bottom-nav">
-    <a href="index.html"><i data-lucide="home"></i></a>
-    <a href="search.html"><i data-lucide="search"></i></a>
-    <a href="publish.html"><i data-lucide="plus-circle"></i></a>
-    <a href="reels.html"><i data-lucide="video"></i></a>
-    <a href="profile.html"><i data-lucide="user"></i></a>
-  </div>
-
-</div> <!-- closes #app-frame -->
+<div class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i></a>
+  <a href="search.html"><i data-lucide="search"></i></a>
+  <a href="publish.html"><i data-lucide="plus-circle"></i></a>
+  <a href="reels.html"><i data-lucide="video"></i></a>
+  <a href="profile.html"><i data-lucide="user"></i></a>
+</div>
 
 
 <script>
@@ -377,7 +446,7 @@ const fakeMessages = ["Empty Post", "You’re still here?", "This means nothing.
 
 const stats = ["secondsWasted", "likesGiven", "scrollCount", "commentsGiven", "repostsDone", "postsBookmarked", "reelsViewed", "storiesViewed", "profilesVisited", "postsPosted"];
 stats.forEach(stat => {
-  if (localStorage.getItem(stat) === null) localStorage.setItem(stat, 0);
+if (localStorage.getItem(stat) === null) localStorage.setItem(stat, 0);
 });
 
 let secondsWasted = parseInt(localStorage.getItem("secondsWasted"));
@@ -393,212 +462,198 @@ let postsPosted = parseInt(localStorage.getItem("postsPosted"));
 let notifications = [];
 
 function updateStats() {
-  const update = (id, value) => {
-    document.querySelectorAll(`#${id}`).forEach(el => el.textContent = value);
-  };
-
-  update("stat-minutes", Math.floor(secondsWasted / 60));
-  update("stat-likes", likesGiven);
-  update("stat-scrolls", scrollCount);
-  update("stat-comments", commentsGiven);
-  update("stat-reposts", repostsDone);
-  update("stat-bookmarks", postsBookmarked);
-  update("stat-reels", reelsViewed);
-  update("stat-stories", storiesViewed);
-  update("stat-profiles", profilesVisited);
-  update("stat-posts", postsPosted);
+document.getElementById("stat-minutes").textContent = Math.floor(secondsWasted / 60);
+document.getElementById("stat-likes").textContent = likesGiven;
+document.getElementById("stat-scrolls").textContent = scrollCount;
+document.getElementById("stat-comments").textContent = commentsGiven;
+document.getElementById("stat-reposts").textContent = repostsDone;
+document.getElementById("stat-bookmarks").textContent = postsBookmarked;
+document.getElementById("stat-reels").textContent = reelsViewed;
+document.getElementById("stat-stories").textContent = storiesViewed;
+document.getElementById("stat-profiles").textContent = profilesVisited;
+document.getElementById("stat-posts").textContent = postsPosted;
 }
 
-
 setInterval(() => {
-  secondsWasted++;
-  localStorage.setItem("secondsWasted", secondsWasted);
-  updateStats();
+secondsWasted++;
+localStorage.setItem("secondsWasted", secondsWasted);
+updateStats();
 }, 1000);
 
 fakeUsernames.forEach(username => {
-  const story = document.createElement("a");
-  story.className = "story";
-  story.href = `story.html?user=${username}`;
-  story.style.backgroundImage = `url('https://api.dicebear.com/7.x/personas/svg?seed=${username}')`;
-  storiesBar.appendChild(story);
+const story = document.createElement("a");
+story.className = "story";
+story.href = `story.html?user=${username}`;
+story.style.backgroundImage = `url('https://api.dicebear.com/7.x/personas/svg?seed=${username}')`;
+storiesBar.appendChild(story);
 });
 
 function createPost(message) {
-  const post = document.createElement("div");
-  post.className = "post";
-  const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
-  const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
-  post.innerHTML = `
-    <div class="post-header">
-      <img src="${avatarUrl}" alt="avatar">
-      <span>@${username}</span>
-    </div>
-    <div class="post-image">${message}</div>
-    <div class="post-actions">
-      <button class="like-btn"><i data-lucide="heart"></i></button>
-      <button class="comment-toggle"><i data-lucide="message-circle"></i></button>
-      <button class="repost-btn"><i data-lucide="repeat"></i></button>
-      <button class="bookmark-btn"><i data-lucide="bookmark"></i></button>
-    </div>
-    <div class="comment-box">
-      <input type="text" placeholder="Say something...">
-      <button class="submit-comment">➤</button>
-    </div>
-  `;
+const post = document.createElement("div");
+post.className = "post";
+const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
+const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+post.innerHTML = `
+   <div class="post-header">
+     <img src="${avatarUrl}" alt="avatar">
+     <span>@${username}</span>
+   </div>
+   <div class="post-image">${message}</div>
+   <div class="post-actions">
+     <button class="like-btn"><i data-lucide="heart"></i></button>
+     <button class="comment-toggle"><i data-lucide="message-circle"></i></button>
+     <button class="repost-btn"><i data-lucide="repeat"></i></button>
+     <button class="bookmark-btn"><i data-lucide="bookmark"></i></button>
+   </div>
+   <div class="comment-box">
+     <input type="text" placeholder="Say something...">
+     <button class="submit-comment">➤</button>
+   </div>
+ `;
 
   // Add to DOM
-  feed.appendChild(post);
+feed.appendChild(post);
 
   // Attach behavior to new buttons
-  post.querySelector(".like-btn").onclick = () => handleLike(post.querySelector(".like-btn"));
-  post.querySelector(".repost-btn").onclick = () => handleRepost(post.querySelector(".repost-btn"));
-  post.querySelector(".bookmark-btn").onclick = () => handleBookmark(post.querySelector(".bookmark-btn"));
-  post.querySelector(".comment-toggle").onclick = () => toggleCommentBox(post.querySelector(".comment-toggle"));
-  post.querySelector(".submit-comment").onclick = () => submitFakeComment(post.querySelector(".submit-comment"));
+post.querySelector(".like-btn").onclick = () => handleLike(post.querySelector(".like-btn"));
+post.querySelector(".repost-btn").onclick = () => handleRepost(post.querySelector(".repost-btn"));
+post.querySelector(".bookmark-btn").onclick = () => handleBookmark(post.querySelector(".bookmark-btn"));
+post.querySelector(".comment-toggle").onclick = () => toggleCommentBox(post.querySelector(".comment-toggle"));
+post.querySelector(".submit-comment").onclick = () => submitFakeComment(post.querySelector(".submit-comment"));
 
   // Activate icons
-  lucide.createIcons();
+lucide.createIcons();
 }
 
 
 function handleLike(btn) {
-  likesGiven++;
-  localStorage.setItem("likesGiven", likesGiven);
-  updateStats();
-  showPopup(btn, ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."]);
+likesGiven++;
+localStorage.setItem("likesGiven", likesGiven);
+updateStats();
+showPopup(btn, ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."]);
 }
 
 function handleRepost(btn) {
-  repostsDone++;
-  localStorage.setItem("repostsDone", repostsDone);
-  updateStats();
-  showPopup(btn, ["You reposted into the void.", "Your repost was ignored.", "Echoes of repost... heard by no one."]);
+repostsDone++;
+localStorage.setItem("repostsDone", repostsDone);
+updateStats();
+showPopup(btn, ["You reposted into the void.", "Your repost was ignored.", "Echoes of repost... heard by no one."]);
 }
 
 function handleBookmark(btn) {
-  postsBookmarked++;
-  localStorage.setItem("postsBookmarked", postsBookmarked);
-  updateStats();
-  showPopup(btn, ["This post is now... saved?", "Marked for future disappointment.", "Pinned to forget."]);
+postsBookmarked++;
+localStorage.setItem("postsBookmarked", postsBookmarked);
+updateStats();
+showPopup(btn, ["This post is now... saved?", "Marked for future disappointment.", "Pinned to forget."]);
 }
 
 function showPopup(btn, messages) {
-  const popup = document.createElement("div");
-  popup.className = "like-popup";
-  popup.textContent = messages[Math.floor(Math.random() * messages.length)];
+const popup = document.createElement("div");
+popup.className = "like-popup";
+popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  const post = btn.closest(".post");
-  const imageArea = post.querySelector(".post-image");
+const post = btn.closest(".post");
+const imageArea = post.querySelector(".post-image");
 
   // Ensure image area is positioned so the popup places correctly
-  imageArea.style.position = "relative";
-  imageArea.appendChild(popup);
+imageArea.style.position = "relative";
+imageArea.appendChild(popup);
 
-  setTimeout(() => popup.remove(), 2800);
+setTimeout(() => popup.remove(), 2800);
 }
 
 
 function toggleCommentBox(btn) {
-  const box = btn.closest(".post").querySelector(".comment-box");
-  box.style.display = box.style.display === "flex" ? "none" : "flex";
+const box = btn.closest(".post").querySelector(".comment-box");
+box.style.display = box.style.display === "flex" ? "none" : "flex";
 }
 
 function submitFakeComment(button) {
-  const input = button.previousElementSibling;
-  if (input.value.trim() !== "") {
-    commentsGiven++;
-    localStorage.setItem("commentsGiven", commentsGiven);
-    updateStats();
-    input.style.transition = "opacity 0.5s ease";
-    input.style.opacity = 0;
-    setTimeout(() => {
-      input.value = "";
-      input.style.opacity = 1;
-      input.closest(".comment-box").style.display = "none";
-    }, 600);
-  }
+const input = button.previousElementSibling;
+if (input.value.trim() !== "") {
+commentsGiven++;
+localStorage.setItem("commentsGiven", commentsGiven);
+updateStats();
+input.style.transition = "opacity 0.5s ease";
+input.style.opacity = 0;
+setTimeout(() => {
+input.value = "";
+input.style.opacity = 1;
+input.closest(".comment-box").style.display = "none";
+}, 600);
+}
 }
 
 notifIcon.addEventListener("click", () => {
-  notifDropdown.style.display = notifDropdown.style.display === "block" ? "none" : "block";
-  notifDropdown.innerHTML = notifications.length === 0 ? "<p>No new notifications.</p>" : notifications.map(n => `<p>${n}</p>`).join("");
+notifDropdown.style.display = notifDropdown.style.display === "block" ? "none" : "block";
+notifDropdown.innerHTML = notifications.length === 0 ? "<p>No new notifications.</p>" : notifications.map(n => `<p>${n}</p>`).join("");
 });
 
 function pushRandomNotification() {
-  const phrases = [
-    "You earned nothing!",
-    "Someone might've seen your post. Maybe.",
-    "A ghost viewed your profile.",
-    "You scrolled too far.",
-    "Your like meant nothing."
-  ];
-  const note = phrases[Math.floor(Math.random() * phrases.length)];
-  notifications.unshift(note);
-  if (notifications.length > 5) notifications.pop();
-  if (notifDropdown.style.display === "block") {
-    notifDropdown.innerHTML = notifications.map(n => `<p>${n}</p>`).join("");
-  }
+const phrases = [
+"You earned nothing!",
+"Someone might've seen your post. Maybe.",
+"A ghost viewed your profile.",
+"You scrolled too far.",
+"Your like meant nothing."
+];
+const note = phrases[Math.floor(Math.random() * phrases.length)];
+notifications.unshift(note);
+if (notifications.length > 5) notifications.pop();
+if (notifDropdown.style.display === "block") {
+notifDropdown.innerHTML = notifications.map(n => `<p>${n}</p>`).join("");
+}
 }
 setInterval(() => Math.random() < 0.25 && pushRandomNotification(), 15000);
 
 for (let i = 0; i < 10; i++) {
-  const msg = fakeMessages[i % fakeMessages.length];
-  createPost(msg);
+const msg = fakeMessages[i % fakeMessages.length];
+createPost(msg);
 }
 
 const wrapper = document.querySelector(".content-wrapper");
 let scrollCooldown = false;
 
 wrapper.addEventListener("scroll", () => {
-  if (!scrollCooldown) {
-    scrollCount++;
-    localStorage.setItem("scrollCount", scrollCount);
-    updateStats();
+if (!scrollCooldown) {
+scrollCount++;
+localStorage.setItem("scrollCount", scrollCount);
+updateStats();
 
-    scrollCooldown = true;
-    setTimeout(() => {
-      scrollCooldown = false;
+scrollCooldown = true;
+setTimeout(() => {
+scrollCooldown = false;
+    }, 500);
     }, 500); // 0.5 seconds cooldown
-  }
+}
 
   // Infinite scroll behavior
-  if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
-    for (let i = 0; i < 5; i++) {
-      const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-      createPost(msg);
-    }
-  }
+if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
+for (let i = 0; i < 5; i++) {
+const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+createPost(msg);
+}
+}
 });
 
 // Track profile clicks across the app
 document.addEventListener("click", function (e) {
-  const anchor = e.target.closest("a[href^='user.html?user=']");
-  if (anchor) {
-    let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
-    localStorage.setItem("profilesVisited", visited + 1);
+const anchor = e.target.closest("a[href^='user.html?user=']");
+if (anchor) {
+let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
+localStorage.setItem("profilesVisited", visited + 1);
 
-    const statEl = document.getElementById("stat-profiles");
-    if (statEl) statEl.textContent = visited + 1;
-  }
+const statEl = document.getElementById("stat-profiles");
+if (statEl) statEl.textContent = visited + 1;
+}
 });
 
 updateStats();
   
 lucide.createIcons();
-function toggleStats() {
-  const container = document.getElementById('stats-container');
-  const toggleBar = document.querySelector('.stats-toggle-bar');
+</script>
 
-  if (container.classList.contains('collapsed')) {
-    container.classList.remove('collapsed');
-    toggleBar.innerHTML = 'Hide Stats ▲';
-  } else {
-    container.classList.add('collapsed');
-    toggleBar.innerHTML = 'Show Stats ▼';
-  }
-}
-
+  </script>
 </script>
 </div> <!-- closes #app-frame -->
 </div> <!-- closes .layout-wrapper -->
