@@ -207,6 +207,11 @@ z-index: 2;
 20% { opacity: 1; }
 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
+   #reelWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -396,27 +401,27 @@ updateStats();
 });
 }
 
-const reelWrapper = document.getElementById("reelWrapper");
-let scrollCooldown = false;
+const scrollContainer = document.querySelector(".content-wrapper");
 
-reelWrapper.addEventListener("scroll", () => {
-if (!scrollCooldown) {
-scrollCount++;
-localStorage.setItem("scrollCount", scrollCount);
-updateStats();
+scrollContainer.addEventListener("scroll", () => {
+  if (!scrollCooldown) {
+    scrollCount++;
+    localStorage.setItem("scrollCount", scrollCount);
+    updateStats();
 
-scrollCooldown = true;
-setTimeout(() => {
-scrollCooldown = false;
-}, 500); // Cooldown between scroll counts
-}
+    scrollCooldown = true;
+    setTimeout(() => {
+      scrollCooldown = false;
+    }, 500);
+  }
 
-trackVisibleReels();
+  trackVisibleReels();
 
-if (reelWrapper.scrollTop + reelWrapper.clientHeight >= reelWrapper.scrollHeight - 10) {
-loadInitialReels(5);
-}
+  if (scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 10) {
+    loadInitialReels(5);
+  }
 });
+
 document.addEventListener("click", function (e) {
 const anchor = e.target.closest("a[href^='user.html?user=']");
 if (anchor) {
@@ -428,10 +433,13 @@ if (statEl) statEl.textContent = visited + 1;
 }
 });
 
-updateStats();
-loadInitialReels();
-trackVisibleReels();
-lucide.createIcons();
+document.addEventListener("DOMContentLoaded", () => {
+  updateStats();
+  loadInitialReels();
+  trackVisibleReels();
+  lucide.createIcons();
+});
+
 
 </script>
 
