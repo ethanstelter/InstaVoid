@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
+<script src="https://unpkg.com/lucide@latest"></script>
+
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>InstaVoid</title>
-  <script src="https://unpkg.com/lucide@latest"></script>
 <style>
 * {
 box-sizing: border-box;
@@ -24,13 +23,12 @@ color: #fff;
 display: flex;
 justify-content: center;
 align-items: center;
-      padding: env(safe-area-inset-top, 20px) 0 0 0;
-      padding: 0;
+padding: 0;
 }
 .layout-wrapper {
 display: flex;
-      align-items: center;
-      justify-content: center;
+align-items: center;
+justify-content: center;
 width: 100%;
 max-width: 1600px;
 height: 100vh;
@@ -68,16 +66,16 @@ flex: 1;
 overflow-y: auto;
 padding-bottom: 60px;
 }
-    .content-wrapper::-webkit-scrollbar {
-      width: 8px;
-    }
-    .content-wrapper::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .content-wrapper::-webkit-scrollbar-thumb {
-      background-color: rgba(100, 100, 100, 0.3);
-      border-radius: 4px;
-    }
+.content-wrapper::-webkit-scrollbar {
+width: 8px;
+}
+.content-wrapper::-webkit-scrollbar-track {
+background: transparent;
+}
+.content-wrapper::-webkit-scrollbar-thumb {
+background-color: rgba(100, 100, 100, 0.3);
+border-radius: 4px;
+}
 .bottom-nav {
 position: absolute;
 bottom: 0;
@@ -97,25 +95,25 @@ color: #888;
 text-decoration: none;
 font-size: 1.3rem;
 }
-    @media (max-width: 768px) {
-      .layout-wrapper {
-        flex-direction: column;
-        align-items: center;
-      }
-      #live-stats {
-        width: 100%;
-        margin: 0 0 20px 0;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      #app-frame {
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-      }
-    }
+@media (max-width: 768px) {
+.layout-wrapper {
+flex-direction: column;
+align-items: center;
+}
+#live-stats {
+width: 100%;
+margin: 0 0 20px 0;
+flex-direction: row;
+justify-content: space-around;
+}
+#app-frame {
+width: 100%;
+height: 100%;
+border-radius: 0;
+}
+}
 
-    /* Original styles */
+/* Original styles */
 header {
 display: flex;
 align-items: center;
@@ -124,18 +122,12 @@ padding: 1rem;
 background-color: #1a1a1a;
 border-bottom: 1px solid #333;
 }
-    .logo-img {
-      height: 48px;
-      max-width: 200px;
-      object-fit: contain;
-      margin-left: 1rem;
-      filter: drop-shadow(0 0 2px #f44);
 .logo-img {
-  height: 48px;
-  max-width: 200px;
-  object-fit: contain;
-  margin-left: 1rem;
-  filter: drop-shadow(0 0 2px #f44);
+height: 48px;
+max-width: 200px;
+object-fit: contain;
+margin-left: 1rem;
+filter: drop-shadow(0 0 2px #f44);
 }
 
 }
@@ -143,7 +135,7 @@ border-bottom: 1px solid #333;
 display: flex;
 align-items: center;
 gap: 15px;
-      position: relative;
+position: relative;
 }
 .nav-icons img {
 width: 24px;
@@ -188,65 +180,292 @@ background-size: cover;
 background-position: center;
 background-color: #444;
 }
-    .mobile-only {
-    main {
-      padding: 1rem;
-    }
-    .post {
-      background-color: #1c1c1c;
-      border: 1px solid #333;
-      margin: 2rem auto;
-      width: 100%;
-      max-width: 550px;
-      color: #fff;
-      position: relative;
-    }
-    .post-header {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-    }
-    .post-header img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-    .post-header span {
-      font-weight: bold;
-      color: #ccc;
-    }
-    .post-image {
-      width: 100%;
-      height: 400px;
-      background-color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
-      color: #eee;
-    }
-    .post-actions {
-      display: flex;
-      justify-content: space-around;
-      padding: 10px;
-    }
-    .post-actions button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #ccc;
-      font-size: 1.1rem;
-    }
-    .comment-box {
-      padding: 0.5rem 1rem 1rem;
-      display: flex;
-      gap: 10px;
-      align-items: center;
+main {
+padding: 1rem;
+}
+.post {
+background-color: #1c1c1c;
+border: 1px solid #333;
+margin: 2rem auto;
+width: 100%;
+max-width: 550px;
+color: #fff;
+position: relative;
+}
+.post-header {
+display: flex;
+align-items: center;
+padding: 10px;
+}
+.post-header img {
+width: 40px;
+height: 40px;
+border-radius: 50%;
+margin-right: 10px;
+}
+.post-header span {
+font-weight: bold;
+color: #ccc;
+}
+.post-image {
+width: 100%;
+height: 400px;
+background-color: #333;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+font-size: 2rem;
+font-weight: bold;
+color: #eee;
+}
+.post-actions {
+display: flex;
+justify-content: space-around;
+padding: 10px;
+}
+.post-actions button {
+background: none;
+border: none;
+cursor: pointer;
+color: #ccc;
+font-size: 1.1rem;
+}
+.comment-box {
+padding: 0.5rem 1rem 1rem;
+display: flex;
+gap: 10px;
+align-items: center;
 display: none;
 }
+.comment-box input {
+flex: 1;
+padding: 0.5rem;
+background-color: #111;
+border: 1px solid #444;
+color: #ccc;
+border-radius: 4px;
+font-size: 0.9rem;
+}
+.comment-box button {
+padding: 0.5rem 0.8rem;
+background-color: #222;
+border: 1px solid #444;
+color: #ccc;
+border-radius: 4px;
+cursor: pointer;
+}
+.like-popup {
+position: absolute;
+top: 60%;
+left: 50%;
+transform: translate(-50%, 0);
+background-color: #222;
+color: #fff;
+font-size: 1rem;
+font-weight: bold;
+padding: 12px 18px;
+border-radius: 10px;
+box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+opacity: 0;
+pointer-events: none;
+z-index: 5;
+animation: floatUpFade 2.5s ease-out forwards;
+}
+
+@keyframes floatUpFade {
+0% {
+opacity: 0;
+transform: translate(-50%, 10px);
+}
+10% {
+opacity: 1;
+}
+90% {
+opacity: 1;
+transform: translate(-50%, -10px);
+}
+100% {
+opacity: 0;
+transform: translate(-100%, -20px);
+}
+}
+
+
+@keyframes floatUpFade {
+0% {
+opacity: 0;
+transform: translate(-50%, 10px);
+}
+10% {
+opacity: 1;
+}
+90% {
+opacity: 1;
+transform: translate(-50%, 0px);
+}
+100% {
+opacity: 0;
+transform: translate(-50%, -5px);
+}
+}
+
+}
+@keyframes fadeout {
+0% { opacity: 1; }
+80% { opacity: 1; }
+100% { opacity: 0; }
+}
+</style>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InstaVoid</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eeeeee;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: env(safe-area-inset-top, 20px) 0 0 0;
+    }
+    .layout-wrapper {
+      display: flex;
+      width: 100%;
+      max-width: 1600px;
+      height: 100vh;
+    }
+    #live-stats {
+      flex-shrink: 0;
+      width: 180px;
+      margin-right: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 10px;
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    #app-frame {
+      width: min(645px, 95vw);
+      height: 100vh;
+      background-color: #0f0f0f;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .content-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 60px;
+    }
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+      z-index: 10;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background-color: #1a1a1a;
+      border-bottom: 1px solid #333;
+    }
+    .logo-img {
+      height: 48px;
+      max-width: 200px;
+      object-fit: contain;
+      margin-left: 1rem;
+      filter: drop-shadow(0 0 2px #f44);
+    }
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .nav-icons img {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      filter: invert(60%);
+    }
+    #notificationDropdown {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: #1a1a1a;
+      border: 1px solid #333;
+      padding: 0.5rem;
+      border-radius: 6px;
+      width: 250px;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 0 10px #000;
+    }
+    #notificationDropdown p {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid #333;
+      padding-bottom: 0.5rem;
+    }
+    .stories {
+      display: flex;
+      overflow-x: auto;
+      padding: 1rem;
+      border-bottom: 1px solid #333;
+    }
+    .story {
+      flex: 0 0 auto;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 10px;
+      border: 2px solid #f44;
+      background-size: cover;
+      background-position: center;
+      background-color: #444;
+    }
+    .mobile-only {
+      display: none;
+    }
     @media (max-width: 768px) {
       .layout-wrapper {
         flex-direction: column;
@@ -278,90 +497,49 @@ display: none;
         padding: 6px 10px;
         cursor: pointer;
       }
-    .comment-box input {
-      flex: 1;
-      padding: 0.5rem;
-      background-color: #111;
-      border: 1px solid #444;
-      color: #ccc;
-      border-radius: 4px;
-      font-size: 0.9rem;
     }
-    .comment-box button {
-      padding: 0.5rem 0.8rem;
-      background-color: #222;
-      border: 1px solid #444;
-      color: #ccc;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .like-popup {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-color: #222;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 12px 18px;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 5;
-  animation: floatUpFade 2.5s ease-out forwards;
-}
-
-@keyframes floatUpFade {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 10px);
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-    transform: translate(-50%, -10px);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-100%, -20px);
-  }
-}
-
-
-@keyframes floatUpFade {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 10px);
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-    transform: translate(-50%, 0px);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -5px);
-  }
-}
-
-    }
-    @keyframes fadeout {
-      0% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { opacity: 0; }
-}
-</style>
-  <script src="https://unpkg.com/lucide@latest"></script>
-
+  </style>
 </head>
 <body>
 <div class="layout-wrapper">
+<div id="live-stats">
+<div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+<div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+<div>Likes Given: <span id="stat-likes">0</span></div>
+<div>Comments Given: <span id="stat-comments">0</span></div>
+<div>Reposts Done: <span id="stat-reposts">0</span></div>
+<div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+<div>Reels Viewed: <span id="stat-reels">0</span></div>
+<div>Stories Viewed: <span id="stat-stories">0</span></div>
+<div>Posts Posted: <span id="stat-posts">0</span></div>
+<div>Profiles Visited: <span id="stat-profiles">0</span></div>
+</div>
+
+
+<div id="app-frame">
+<div class="content-wrapper">
+<header>
+<img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
+<div class="nav-icons">
+<img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
+<div id="notificationDropdown"></div>
+</div>
+</header>
+
+
+<div class="stories" id="storiesBar"></div>
+<main id="feed"></main>
+</div>
+
+<div class="bottom-nav">
+<a href="index.html"><i data-lucide="home"></i></a>
+<a href="search.html"><i data-lucide="search"></i></a>
+<a href="publish.html"><i data-lucide="plus-circle"></i></a>
+<a href="reels.html"><i data-lucide="video"></i></a>
+<a href="profile.html"><i data-lucide="user"></i></a>
+</div>
+
+  <div class="layout-wrapper">
     <div id="live-stats">
       <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
       <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
@@ -374,21 +552,9 @@ display: none;
       <div>Posts Posted: <span id="stat-posts">0</span></div>
       <div>Profiles Visited: <span id="stat-profiles">0</span></div>
     </div>
-   <div id="live-stats">
-  <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
-  <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
-  <div>Likes Given: <span id="stat-likes">0</span></div>
-  <div>Comments Given: <span id="stat-comments">0</span></div>
-  <div>Reposts Done: <span id="stat-reposts">0</span></div>
-  <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
-  <div>Reels Viewed: <span id="stat-reels">0</span></div>
-  <div>Stories Viewed: <span id="stat-stories">0</span></div>
-  <div>Posts Posted: <span id="stat-posts">0</span></div>
-  <div>Profiles Visited: <span id="stat-profiles">0</span></div>
-</div>
 
-
-<div id="app-frame">
+<script>
+    <div id="app-frame">
       <div class="content-wrapper">
         <header>
           <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
@@ -411,54 +577,22 @@ display: none;
         <a href="profile.html"><i data-lucide="user"></i></a>
       </div>
     </div>
-<div class="content-wrapper">
-<header>
-  <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
-  <div class="nav-icons">
-    <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
-    <div id="notificationDropdown"></div>
-</div>
+  </div>
   <script>
  <script>
-</header>
-
-
-  <div class="stories" id="storiesBar"></div>
-  <main id="feed"></main>
-</div>
-
-<div class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i></a>
-  <a href="search.html"><i data-lucide="search"></i></a>
-  <a href="publish.html"><i data-lucide="plus-circle"></i></a>
-  <a href="reels.html"><i data-lucide="video"></i></a>
-  <a href="profile.html"><i data-lucide="user"></i></a>
-</div>
-
-
-<script>
 const feed = document.getElementById("feed");
 const storiesBar = document.getElementById("storiesBar");
 const notifDropdown = document.getElementById("notificationDropdown");
-const notifIcon = document.getElementById("notifIcon");
-const fakeUsernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
-const fakeMessages = ["Empty Post", "You’re still here?", "This means nothing.", "The feed is feeding itself.", "Keep going. Or don’t.", "Static. Again.", "Are you okay?", "Just one more... nothing."];
+@@ -370,7 +232,7 @@
 
 const stats = ["secondsWasted", "likesGiven", "scrollCount", "commentsGiven", "repostsDone", "postsBookmarked", "reelsViewed", "storiesViewed", "profilesVisited", "postsPosted"];
 stats.forEach(stat => {
 if (localStorage.getItem(stat) === null) localStorage.setItem(stat, 0);
+  if (localStorage.getItem(stat) === null) localStorage.setItem(stat, 0);
 });
 
 let secondsWasted = parseInt(localStorage.getItem("secondsWasted"));
-let likesGiven = parseInt(localStorage.getItem("likesGiven"));
-let scrollCount = parseInt(localStorage.getItem("scrollCount"));
-let commentsGiven = parseInt(localStorage.getItem("commentsGiven"));
-let repostsDone = parseInt(localStorage.getItem("repostsDone"));
-let postsBookmarked = parseInt(localStorage.getItem("postsBookmarked"));
-let reelsViewed = parseInt(localStorage.getItem("reelsViewed"));
-let storiesViewed = parseInt(localStorage.getItem("storiesViewed"));
-let profilesVisited = parseInt(localStorage.getItem("profilesVisited"));
-let postsPosted = parseInt(localStorage.getItem("postsPosted"));
+@@ -386,208 +248,184 @@
 let notifications = [];
 
 function updateStats() {
@@ -472,12 +606,25 @@ document.getElementById("stat-reels").textContent = reelsViewed;
 document.getElementById("stat-stories").textContent = storiesViewed;
 document.getElementById("stat-profiles").textContent = profilesVisited;
 document.getElementById("stat-posts").textContent = postsPosted;
+  document.getElementById("stat-minutes").textContent = Math.floor(secondsWasted / 60);
+  document.getElementById("stat-likes").textContent = likesGiven;
+  document.getElementById("stat-scrolls").textContent = scrollCount;
+  document.getElementById("stat-comments").textContent = commentsGiven;
+  document.getElementById("stat-reposts").textContent = repostsDone;
+  document.getElementById("stat-bookmarks").textContent = postsBookmarked;
+  document.getElementById("stat-reels").textContent = reelsViewed;
+  document.getElementById("stat-stories").textContent = storiesViewed;
+  document.getElementById("stat-profiles").textContent = profilesVisited;
+  document.getElementById("stat-posts").textContent = postsPosted;
 }
 
 setInterval(() => {
 secondsWasted++;
 localStorage.setItem("secondsWasted", secondsWasted);
 updateStats();
+  secondsWasted++;
+  localStorage.setItem("secondsWasted", secondsWasted);
+  updateStats();
 }, 1000);
 
 fakeUsernames.forEach(username => {
@@ -486,6 +633,11 @@ story.className = "story";
 story.href = `story.html?user=${username}`;
 story.style.backgroundImage = `url('https://api.dicebear.com/7.x/personas/svg?seed=${username}')`;
 storiesBar.appendChild(story);
+  const story = document.createElement("a");
+  story.className = "story";
+  story.href = `story.html?user=${username}`;
+  story.style.backgroundImage = `url('https://api.dicebear.com/7.x/personas/svg?seed=${username}')`;
+  storiesBar.appendChild(story);
 });
 
 function createPost(message) {
@@ -494,11 +646,27 @@ post.className = "post";
 const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
 const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 post.innerHTML = `
+   <a href="user.html?user=${username}" class="post-header" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+  <img src="${avatarUrl}" alt="avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+  <span>@${username}</span>
+</a>
+  const post = document.createElement("div");
+  post.className = "post";
+  const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
+  const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+  post.innerHTML = `
    <div class="post-header">
      <img src="${avatarUrl}" alt="avatar">
      <span>@${username}</span>
    </div>
    <div class="post-image">${message}</div>
+<div class="post-actions">
+  <button onclick="handleLike(this)"><i data-lucide="heart"></i></button>
+  <button onclick="toggleCommentBox(this)"><i data-lucide="message-circle"></i></button>
+  <button onclick="handleRepost(this)"><i data-lucide="repeat"></i></button>
+  <button onclick="handleBookmark(this)"><i data-lucide="bookmark"></i></button>
+</div>
+    <div class="post-image">${message}</div>
    <div class="post-actions">
      <button class="like-btn"><i data-lucide="heart"></i></button>
      <button class="comment-toggle"><i data-lucide="message-circle"></i></button>
@@ -507,12 +675,18 @@ post.innerHTML = `
    </div>
    <div class="comment-box">
      <input type="text" placeholder="Say something...">
+      <button onclick="submitFakeComment(this)">➤</button>
+    <div class="comment-box">
+      <input type="text" placeholder="Say something...">
      <button class="submit-comment">➤</button>
    </div>
  `;
+    </div>
+  `;
 
   // Add to DOM
 feed.appendChild(post);
+  feed.appendChild(post);
 
   // Attach behavior to new buttons
 post.querySelector(".like-btn").onclick = () => handleLike(post.querySelector(".like-btn"));
@@ -531,6 +705,10 @@ likesGiven++;
 localStorage.setItem("likesGiven", likesGiven);
 updateStats();
 showPopup(btn, ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."]);
+  likesGiven++;
+  localStorage.setItem("likesGiven", likesGiven);
+  updateStats();
+  showPopup(btn, ["This like did nothing.", "Validation... denied.", "+0 dopamine.", "Why tho?", "Still empty."]);
 }
 
 function handleRepost(btn) {
@@ -538,6 +716,10 @@ repostsDone++;
 localStorage.setItem("repostsDone", repostsDone);
 updateStats();
 showPopup(btn, ["You reposted into the void.", "Your repost was ignored.", "Echoes of repost... heard by no one."]);
+  repostsDone++;
+  localStorage.setItem("repostsDone", repostsDone);
+  updateStats();
+  showPopup(btn, ["You reposted into the void.", "Your repost was ignored.", "Echoes of repost... heard by no one."]);
 }
 
 function handleBookmark(btn) {
@@ -545,6 +727,10 @@ postsBookmarked++;
 localStorage.setItem("postsBookmarked", postsBookmarked);
 updateStats();
 showPopup(btn, ["This post is now... saved?", "Marked for future disappointment.", "Pinned to forget."]);
+  postsBookmarked++;
+  localStorage.setItem("postsBookmarked", postsBookmarked);
+  updateStats();
+  showPopup(btn, ["This post is now... saved?", "Marked for future disappointment.", "Pinned to forget."]);
 }
 
 function showPopup(btn, messages) {
@@ -554,18 +740,28 @@ popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
 const post = btn.closest(".post");
 const imageArea = post.querySelector(".post-image");
+  const popup = document.createElement("div");
+  popup.className = "like-popup";
+  popup.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // Ensure image area is positioned so the popup places correctly
+// Ensure image area is positioned so the popup places correctly
 imageArea.style.position = "relative";
 imageArea.appendChild(popup);
+  const post = btn.closest(".post");
+  const imageArea = post.querySelector(".post-image");
+  imageArea.style.position = "relative";
+  imageArea.appendChild(popup);
 
 setTimeout(() => popup.remove(), 2800);
+  setTimeout(() => popup.remove(), 2800);
 }
 
 
 function toggleCommentBox(btn) {
 const box = btn.closest(".post").querySelector(".comment-box");
 box.style.display = box.style.display === "flex" ? "none" : "flex";
+  const box = btn.closest(".post").querySelector(".comment-box");
+  box.style.display = box.style.display === "flex" ? "none" : "flex";
 }
 
 function submitFakeComment(button) {
@@ -582,11 +778,26 @@ input.style.opacity = 1;
 input.closest(".comment-box").style.display = "none";
 }, 600);
 }
+  const input = button.previousElementSibling;
+  if (input.value.trim() !== "") {
+    commentsGiven++;
+    localStorage.setItem("commentsGiven", commentsGiven);
+    updateStats();
+    input.style.transition = "opacity 0.5s ease";
+    input.style.opacity = 0;
+    setTimeout(() => {
+      input.value = "";
+      input.style.opacity = 1;
+      input.closest(".comment-box").style.display = "none";
+    }, 600);
+  }
 }
 
 notifIcon.addEventListener("click", () => {
 notifDropdown.style.display = notifDropdown.style.display === "block" ? "none" : "block";
 notifDropdown.innerHTML = notifications.length === 0 ? "<p>No new notifications.</p>" : notifications.map(n => `<p>${n}</p>`).join("");
+  notifDropdown.style.display = notifDropdown.style.display === "block" ? "none" : "block";
+  notifDropdown.innerHTML = notifications.length === 0 ? "<p>No new notifications.</p>" : notifications.map(n => `<p>${n}</p>`).join("");
 });
 
 function pushRandomNotification() {
@@ -603,12 +814,27 @@ if (notifications.length > 5) notifications.pop();
 if (notifDropdown.style.display === "block") {
 notifDropdown.innerHTML = notifications.map(n => `<p>${n}</p>`).join("");
 }
+  const phrases = [
+    "You earned nothing!",
+    "Someone might've seen your post. Maybe.",
+    "A ghost viewed your profile.",
+    "You scrolled too far.",
+    "Your like meant nothing."
+  ];
+  const note = phrases[Math.floor(Math.random() * phrases.length)];
+  notifications.unshift(note);
+  if (notifications.length > 5) notifications.pop();
+  if (notifDropdown.style.display === "block") {
+    notifDropdown.innerHTML = notifications.map(n => `<p>${n}</p>`).join("");
+  }
 }
 setInterval(() => Math.random() < 0.25 && pushRandomNotification(), 15000);
 
 for (let i = 0; i < 10; i++) {
 const msg = fakeMessages[i % fakeMessages.length];
 createPost(msg);
+  const msg = fakeMessages[i % fakeMessages.length];
+  createPost(msg);
 }
 
 const wrapper = document.querySelector(".content-wrapper");
@@ -623,17 +849,32 @@ updateStats();
 scrollCooldown = true;
 setTimeout(() => {
 scrollCooldown = false;
-    }, 500);
-    }, 500); // 0.5 seconds cooldown
+}, 500); // 0.5 seconds cooldown
 }
 
-  // Infinite scroll behavior
+// Infinite scroll behavior
 if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
 for (let i = 0; i < 5; i++) {
 const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
 createPost(msg);
 }
 }
+  if (!scrollCooldown) {
+    scrollCount++;
+    localStorage.setItem("scrollCount", scrollCount);
+    updateStats();
+    scrollCooldown = true;
+    setTimeout(() => {
+      scrollCooldown = false;
+    }, 500);
+  }
+
+  if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
+    for (let i = 0; i < 5; i++) {
+      const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+      createPost(msg);
+    }
+  }
 });
 
 // Track profile clicks across the app
@@ -646,16 +887,23 @@ localStorage.setItem("profilesVisited", visited + 1);
 const statEl = document.getElementById("stat-profiles");
 if (statEl) statEl.textContent = visited + 1;
 }
+  const anchor = e.target.closest("a[href^='user.html?user=']");
+  if (anchor) {
+    let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
+    localStorage.setItem("profilesVisited", visited + 1);
+    const statEl = document.getElementById("stat-profiles");
+    if (statEl) statEl.textContent = visited + 1;
+  }
 });
 
 updateStats();
-  
-lucide.createIcons();
-</script>
 
-  </script>
+lucide.createIcons();
+
 </script>
 </div> <!-- closes #app-frame -->
 </div> <!-- closes .layout-wrapper -->
+
+  </script>
 </body>
 </html>
