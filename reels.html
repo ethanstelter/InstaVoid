@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Void Reels</title>
@@ -11,7 +9,7 @@
 html, body {
 height: 100%;
 overflow: hidden;
-background-color: #eeeeee;
+background-color: #0f0f0f;
 color: #fff;
 font-family: Arial, sans-serif;
 display: flex;
@@ -123,16 +121,13 @@ text-shadow: 0 0 6px #000;
 max-width: 80%;
 }
 .user-info {
-transition: transform 0.3s ease;
-display: flex;
-align-items: center;
 position: absolute;
 bottom: 80px;
 left: 10px;
-text-decoration: none;
-color: inherit;
+display: flex;
+align-items: center;
+transition: transform 0.3s ease;
 }
-
 .user-info img {
 width: 40px;
 height: 40px;
@@ -208,37 +203,33 @@ z-index: 2;
 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
 </style>
-<script src="https://unpkg.com/lucide@latest"></script>
-
 </head>
 <body>
 <div class="layout-wrapper">
 <div id="live-stats">
-<div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+<div>Reels Viewed: <span id="stat-reels">0</span></div>
 <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
 <div>Likes Given: <span id="stat-likes">0</span></div>
 <div>Comments Given: <span id="stat-comments">0</span></div>
 <div>Reposts Done: <span id="stat-reposts">0</span></div>
 <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
-<div>Reels Viewed: <span id="stat-reels">0</span></div>
-<div>Stories Viewed: <span id="stat-stories">0</span></div>
-<div>Posts Posted: <span id="stat-posts">0</span></div>
 <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+<div>Posts Posted: <span id="stat-posts">0</span></div>
+<div>Stories Viewed: <span id="stat-stories">0</span></div>
+<div>Minutes Wasted: <span id="stat-minutes">0</span></div>
 </div>
-
 
 <div id="app-frame">
 <div class="content-wrapper" id="reelWrapper">
 </div> <!-- closes .content-wrapper -->
 
 <div class="bottom-nav">
-<a href="index.html"><i data-lucide="home"></i></a>
-<a href="search.html"><i data-lucide="search"></i></a>
-<a href="publish.html"><i data-lucide="plus-circle"></i></a>
-<a href="reels.html"><i data-lucide="video"></i></a>
-<a href="profile.html"><i data-lucide="user"></i></a>
+<a href="index.html">🏠</a>
+<a href="search.html">🔍</a>
+<a href="publish.html">➕</a>
+<a href="reels.html">🎞️</a>
+<a href="profile.html">👤</a>
 </div>
-
 
 <script>
 const usernames = ["void_vibes", "scroller3000", "ghostfeed", "lostinloop", "tapmaster", "doomposter"];
@@ -287,54 +278,27 @@ function createReel(username, caption) {
 const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 const reel = document.createElement("div");
 reel.className = "reel";
-
 const inner = document.createElement("div");
 inner.className = "reel-inner";
 inner.innerHTML = `
-   <div class="caption-center">${caption}</div>
-   <a href="user.html?user=${username}" class="user-info" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-  <img src="${avatar}" alt="avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; border: 2px solid #f44;">
-  <div class="username">@${username}</div>
-</a>
-    <a href="user.html?user=${username}" class="user-info" style="text-decoration: none; color: inherit;">
-      <img src="${avatar}" alt="avatar">
-      <div class="username">@${username}</div>
-    </a>
-   <div class="actions">
-
-  <button onclick="handleLike(this)"><i data-lucide="heart"></i></button>
-  <button onclick="toggleCommentBox(this)"><i data-lucide="message-circle"></i></button>
-  <button onclick="handleRepost(this)"><i data-lucide="repeat"></i></button>
-  <button onclick="handleBookmark(this)"><i data-lucide="bookmark"></i></button>
-</div>
-
-      <button class="like-btn"><i data-lucide="heart"></i></button>
-      <button class="comment-toggle"><i data-lucide="message-circle"></i></button>
-      <button class="repost-btn"><i data-lucide="repeat"></i></button>
-      <button class="bookmark-btn"><i data-lucide="bookmark"></i></button>
-    </div>
-   <div class="comment-box">
-     <input type="text" placeholder="Say something...">
-      <button onclick="submitFakeComment(this)">➤</button>
-    </div>`;
-      <button class="submit-comment">➤</button>
-    </div>
-  `;
-
+           <div class="caption-center">${caption}</div>
+           <div class="user-info">
+             <img src="${avatar}" alt="avatar">
+             <div class="username">@${username}</div>
+           </div>
+           <div class="actions">
+             <button onclick="handleLike(this)">❤️</button>
+             <button onclick="toggleCommentBox(this)">💬</button>
+             <button onclick="handleRepost(this)">🔁</button>
+             <button onclick="handleBookmark(this)">📌</button>
+           </div>
+           <div class="comment-box">
+             <input type="text" placeholder="Say something...">
+             <button onclick="submitFakeComment(this)">➤</button>
+           </div>`;
 reel.appendChild(inner);
 document.getElementById("reelWrapper").appendChild(reel);
-
-  // Attach event listeners to each reel action
-  inner.querySelector(".like-btn").onclick = () => handleLike(inner.querySelector(".like-btn"));
-  inner.querySelector(".repost-btn").onclick = () => handleRepost(inner.querySelector(".repost-btn"));
-  inner.querySelector(".bookmark-btn").onclick = () => handleBookmark(inner.querySelector(".bookmark-btn"));
-  inner.querySelector(".comment-toggle").onclick = () => toggleCommentBox(inner.querySelector(".comment-toggle"));
-  inner.querySelector(".submit-comment").onclick = () => submitFakeComment(inner.querySelector(".submit-comment"));
-
-  // Render Lucide icons
-  lucide.createIcons();
 }
-
 
 function handleLike(btn) {
 likes++;
@@ -384,20 +348,13 @@ localStorage.setItem("commentsGiven", comments);
 updateStats();
 input.style.transition = "opacity 0.5s ease";
 input.style.opacity = 0;
-
 setTimeout(() => {
 input.value = "";
 input.style.opacity = 1;
 input.closest(".comment-box").style.display = "none";
-
-// ⬇️ Reset user-info and actions position after comment box closes
-const inner = input.closest(".reel-inner");
-inner.querySelector(".user-info").style.transform = "translateY(0)";
-inner.querySelector(".actions").style.transform = "translateY(0)";
 }, 600);
 }
 }
-
 
 function loadInitialReels(count = 10) {
 for (let i = 0; i < count; i++) {
@@ -421,45 +378,43 @@ updateStats();
 });
 }
 
+        document.getElementById("reelWrapper").addEventListener("scroll", () => {
+          scrollCount++;
+          localStorage.setItem("scrollCount", scrollCount);
+          updateStats();
+          trackVisibleReels();
 const reelWrapper = document.getElementById("reelWrapper");
 let scrollCooldown = false;
 
 reelWrapper.addEventListener("scroll", () => {
-if (!scrollCooldown) {
-scrollCount++;
-localStorage.setItem("scrollCount", scrollCount);
-updateStats();
+  if (!scrollCooldown) {
+    scrollCount++;
+    localStorage.setItem("scrollCount", scrollCount);
+    updateCounters();
 
-scrollCooldown = true;
-setTimeout(() => {
-scrollCooldown = false;
-}, 500); // Cooldown between scroll counts
-}
+    scrollCooldown = true;
+    setTimeout(() => {
+      scrollCooldown = false;
+    }, 500); // 0.5s delay between scrolls
+  }
 
-trackVisibleReels();
+  trackVisibleReels();
 
-if (reelWrapper.scrollTop + reelWrapper.clientHeight >= reelWrapper.scrollHeight - 10) {
-loadInitialReels(5);
-}
+  if (reelWrapper.scrollTop + reelWrapper.clientHeight >= reelWrapper.scrollHeight - 10) {
+    loadInitialReels(5);
+  }
 });
-document.addEventListener("click", function (e) {
-const anchor = e.target.closest("a[href^='user.html?user=']");
-if (anchor) {
-let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
-localStorage.setItem("profilesVisited", visited + 1);
 
-const statEl = document.getElementById("stat-profiles");
-if (statEl) statEl.textContent = visited + 1;
-}
-});
+          const wrapper = document.getElementById("reelWrapper");
+          if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
+            loadInitialReels(5);
+          }
+        });
 
 updateStats();
 loadInitialReels();
 trackVisibleReels();
-lucide.createIcons();
-
 </script>
-
 </div> <!-- closes #app-frame -->
 </div> <!-- closes .layout-wrapper -->
 </body>
