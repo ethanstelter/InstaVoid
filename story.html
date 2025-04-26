@@ -278,43 +278,38 @@
 </head>
 <body>
   <div class="layout-wrapper">
-    <div id="app-frame">
+   <div id="live-stats">
+  <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+  <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+  <div>Likes Given: <span id="stat-likes">0</span></div>
+  <div>Comments Given: <span id="stat-comments">0</span></div>
+  <div>Reposts Done: <span id="stat-reposts">0</span></div>
+  <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+  <div>Reels Viewed: <span id="stat-reels">0</span></div>
+  <div>Stories Viewed: <span id="stat-stories">0</span></div>
+  <div>Posts Posted: <span id="stat-posts">0</span></div>
+  <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+</div>
 
+
+    <div id="app-frame">
       <div class="content-wrapper">
         <a class="back-button" href="index.html">← Back to Feed</a>
 
         <div class="story-wrapper">
-          <div class="prev-button" onclick="prevStory()"><i data-lucide="chevron-left"></i></div>
-          <div class="next-button" onclick="nextStory()"><i data-lucide="chevron-right"></i></div>
+         <div class="prev-button" onclick="prevStory()"><i data-lucide="chevron-left"></i></div>
+         <div class="next-button" onclick="nextStory()"><i data-lucide="chevron-right"></i></div>
           <div id="storyWrapper"></div>
         </div>
       </div> <!-- closes .content-wrapper -->
 
-      <!-- 🔥 Move live-stats HERE -->
-      <div id="live-stats">
-        <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
-        <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
-        <div>Likes Given: <span id="stat-likes">0</span></div>
-        <div>Comments Given: <span id="stat-comments">0</span></div>
-        <div>Reposts Done: <span id="stat-reposts">0</span></div>
-        <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
-        <div>Reels Viewed: <span id="stat-reels">0</span></div>
-        <div>Stories Viewed: <span id="stat-stories">0</span></div>
-        <div>Posts Posted: <span id="stat-posts">0</span></div>
-        <div>Profiles Visited: <span id="stat-profiles">0</span></div>
-      </div>
-
-      <div class="bottom-nav">
-        <a href="index.html"><i data-lucide="home"></i></a>
-        <a href="search.html"><i data-lucide="search"></i></a>
-        <a href="publish.html"><i data-lucide="plus-circle"></i></a>
-        <a href="reels.html"><i data-lucide="video"></i></a>
-        <a href="profile.html"><i data-lucide="user"></i></a>
-      </div>
-
-    </div> <!-- closes #app-frame -->
-  </div> <!-- closes .layout-wrapper -->
-</body>
+     <div class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i></a>
+  <a href="search.html"><i data-lucide="search"></i></a>
+  <a href="publish.html"><i data-lucide="plus-circle"></i></a>
+  <a href="reels.html"><i data-lucide="video"></i></a>
+  <a href="profile.html"><i data-lucide="user"></i></a>
+</div>
 
 
       <script>
