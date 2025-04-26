@@ -34,23 +34,23 @@ max-width: 1600px;
 height: 100vh;
 }
 #live-stats {
-  flex-shrink: 0;
-  width: 180px;
-  margin-right: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 10px;
-  background-color: #1a1a1a;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  position: sticky;
-  top: 20px;
-  height: fit-content;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  transition: transform 0.3s ease-in-out;
-  z-index: 999;
+flex-shrink: 0;
+width: 180px;
+margin-right: 20px;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+padding: 10px;
+background-color: #1a1a1a;
+border-radius: 12px;
+box-shadow: 0 0 10px rgba(0,0,0,0.5);
+position: sticky;
+top: 20px;
+height: fit-content;
+font-size: 0.85rem;
+line-height: 1.6;
+transition: transform 0.3s ease-in-out;
+z-index: 999;
 }
 #app-frame {
 width: min(645px, 95vw);
@@ -98,42 +98,43 @@ text-decoration: none;
 font-size: 1.3rem;
 }
 @media (max-width: 768px) {
- .layout-wrapper {
-    flex-direction: column;
-    align-items: center;
-  }
- #live-stats {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  margin: 0;
-  padding: 10px 6px;
-  font-size: 0.75rem;
-  background-color: #1a1a1a;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);  /* 2 per row */
-  grid-template-rows: repeat(5, auto);    /* 5 rows total */
-  text-align: center;
-  border-radius: 0;
-  transform: translateY(0);
-  z-index: 1000;
-  transition: transform 0.3s ease-in-out;
-  gap: 4px;
+.layout-wrapper {
+flex-direction: column;
+align-items: center;
 }
-  .content-wrapper {
-  padding-top: 110px; /* space for stats bar */
+#live-stats {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+width: 100%;
+margin: 0;
+padding: 10px 6px;
+font-size: 0.75rem;
+background-color: #1a1a1a;
+display: grid;
+grid-template-columns: repeat(2, 1fr);  /* 2 per row */
+grid-template-rows: repeat(5, auto);    /* 5 rows total */
+text-align: center;
+border-radius: 0;
+transform: translateY(0);
+z-index: 1000;
+transition: transform 0.3s ease-in-out;
+gap: 4px;
+}
+.content-wrapper {
+padding-top: 110px; /* space for stats bar */
 }
 
-  #app-frame {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-  }
-  .stats-spacer {
+#app-frame {
+width: 100%;
+height: 100%;
+border-radius: 0;
+}
+.stats-spacer {
+  height: 75px; /* matches the height of your fixed stats bar */
   height: 70px; /* matches the height of your fixed stats bar */
-  width: 100%;
+width: 100%;
 }
 }
 
@@ -336,84 +337,54 @@ transform: translate(-50%, -5px);
 }
 
 }
-.kofi-sidebar-button {
-  width: 100%;
-  margin-top: 20px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-}
-
-.kofi-sidebar-button img {
-  max-width: 80%;
-  height: auto;
-  display: block;
-}
-
-
 @keyframes fadeout {
 0% { opacity: 1; }
 80% { opacity: 1; }
 100% { opacity: 0; }
 }
-    @media (max-width: 600px) {
-  .live-stats-sidebar {
-    position: sticky;
-    top: 0;
-    background-color: #111; /* Or whatever your background is */
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, auto);
-    gap: 4px;
-    padding: 8px;
-    font-size: 10px;
-    z-index: 999;
-  }
+@media (max-width: 600px) {
+.live-stats-sidebar {
+position: sticky;
+top: 0;
+background-color: #111; /* Or whatever your background is */
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+grid-template-rows: repeat(2, auto);
+gap: 4px;
+padding: 8px;
+font-size: 10px;
+z-index: 999;
+}
 
-  .live-stats-sidebar .stat {
-    text-align: center;
-    padding: 2px;
-    word-wrap: break-word;
-  }
+.live-stats-sidebar .stat {
+text-align: center;
+padding: 2px;
+word-wrap: break-word;
+}
 
-  /* Optional: If icons or emojis are used */
-  .live-stats-sidebar .stat-icon {
-    font-size: 12px;
-    display: block;
-  }
+/* Optional: If icons or emojis are used */
+.live-stats-sidebar .stat-icon {
+font-size: 12px;
+display: block;
+}
 
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    max-width: 100%;
-    background-color: #000; /* Adjust to match theme */
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0;
-    z-index: 1000;
-  }
+.bottom-nav {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+max-width: 100%;
+background-color: #000; /* Adjust to match theme */
+display: flex;
+justify-content: space-around;
+padding: 8px 0;
+z-index: 1000;
+}
 
-  /* Avoid overlap between nav and content */
-  .main-content {
-    padding-bottom: 60px; /* space for bottom nav */
-  }
-      .kofi-sidebar-button {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-    margin-top: 0;
-    z-index: 9999;
-    background: none; /* transparent */
-  }
-
-  .kofi-sidebar-button img {
-    height: 40px;
-    max-width: 90%;
-  }
+/* Avoid overlap between nav and content */
+.main-content {
+padding-bottom: 60px; /* space for bottom nav */
+}
 }
 
 </style>
@@ -435,16 +406,10 @@ transform: translate(-50%, -5px);
 <div>Profiles Visited: <span id="stat-profiles">0</span></div>
 </div>
 
-  <div class="kofi-sidebar-button">
-    <a href="https://ko-fi.com/ethanstelter" target="_blank">
-      <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Support me on Ko-fi" />
-    </a>
-  </div>
-
 
 <div id="app-frame">
 <div class="content-wrapper">
-  <div class="stats-spacer"></div>
+<div class="stats-spacer"></div>
 
 <header>
 <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
@@ -526,22 +491,22 @@ post.className = "post";
 const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
 const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 post.innerHTML = `
-   <div class="post-header">
-     <img src="${avatarUrl}" alt="avatar">
-     <span>@${username}</span>
-   </div>
-   <div class="post-image">${message}</div>
-   <div class="post-actions">
-     <button class="like-btn"><i data-lucide="heart"></i></button>
-     <button class="comment-toggle"><i data-lucide="message-circle"></i></button>
-     <button class="repost-btn"><i data-lucide="repeat"></i></button>
-     <button class="bookmark-btn"><i data-lucide="bookmark"></i></button>
-   </div>
-   <div class="comment-box">
-     <input type="text" placeholder="Say something...">
-     <button class="submit-comment">➤</button>
-   </div>
- `;
+  <div class="post-header">
+    <img src="${avatarUrl}" alt="avatar">
+    <span>@${username}</span>
+  </div>
+  <div class="post-image">${message}</div>
+  <div class="post-actions">
+    <button class="like-btn"><i data-lucide="heart"></i></button>
+    <button class="comment-toggle"><i data-lucide="message-circle"></i></button>
+    <button class="repost-btn"><i data-lucide="repeat"></i></button>
+    <button class="bookmark-btn"><i data-lucide="bookmark"></i></button>
+  </div>
+  <div class="comment-box">
+    <input type="text" placeholder="Say something...">
+    <button class="submit-comment">➤</button>
+  </div>
+`;
 
 // Add to DOM
 feed.appendChild(post);
@@ -688,20 +653,20 @@ const statsBar = document.getElementById("live-stats");
 const scrollContainer = document.querySelector(".content-wrapper"); // the scrollable feed
 
 scrollContainer.addEventListener("scroll", () => {
-  const currentScroll = scrollContainer.scrollTop;
-  
-  if (window.innerWidth <= 768) { // only do this on mobile
-    if (currentScroll > lastScroll) {
-      // Scrolling down
-     statsBar.style.transform = "translateY(-200%)";
+const currentScroll = scrollContainer.scrollTop;
 
-    } else {
-      // Scrolling up
-      statsBar.style.transform = "translateY(0)";
-    }
-  }
-  
-  lastScroll = currentScroll;
+if (window.innerWidth <= 768) { // only do this on mobile
+if (currentScroll > lastScroll) {
+// Scrolling down
+statsBar.style.transform = "translateY(-200%)";
+
+} else {
+// Scrolling up
+statsBar.style.transform = "translateY(0)";
+}
+}
+
+lastScroll = currentScroll;
 });
 
 </script>
@@ -709,4 +674,4 @@ scrollContainer.addEventListener("scroll", () => {
 </div> <!-- closes .layout-wrapper -->
 </body>
 </html>
-
+~
