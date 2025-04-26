@@ -523,19 +523,37 @@
     border-radius: 0;
   }
 
-  #stats-container {
+  .stats-toggle-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     width: 100%;
-    display: flex;
-    justify-content: center;
+    background-color: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #333;
   }
 
   #stats-container.collapsed {
     display: none;
   }
 
-  .live-stats-sidebar {
+  #stats-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  #stats-container:not(.collapsed) .live-stats-sidebar {
     position: sticky;
     top: 36px;
+    z-index: 999;
+  }
+
+  .live-stats-sidebar {
     width: 100%;
     max-width: 645px;
     background-color: #111;
@@ -550,21 +568,6 @@
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    z-index: 999;
-  }
-
-  .stats-toggle-bar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-    background-color: #1a1a1a;
-    color: #fff;
-    text-align: center;
-    padding: 8px 0;
-    font-size: 14px;
-    cursor: pointer;
-    border-bottom: 1px solid #333;
   }
 
   .layout-wrapper {
@@ -619,44 +622,53 @@
   <!-- Your #app-frame goes here next -->
   <!-- Example: <div id="app-frame"> ... </div> -->
 
-    <div id="app-frame">
-<div class="content-wrapper">
+  <div id="app-frame">
+
+  <!-- ✅ Sticky Toggle Button (always at top) -->
   <div class="stats-toggle-bar" onclick="toggleStats()">Show Stats ▼</div>
+
+  <!-- ✅ Stats Container (hidden unless opened) -->
   <div id="stats-container" class="collapsed">
-  <div class="live-stats-sidebar">
-    <div class="stat"><i data-lucide="clock"></i> <span id="stat-minutes">0</span> Minutes Wasted</div>
-    <div class="stat"><i data-lucide="chevrons-down"></i> <span id="stat-scrolls">0</span> Scrolls Done</div>
-    <div class="stat"><i data-lucide="heart"></i> <span id="stat-likes">0</span> Likes Given</div>
-    <div class="stat"><i data-lucide="message-circle"></i> <span id="stat-comments">0</span> Comments Given</div>
-    <div class="stat"><i data-lucide="repeat"></i> <span id="stat-reposts">0</span> Reposts Done</div>
-    <div class="stat"><i data-lucide="bookmark"></i> <span id="stat-bookmarks">0</span> Bookmarks</div>
-    <div class="stat"><i data-lucide="video"></i> <span id="stat-reels">0</span> Reels Viewed</div>
-    <div class="stat"><i data-lucide="user-circle"></i> <span id="stat-stories">0</span> Stories Viewed</div>
-    <div class="stat"><i data-lucide="plus-circle"></i> <span id="stat-posts">0</span> Posts Posted</div>
-    <div class="stat"><i data-lucide="user"></i> <span id="stat-profiles">0</span> Profiles Visited</div>
+    <div class="live-stats-sidebar">
+      <div class="stat"><i data-lucide="clock"></i> <span id="stat-minutes">0</span> Minutes Wasted</div>
+      <div class="stat"><i data-lucide="chevrons-down"></i> <span id="stat-scrolls">0</span> Scrolls Done</div>
+      <div class="stat"><i data-lucide="heart"></i> <span id="stat-likes">0</span> Likes Given</div>
+      <div class="stat"><i data-lucide="message-circle"></i> <span id="stat-comments">0</span> Comments Given</div>
+      <div class="stat"><i data-lucide="repeat"></i> <span id="stat-reposts">0</span> Reposts Done</div>
+      <div class="stat"><i data-lucide="bookmark"></i> <span id="stat-bookmarks">0</span> Bookmarks</div>
+      <div class="stat"><i data-lucide="video"></i> <span id="stat-reels">0</span> Reels Viewed</div>
+      <div class="stat"><i data-lucide="user-circle"></i> <span id="stat-stories">0</span> Stories Viewed</div>
+      <div class="stat"><i data-lucide="plus-circle"></i> <span id="stat-posts">0</span> Posts Posted</div>
+      <div class="stat"><i data-lucide="user"></i> <span id="stat-profiles">0</span> Profiles Visited</div>
+    </div>
   </div>
-</div>
 
-<header>
-  <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
-  <div class="nav-icons">
-    <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
-    <div id="notificationDropdown"></div>
+  <!-- ✅ Content Wrapper (scrollable feed) -->
+  <div class="content-wrapper">
+
+    <header>
+      <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
+      <div class="nav-icons">
+        <img id="notifIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="notifications" />
+        <div id="notificationDropdown"></div>
+      </div>
+    </header>
+
+    <div class="stories" id="storiesBar"></div>
+    <main id="feed"></main>
+
+  </div> <!-- closes .content-wrapper -->
+
+  <!-- ✅ Bottom Navigation (fixed at bottom) -->
+  <div class="bottom-nav">
+    <a href="index.html"><i data-lucide="home"></i></a>
+    <a href="search.html"><i data-lucide="search"></i></a>
+    <a href="publish.html"><i data-lucide="plus-circle"></i></a>
+    <a href="reels.html"><i data-lucide="video"></i></a>
+    <a href="profile.html"><i data-lucide="user"></i></a>
   </div>
-</header>
 
-
-  <div class="stories" id="storiesBar"></div>
-  <main id="feed"></main>
-</div>
-
-<div class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i></a>
-  <a href="search.html"><i data-lucide="search"></i></a>
-  <a href="publish.html"><i data-lucide="plus-circle"></i></a>
-  <a href="reels.html"><i data-lucide="video"></i></a>
-  <a href="profile.html"><i data-lucide="user"></i></a>
-</div>
+</div> <!-- closes #app-frame -->
 
 
 <script>
