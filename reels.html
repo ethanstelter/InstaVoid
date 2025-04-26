@@ -207,19 +207,7 @@ z-index: 2;
 20% { opacity: 1; }
 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
-   @media (max-width: 768px) {
-  html, body {
-    height: auto;
-    overflow-y: auto;
-  }
-
-  .layout-wrapper {
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-    min-height: 100vh;
-  }
-
+ @media (max-width: 768px) {
   #live-stats {
     position: fixed;
     top: 0;
@@ -234,7 +222,15 @@ z-index: 2;
     font-size: 0.75rem;
     text-align: center;
     gap: 4px;
+    border-radius: 0;
     z-index: 1000;
+  }
+
+  .content-wrapper {
+    padding-top: 130px; /* pushes reels content DOWN below the floating stats bar */
+    scroll-snap-type: y mandatory;
+    overflow-y: auto;
+    flex: 1;
   }
 
   #app-frame {
@@ -243,16 +239,8 @@ z-index: 2;
     border-radius: 0;
     display: flex;
     flex-direction: column;
-    overflow: visible;
-    min-height: calc(100vh - 80px);
-  }
-
-  .content-wrapper {
-    padding: 0;
-    padding-bottom: 80px;
-    flex: 1;
-    overflow-y: auto;
-    scroll-snap-type: y mandatory;
+    overflow: hidden;
+    min-height: 100vh;
   }
 
   .bottom-nav {
@@ -265,18 +253,12 @@ z-index: 2;
     display: flex;
     justify-content: space-around;
     padding: 0.5rem 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     z-index: 1000;
   }
-
-  #reelWrapper {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .reel {
-    min-height: 100vh;
-  }
 }
+
 
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
