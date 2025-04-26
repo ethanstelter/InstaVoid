@@ -92,7 +92,7 @@ font-size: 1.3rem;
 /* REELS UI — now flush with content box */
 .reel {
 scroll-snap-align: start;
-height: 100%;
+min-height: 100vh;
 background-color: #000;
 display: flex;
 justify-content: center;
@@ -293,7 +293,10 @@ z-index: 2;
 <div class="layout-wrapper">
    <div style="height: 130px;"></div>
 <div id="app-frame">
-<div class="content-wrapper" id="reelWrapper">
+<div class="content-wrapper">
+  <div id="reelWrapper"></div>
+</div>
+
 </div> <!-- closes .content-wrapper -->
 
 <div class="bottom-nav">
@@ -494,10 +497,12 @@ if (statEl) statEl.textContent = visited + 1;
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+ setTimeout(() => {
   updateStats();
   loadInitialReels();
   trackVisibleReels();
   lucide.createIcons();
+}, 300);
 });
 
 
