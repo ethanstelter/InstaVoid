@@ -272,13 +272,18 @@ z-index: 2;
     padding: 0;
   }
 
-  .reel {
-    scroll-snap-align: start;
-    width: 100vw;
-    height: 100vh; /* Full height reel */
-    min-height: 100vh;
-    background: #000;
-  }
+ .reel {
+  scroll-snap-align: start;
+  width: 100vw;
+  height: calc(100vh - 120px); /* 🔥 a little shorter than full screen */
+  min-height: calc(100vh - 120px);
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
 
  .reel-inner {
   position: relative;
