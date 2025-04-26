@@ -287,54 +287,29 @@ function createReel(username, caption) {
 const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 const reel = document.createElement("div");
 reel.className = "reel";
-
 const inner = document.createElement("div");
 inner.className = "reel-inner";
 inner.innerHTML = `
    <div class="caption-center">${caption}</div>
-   <a href="user.html?user=${username}" class="user-info" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-  <img src="${avatar}" alt="avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; border: 2px solid #f44;">
-  <div class="username">@${username}</div>
+  <a href="user.html?user=${username}" class="user-info" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+ <img src="${avatar}" alt="avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; border: 2px solid #f44;">
+ <div class="username">@${username}</div>
 </a>
-    <a href="user.html?user=${username}" class="user-info" style="text-decoration: none; color: inherit;">
-      <img src="${avatar}" alt="avatar">
-      <div class="username">@${username}</div>
-    </a>
    <div class="actions">
 
-  <button onclick="handleLike(this)"><i data-lucide="heart"></i></button>
-  <button onclick="toggleCommentBox(this)"><i data-lucide="message-circle"></i></button>
-  <button onclick="handleRepost(this)"><i data-lucide="repeat"></i></button>
-  <button onclick="handleBookmark(this)"><i data-lucide="bookmark"></i></button>
+ <button onclick="handleLike(this)"><i data-lucide="heart"></i></button>
+ <button onclick="toggleCommentBox(this)"><i data-lucide="message-circle"></i></button>
+ <button onclick="handleRepost(this)"><i data-lucide="repeat"></i></button>
+ <button onclick="handleBookmark(this)"><i data-lucide="bookmark"></i></button>
 </div>
 
-      <button class="like-btn"><i data-lucide="heart"></i></button>
-      <button class="comment-toggle"><i data-lucide="message-circle"></i></button>
-      <button class="repost-btn"><i data-lucide="repeat"></i></button>
-      <button class="bookmark-btn"><i data-lucide="bookmark"></i></button>
-    </div>
    <div class="comment-box">
      <input type="text" placeholder="Say something...">
-      <button onclick="submitFakeComment(this)">➤</button>
-    </div>`;
-      <button class="submit-comment">➤</button>
-    </div>
-  `;
-
+     <button onclick="submitFakeComment(this)">➤</button>
+   </div>`;
 reel.appendChild(inner);
 document.getElementById("reelWrapper").appendChild(reel);
-
-  // Attach event listeners to each reel action
-  inner.querySelector(".like-btn").onclick = () => handleLike(inner.querySelector(".like-btn"));
-  inner.querySelector(".repost-btn").onclick = () => handleRepost(inner.querySelector(".repost-btn"));
-  inner.querySelector(".bookmark-btn").onclick = () => handleBookmark(inner.querySelector(".bookmark-btn"));
-  inner.querySelector(".comment-toggle").onclick = () => toggleCommentBox(inner.querySelector(".comment-toggle"));
-  inner.querySelector(".submit-comment").onclick = () => submitFakeComment(inner.querySelector(".submit-comment"));
-
-  // Render Lucide icons
-  lucide.createIcons();
 }
-
 
 function handleLike(btn) {
 likes++;
@@ -390,10 +365,10 @@ input.value = "";
 input.style.opacity = 1;
 input.closest(".comment-box").style.display = "none";
 
-// ⬇️ Reset user-info and actions position after comment box closes
-const inner = input.closest(".reel-inner");
-inner.querySelector(".user-info").style.transform = "translateY(0)";
-inner.querySelector(".actions").style.transform = "translateY(0)";
+      // ⬇️ Reset user-info and actions position after comment box closes
+      const inner = input.closest(".reel-inner");
+      inner.querySelector(".user-info").style.transform = "translateY(0)";
+      inner.querySelector(".actions").style.transform = "translateY(0)";
 }, 600);
 }
 }
