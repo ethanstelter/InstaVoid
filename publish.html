@@ -182,33 +182,34 @@ button:hover {
   margin-right: auto;
 }
 @media (max-width: 768px) {
- .layout-wrapper {
+ body, html {
+  height: auto;
+  overflow-y: auto;
+}
+.layout-wrapper {
   flex-direction: column;
   align-items: center;
-  margin-top: 140px; /* create real space under fixed stats */
-  min-height: 100vh; /* allow scrolling if needed */
+  margin: 0;
+  min-height: 100vh;
 }
 
- #live-stats {
-    position: fixed; /* ✅ only mobile gets fixed */
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    margin: 0;
-    padding: 10px 6px;
-    background-color: #1a1a1a;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, auto);
-    text-align: center;
-    font-size: 0.75rem;
-    gap: 4px;
-    border-radius: 0;
-    z-index: 1000;
-    transform: translateY(0);
-    transition: transform 0.3s ease-in-out;
-  }
+#live-stats {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 10px 6px;
+  background-color: #1a1a1a;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, auto);
+  text-align: center;
+  font-size: 0.75rem;
+  gap: 4px;
+  border-radius: 0;
+  z-index: 1000;
+}
   #app-frame {
   width: 100%;
   background-color: #0f0f0f;
@@ -220,12 +221,10 @@ button:hover {
 
 
   .content-wrapper {
-    padding-top: 1rem;
-    padding-bottom: 80px;
-    overflow-y: auto;
-    flex: 1;
-  }
-
+  padding: 1rem;
+  padding-bottom: 80px;
+  flex: 1;
+}
   .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -247,7 +246,6 @@ button:hover {
 
 </head>
 <body>
-<div class="layout-wrapper">
     <!-- Live Stats Sidebar -->
       <div id="live-stats">
   <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
@@ -261,7 +259,9 @@ button:hover {
   <div>Posts Posted: <span id="stat-posts">0</span></div>
   <div>Profiles Visited: <span id="stat-profiles">0</span></div>
 </div>
- 
+ <div class="layout-wrapper">
+   <div style="height: 110px;"></div>
+
     <!-- App Frame -->
     <div id="app-frame">
       <div class="content-wrapper">
