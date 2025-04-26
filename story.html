@@ -307,34 +307,33 @@
   .next-button {
     right: 10px;
   }
-  .back-button {
+ .back-button {
+    display: inline-block;
     font-size: 1rem;
     color: #aaa;
     background: transparent;
     border: none;
     text-decoration: none;
-    z-index: 1001;
+    margin-left: 6px; /* 🔥 little space from username */
   }
 
-  .profile {
+   .profile {
     display: flex;
     align-items: center;
-    position: fixed;
-    top: 20px; /* 🔥 push everything down from phone notch */
-    left: 10px;
-    z-index: 1001;
+    position: relative; /* ✅ no fixed */
+    margin: 10px 10px 0 10px; /* 🔥 bring down slightly for breathing room */
   }
 
-  .profile img {
+   .profile img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 8px;
   }
-    #username {
+  #username {
     font-size: 1rem;
     color: #fff;
-    margin-right: 12px;
+    margin-right: 8px;
   }
 }
 
