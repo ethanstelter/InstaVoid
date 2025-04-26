@@ -122,10 +122,6 @@ font-size: 1.3rem;
   transition: transform 0.3s ease-in-out;
   gap: 4px;
 }
-
-
-
-
   .content-wrapper {
   padding-top: 110px; /* space for stats bar */
 }
@@ -135,6 +131,10 @@ font-size: 1.3rem;
     height: 100%;
     border-radius: 0;
   }
+  .stats-spacer {
+  height: 120px; /* matches the height of your fixed stats bar */
+  width: 100%;
+}
 }
 
 
@@ -408,6 +408,8 @@ transform: translate(-50%, -5px);
 
 <div id="app-frame">
 <div class="content-wrapper">
+  <div class="stats-spacer"></div>
+
 <header>
 <img src="INSTAVOID - LOGO.png" alt="InstaVoid Logo" class="logo-img" />
 <div class="nav-icons">
