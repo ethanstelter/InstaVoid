@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -159,6 +159,7 @@ margin-right: 0.3rem;
   .layout-wrapper {
     flex-direction: column;
     align-items: center;
+    height: auto;
   }
 
   #live-stats {
@@ -169,33 +170,33 @@ margin-right: 0.3rem;
     width: 100%;
     margin: 0;
     padding: 10px 6px;
-    font-size: 0.75rem;
     background-color: #1a1a1a;
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
-    grid-template-rows: repeat(5, auto);   /* 5 rows */
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);
+    gap: 4px;
+    font-size: 0.75rem;
     text-align: center;
     border-radius: 0;
     transform: translateY(0);
     z-index: 1000;
     transition: transform 0.3s ease-in-out;
-    gap: 4px;
-  }
-
-  .stats-spacer {
-    height: 70px;
-    width: 100%;
-  }
-
-  .content-wrapper {
-    padding-top: 80px; /* ensures you don't overlap after the stats spacer */
-    padding-bottom: 80px;
   }
 
   #app-frame {
     width: 100%;
     height: 100%;
     border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .content-wrapper {
+    padding-top: 110px; /* Enough room for stats bar height */
+    padding-bottom: 80px; /* Enough room for bottom nav */
+    overflow-y: auto;
+    flex: 1;
   }
 
   .bottom-nav {
@@ -205,11 +206,12 @@ margin-right: 0.3rem;
     width: 100%;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    z-index: 1000;
   }
 }
 
 </style>
-<script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 <div class="layout-wrapper">
@@ -231,7 +233,6 @@ margin-right: 0.3rem;
 <!-- App Frame -->
 <div id="app-frame">
 <div class="content-wrapper">
-        <div class="stats-spacer"></div>
 <h2>Accounts</h2>
 <div id="account-container"></div>
 <button id="toggleAccounts" onclick="toggleAccountView()">Show More</button>
@@ -240,12 +241,19 @@ margin-right: 0.3rem;
 <div id="leaderboard"></div>
 </div> <!-- closes .content-wrapper -->
 
-<div class="bottom-nav">
-<a href="index.html"><i data-lucide="home"></i></a>
-<a href="search.html"><i data-lucide="search"></i></a>
-<a href="publish.html"><i data-lucide="plus-circle"></i></a>
-<a href="reels.html"><i data-lucide="video"></i></a>
-<a href="profile.html"><i data-lucide="user"></i></a>
+      <div class="bottom-nav">
+        <a href="index.html">🏠</a>
+        <a href="search.html">🔍</a>
+        <a href="publish.html">➕</a>
+        <a href="reels.html">🎞️</a>
+        <a href="profile.html">👤</a>
+      </div>
+     <div class="bottom-nav">
+  <a href="index.html"><i data-lucide="home"></i></a>
+  <a href="search.html"><i data-lucide="search"></i></a>
+  <a href="publish.html"><i data-lucide="plus-circle"></i></a>
+  <a href="reels.html"><i data-lucide="video"></i></a>
+  <a href="profile.html"><i data-lucide="user"></i></a>
 </div>
 
 
@@ -361,24 +369,20 @@ renderAccounts();
 renderLeaderboard();
 updateLiveStats();
 lucide.createIcons();
-// Scroll direction detector to hide/show live stats bar on mobile
+// Mobile Scroll Hide/Show Live Stats
 let lastScroll = 0;
 const statsBar = document.getElementById("live-stats");
-const scrollContainer = document.querySelector(".content-wrapper");
+const scrollArea = document.querySelector(".content-wrapper");
 
-scrollContainer.addEventListener("scroll", () => {
-  const currentScroll = scrollContainer.scrollTop;
-
+scrollArea.addEventListener("scroll", () => {
+  const currentScroll = scrollArea.scrollTop;
   if (window.innerWidth <= 768) {
     if (currentScroll > lastScroll) {
-      // Scrolling down
-      statsBar.style.transform = "translateY(-200%)";
+      statsBar.style.transform = "translateY(-200%)"; // scroll down, hide
     } else {
-      // Scrolling up
-      statsBar.style.transform = "translateY(0)";
+      statsBar.style.transform = "translateY(0)"; // scroll up, show
     }
   }
-
   lastScroll = currentScroll;
 });
 
