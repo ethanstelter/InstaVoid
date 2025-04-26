@@ -191,7 +191,7 @@
     .prev-button {
       left: 10px;
     }
-    @media (max-width: 768px) {
+   @media (max-width: 768px) {
 
   html, body {
     margin: 0;
@@ -205,46 +205,39 @@
 
   .layout-wrapper {
     display: block;
-    height: auto;
-    min-height: 100vh;
     width: 100%;
+    min-height: 100vh;
     background-color: #0f0f0f;
   }
 
   #app-frame {
     display: block;
-    height: auto;
-    min-height: 100vh;
     width: 100%;
+    min-height: 100vh;
     background-color: #0f0f0f;
   }
 
-.content-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* 🔥 Center story vertically */
-  align-items: center;
-  padding-top: 40px; /* 🔥 Some breathing room at top */
-  padding-bottom: 180px; /* 🔥 Room for live-stats and nav */
-  min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
+  .content-wrapper {
+    /* 🔥 LEAVE CONTENT WRAPPER NORMAL */
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 
   #live-stats {
     position: fixed;
-    bottom: 60px; /* 🔥 sits above bottom-nav */
+    bottom: 60px; /* 🔥 Sits directly above bottom nav */
     left: 0;
     right: 0;
     width: 100%;
-    background-color: #1a1a1a;
+    background-color: rgba(26, 26, 26, 0.95); /* 🔥 slightly transparent */
+    font-size: 0.75rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(5, auto);
-    font-size: 0.75rem;
-    text-align: center;
     padding: 10px 6px;
+    text-align: center;
     gap: 4px;
     border-radius: 0;
     z-index: 1000;
