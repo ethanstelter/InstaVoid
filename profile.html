@@ -218,15 +218,15 @@
       border-color: #f44;
       box-shadow: 0 0 8px #f44;
     }
-  @media (max-width: 768px) {
+ @media (max-width: 768px) {
 
   html, body {
     margin: 0;
     padding: 0;
     width: 100vw;
-    height: 100vh;
-    background-color: #0f0f0f; /* 🔥 Force dark background everywhere */
-    overflow: hidden;
+    height: 100%;
+    background-color: #0f0f0f; /* dark background */
+    overflow-x: hidden;
   }
 
   #live-stats {
@@ -248,16 +248,10 @@
   }
 
   #profile-content {
-    position: absolute;
-    top: 200px; /* 🔥 Higher so it fully clears live-stats */
-    bottom: 60px; /* 🔥 Leaves room for bottom nav */
-    left: 0;
-    right: 0;
-    overflow-y: auto;
-    background-color: #0f0f0f; /* 🔥 Clean dark background */
-    padding: 10px;
-    min-height: calc(100vh - 240px); /* 🔥 Makes sure page is tall enough */
-    box-sizing: border-box;
+    padding-top: 240px; /* 🔥 bigger padding pushes content below fixed live stats */
+    background-color: #0f0f0f;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 
   .bottom-nav {
@@ -271,10 +265,11 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 100;
+    z-index: 1000;
   }
 
 }
+
 
   </style>
   <script src="https://unpkg.com/lucide@latest"></script>
