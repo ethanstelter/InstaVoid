@@ -103,14 +103,25 @@ font-size: 1.3rem;
     align-items: center;
   }
   #live-stats {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: 0;
+  padding: 10px 6px;
+  font-size: 0.75rem;
+  background-color: #1a1a1a;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, auto);
   text-align: center;
-  font-size: 0.8rem;
-  padding: 10px;
-  row-gap: 4px;
+  border-radius: 0;
+  transform: translateY(0);
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
 }
+
 
   .content-wrapper {
   padding-top: 110px; /* space for stats bar */
@@ -641,7 +652,8 @@ scrollContainer.addEventListener("scroll", () => {
   if (window.innerWidth <= 768) { // only do this on mobile
     if (currentScroll > lastScroll) {
       // Scrolling down
-      statsBar.style.transform = "translateY(-100%)";
+     statsBar.style.transform = "translateY(-200%)";
+
     } else {
       // Scrolling up
       statsBar.style.transform = "translateY(0)";
