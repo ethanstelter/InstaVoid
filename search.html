@@ -6,6 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Void Search</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -48,6 +49,8 @@
       height: fit-content;
       font-size: 0.85rem;
       line-height: 1.6;
+      transition: transform 0.3s ease-in-out;
+      z-index: 999;
     }
     #app-frame {
       width: min(645px, 95vw);
@@ -61,11 +64,9 @@
       position: relative;
     }
     .content-wrapper {
-      <div style="height: 80px;"></div>
       flex: 1;
       overflow-y: auto;
-      padding: 1rem;
-      padding-bottom: 80px;
+      padding: 0 1rem 80px; /* top 0, bottom 80px for bottom nav */
     }
     .content-wrapper::-webkit-scrollbar {
       width: 8px;
@@ -96,15 +97,13 @@
       text-decoration: none;
       font-size: 1.3rem;
     }
-
-    /* Styles from your original search page */
+    /* Specific page styles */
     h2 {
       margin-top: 1rem;
       font-size: 1.2rem;
       border-bottom: 1px solid #333;
       padding-bottom: 0.5rem;
     }
-
     .account, .leaderboard-item {
       background-color: #1c1c1c;
       border: 1px solid #333;
@@ -118,32 +117,26 @@
       text-decoration: none;
       color: #fff;
     }
-
     .highlight {
       box-shadow: 0 0 10px 2px #f44;
     }
-
     .account img, .leaderboard-item img {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       background-color: #444;
     }
-
     .account-info, .leaderboard-info {
       flex: 1;
     }
-
     .account-info .name, .leaderboard-info .name {
       font-weight: bold;
       color: #ccc;
     }
-
     .account-info .desc {
       color: #aaa;
       font-size: 0.85rem;
     }
-
     .stat-columns {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -151,87 +144,75 @@
       font-size: 0.8rem;
       color: #888;
     }
-
     .medal {
       font-size: 1.3rem;
       margin-right: 0.3rem;
     }
-   @media (max-width: 768px) {
-  #live-stats {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    margin: 0;
-    padding: 10px 6px;
-    font-size: 0.75rem;
-    background-color: #1a1a1a;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, auto);
-    text-align: center;
-    border-radius: 0;
-    transform: translateY(0);
-    z-index: 1000;
-    transition: transform 0.3s ease-in-out;
-    gap: 4px;
-  }
-
-  .stats-spacer {
-    height: 70px; /* go back to 70px */
-    width: 100%;
-    flex-shrink: 0;
-  }
-
-  .content-wrapper {
-    padding-top: 0;
-    padding-bottom: 80px;
-    overflow-y: auto;
-  }
-
-  #app-frame {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    border-radius: 0;
-  }
-
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-}
-
-
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .layout-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+      #live-stats {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+        padding: 10px 6px;
+        font-size: 0.75rem;
+        background-color: #1a1a1a;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(5, auto);
+        text-align: center;
+        border-radius: 0;
+        transform: translateY(0);
+        z-index: 1000;
+        transition: transform 0.3s ease-in-out;
+        gap: 4px;
+      }
+      .content-wrapper {
+        padding-top: 80px; /* Just enough to push under stats */
+        padding-bottom: 80px;
+      }
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      #app-frame {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        flex-direction: column;
+      }
+    }
   </style>
-  <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
+
 <body>
   <div class="layout-wrapper">
-    <!-- Live Stats Sidebar -->
-   <div id="live-stats">
-  <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
-  <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
-  <div>Likes Given: <span id="stat-likes">0</span></div>
-  <div>Comments Given: <span id="stat-comments">0</span></div>
-  <div>Reposts Done: <span id="stat-reposts">0</span></div>
-  <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
-  <div>Reels Viewed: <span id="stat-reels">0</span></div>
-  <div>Stories Viewed: <span id="stat-stories">0</span></div>
-  <div>Posts Posted: <span id="stat-posts">0</span></div>
-  <div>Profiles Visited: <span id="stat-profiles">0</span></div>
-</div>
+    <div id="live-stats">
+      <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+      <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+      <div>Likes Given: <span id="stat-likes">0</span></div>
+      <div>Comments Given: <span id="stat-comments">0</span></div>
+      <div>Reposts Done: <span id="stat-reposts">0</span></div>
+      <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+      <div>Reels Viewed: <span id="stat-reels">0</span></div>
+      <div>Stories Viewed: <span id="stat-stories">0</span></div>
+      <div>Posts Posted: <span id="stat-posts">0</span></div>
+      <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+    </div>
 
-
-    <!-- App Frame -->
     <div id="app-frame">
-       <div class="stats-spacer"></div>
       <div class="content-wrapper">
         <h2>Accounts</h2>
         <div id="account-container"></div>
@@ -239,39 +220,48 @@
 
         <h2>Leaderboard</h2>
         <div id="leaderboard"></div>
-      </div> <!-- closes .content-wrapper -->
+      </div>
 
-     <div class="bottom-nav">
-  <a href="index.html"><i data-lucide="home"></i></a>
-  <a href="search.html"><i data-lucide="search"></i></a>
-  <a href="publish.html"><i data-lucide="plus-circle"></i></a>
-  <a href="reels.html"><i data-lucide="video"></i></a>
-  <a href="profile.html"><i data-lucide="user"></i></a>
-</div>
-
+      <div class="bottom-nav">
+        <a href="index.html"><i data-lucide="home"></i></a>
+        <a href="search.html"><i data-lucide="search"></i></a>
+        <a href="publish.html"><i data-lucide="plus-circle"></i></a>
+        <a href="reels.html"><i data-lucide="video"></i></a>
+        <a href="profile.html"><i data-lucide="user"></i></a>
+      </div>
 
       <script>
         const fakeAccounts = [
-  { name: "scrollqueen", desc: "Still scrolling... queen style." },
-  { name: "doomqueen", desc: "Likes the darkness." },
-  { name: "taplord", desc: "Taps everything. All the time." },
-  { name: "tapbot", desc: "Probably not human." },
-  { name: "glitchlord", desc: "Exists between frames." },
-  { name: "noiserider", desc: "Tunes into static only." },
-  { name: "pixelpirate", desc: "Stealing screen space." },
-  { name: "feedghost", desc: "Lurks and vanishes." },
-  { name: "drainwave", desc: "Drained and proud." },
-  { name: "loopergeist", desc: "Circling the void like it’s a job." }
-];
+          { name: "scrollqueen", desc: "Still scrolling... queen style." },
+          { name: "doomqueen", desc: "Likes the darkness." },
+          { name: "taplord", desc: "Taps everything. All the time." },
+          { name: "tapbot", desc: "Probably not human." },
+          { name: "glitchlord", desc: "Exists between frames." },
+          { name: "noiserider", desc: "Tunes into static only." },
+          { name: "pixelpirate", desc: "Stealing screen space." },
+          { name: "feedghost", desc: "Lurks and vanishes." },
+          { name: "drainwave", desc: "Drained and proud." },
+          { name: "loopergeist", desc: "Circling the void like it’s a job." }
+        ];
 
+        const leaderboardUsers = [
+          { name: "doomscroll_god", values: [92456, 78234, 150234, 4622, 3222, 3888, 982345, 6322, 2044, 72000] },
+          { name: "tapmonster", values: [88888, 60123, 132488, 3899, 2900, 3511, 932122, 5744, 1890, 67800] },
+          { name: "voidlord", values: [90111, 65555, 129999, 4221, 3012, 3999, 954001, 6100, 1999, 71000] },
+          { name: "ghostthumb", values: [87432, 62345, 140342, 4455, 2810, 2888, 900443, 5622, 1844, 69321] },
+          { name: "scrollboi", values: [86220, 59123, 135211, 3788, 2633, 2780, 888888, 5400, 1733, 67542] },
+          { name: "numbfingerz", values: [94777, 71234, 145999, 4999, 3200, 3655, 970001, 6890, 2101, 75500] },
+          { name: "eyebleed", values: [89210, 64555, 139222, 4330, 2870, 3122, 916789, 6011, 1955, 70002] },
+          { name: "flickfiend", values: [87500, 60333, 128000, 4100, 2701, 2877, 889999, 5201, 1650, 66001] },
+          { name: "ratking", values: [84444, 56789, 120888, 3890, 2550, 2999, 860000, 5000, 1555, 63000] },
+          { name: "swipeghoul", values: [98001, 73333, 149222, 4720, 3333, 3500, 995321, 6420, 2180, 79000] }
+        ];
 
         let showAllAccounts = false;
 
         function renderAccounts() {
           const container = document.getElementById("account-container");
           container.innerHTML = "";
-
-
           const shownAccounts = showAllAccounts ? fakeAccounts : fakeAccounts.slice(0, 5);
           shownAccounts.forEach(account => {
             const div = document.createElement("a");
@@ -293,44 +283,32 @@
           renderAccounts();
         }
 
-      const leaderboardUsers = [
-  { name: "doomscroll_god", values: [92456, 78234, 150234, 4622, 3222, 3888, 982345, 6322, 2044, 72000] },
-  { name: "tapmonster", values: [88888, 60123, 132488, 3899, 2900, 3511, 932122, 5744, 1890, 67800] },
-  { name: "voidlord", values: [90111, 65555, 129999, 4221, 3012, 3999, 954001, 6100, 1999, 71000] },
-  { name: "ghostthumb", values: [87432, 62345, 140342, 4455, 2810, 2888, 900443, 5622, 1844, 69321] },
-  { name: "scrollboi", values: [86220, 59123, 135211, 3788, 2633, 2780, 888888, 5400, 1733, 67542] },
-  { name: "numbfingerz", values: [94777, 71234, 145999, 4999, 3200, 3655, 970001, 6890, 2101, 75500] },
-  { name: "eyebleed", values: [89210, 64555, 139222, 4330, 2870, 3122, 916789, 6011, 1955, 70002] },
-  { name: "flickfiend", values: [87500, 60333, 128000, 4100, 2701, 2877, 889999, 5201, 1650, 66001] },
-  { name: "ratking", values: [84444, 56789, 120888, 3890, 2550, 2999, 860000, 5000, 1555, 63000] },
-  { name: "swipeghoul", values: [98001, 73333, 149222, 4720, 3333, 3500, 995321, 6420, 2180, 79000] }
-];
-       function renderLeaderboard() {
-  const container = document.getElementById("leaderboard");
-  container.innerHTML = "";
-  const stats = ["Reels", "Stories", "Likes", "Comments", "Reposts", "Bookmarks", "Scrolls", "Profiles", "Posts", "Time"];
+        function renderLeaderboard() {
+          const container = document.getElementById("leaderboard");
+          container.innerHTML = "";
+          const stats = ["Reels", "Stories", "Likes", "Comments", "Reposts", "Bookmarks", "Scrolls", "Profiles", "Posts", "Time"];
 
-  leaderboardUsers.forEach((user, i) => {
-    const div = document.createElement("div");
-    div.className = "leaderboard-item";
+          leaderboardUsers.forEach((user, i) => {
+            const div = document.createElement("div");
+            div.className = "leaderboard-item";
 
-    const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
+            const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`;
 
-    div.innerHTML = `
-      <a href="user.html?user=${user.name}" class="leaderboard-link" style="display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit;">
-        <img src="https://api.dicebear.com/7.x/personas/svg?seed=${user.name}">
-        <div class="leaderboard-info">
-          <div class="name"><span class="medal">${medal}</span>@${user.name}</div>
-          <div class="stat-columns">
-            ${user.values.map((val, idx) => `<div>${stats[idx]}: ${val}</div>`).join("")}
-          </div>
-        </div>
-      </a>
-    `;
+            div.innerHTML = `
+              <a href="user.html?user=${user.name}" class="leaderboard-link" style="display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit;">
+                <img src="https://api.dicebear.com/7.x/personas/svg?seed=${user.name}">
+                <div class="leaderboard-info">
+                  <div class="name"><span class="medal">${medal}</span>@${user.name}</div>
+                  <div class="stat-columns">
+                    ${user.values.map((val, idx) => `<div>${stats[idx]}: ${val}</div>`).join("")}
+                  </div>
+                </div>
+              </a>
+            `;
 
-    container.appendChild(div);
-  });
-}
+            container.appendChild(div);
+          });
+        }
 
         function updateLiveStats() {
           const get = key => parseInt(localStorage.getItem(key)) || 0;
@@ -345,46 +323,41 @@
           document.getElementById("stat-posts").textContent = get("postsPosted");
           document.getElementById("stat-minutes").textContent = Math.floor(get("secondsWasted") / 60);
         }
-// Track profile clicks globally on the page
-document.addEventListener("click", function (e) {
-  const anchor = e.target.closest("a[href^='user.html?user=']");
-  if (anchor) {
-    let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
-    localStorage.setItem("profilesVisited", visited + 1);
 
-    // Optional: if sidebar should update instantly
-    const statEl = document.getElementById("stat-profiles");
-    if (statEl) statEl.textContent = visited + 1;
-  }
-});
+        document.addEventListener("click", function (e) {
+          const anchor = e.target.closest("a[href^='user.html?user=']");
+          if (anchor) {
+            let visited = parseInt(localStorage.getItem("profilesVisited")) || 0;
+            localStorage.setItem("profilesVisited", visited + 1);
+
+            const statEl = document.getElementById("stat-profiles");
+            if (statEl) statEl.textContent = visited + 1;
+          }
+        });
+
+        // Scroll hide/reveal live stats
+        let lastScroll = 0;
+        const statsBar = document.getElementById("live-stats");
+        const scrollContainer = document.querySelector(".content-wrapper");
+
+        scrollContainer.addEventListener("scroll", () => {
+          const currentScroll = scrollContainer.scrollTop;
+          if (window.innerWidth <= 768) {
+            if (currentScroll > lastScroll) {
+              statsBar.style.transform = "translateY(-200%)";
+            } else {
+              statsBar.style.transform = "translateY(0)";
+            }
+          }
+          lastScroll = currentScroll;
+        });
 
         renderAccounts();
         renderLeaderboard();
         updateLiveStats();
-lucide.createIcons();
-// Scroll direction detector to hide/show live stats bar on mobile
-let lastScroll = 0;
-const statsBar = document.getElementById("live-stats");
-const scrollContainer = document.querySelector(".content-wrapper");
-
-scrollContainer.addEventListener("scroll", () => {
-  const currentScroll = scrollContainer.scrollTop;
-
-  if (window.innerWidth <= 768) {
-    if (currentScroll > lastScroll) {
-      // Scrolling down
-      statsBar.style.transform = "translateY(-200%)";
-    } else {
-      // Scrolling up
-      statsBar.style.transform = "translateY(0)";
-    }
-  }
-
-  lastScroll = currentScroll;
-});
-
+        lucide.createIcons();
       </script>
-    </div> <!-- closes #app-frame -->
-  </div> <!-- closes .layout-wrapper -->
+    </div>
+  </div>
 </body>
 </html>
