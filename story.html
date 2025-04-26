@@ -191,6 +191,75 @@
     .prev-button {
       left: 10px;
     }
+    @media (max-width: 768px) {
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: #0f0f0f;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .layout-wrapper {
+    display: block;
+    height: auto;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #0f0f0f;
+  }
+
+  #app-frame {
+    display: block;
+    height: auto;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #0f0f0f;
+  }
+
+  .content-wrapper {
+    padding-top: 20px; /* small padding for top breathing room */
+    padding-bottom: 180px; /* 🔥 make room for live-stats + nav bar */
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  #live-stats {
+    position: fixed;
+    bottom: 60px; /* 🔥 sits above bottom-nav */
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #1a1a1a;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);
+    font-size: 0.75rem;
+    text-align: center;
+    padding: 10px 6px;
+    gap: 4px;
+    border-radius: 0;
+    z-index: 1000;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    width: 100%;
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+  }
+
+}
+
   </style>
 </head>
 <body>
