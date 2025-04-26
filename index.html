@@ -360,6 +360,68 @@ transform: translate(-50%, -5px);
     padding-bottom: 60px; /* space for bottom nav */
   }
 }
+@media (max-width: 768px) {
+  .live-stats-desktop {
+    display: none !important;
+  }
+
+  #app-frame {
+    padding-top: 40px;
+    padding-left: 12px;
+    padding-right: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+  }
+
+  .stats-toggle-bar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+    border-bottom: 1px solid #333;
+  }
+
+  #stats-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  #stats-container.collapsed {
+    display: none;
+  }
+
+  #stats-container:not(.collapsed) .live-stats-sidebar {
+    position: sticky;
+    top: 40px;
+    background-color: #111;
+    width: 100%;
+    max-width: 645px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 4px;
+    padding: 8px;
+    font-size: 10px;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    z-index: 999;
+  }
+}
 
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -367,18 +429,38 @@ transform: translate(-50%, -5px);
 </head>
 <body>
 <div class="layout-wrapper">
-<div id="live-stats">
-<div>Minutes Wasted: <span id="stat-minutes">0</span></div>
-<div>Scrolls Done: <span id="stat-scrolls">0</span></div>
-<div>Likes Given: <span id="stat-likes">0</span></div>
-<div>Comments Given: <span id="stat-comments">0</span></div>
-<div>Reposts Done: <span id="stat-reposts">0</span></div>
-<div>Bookmarks: <span id="stat-bookmarks">0</span></div>
-<div>Reels Viewed: <span id="stat-reels">0</span></div>
-<div>Stories Viewed: <span id="stat-stories">0</span></div>
-<div>Posts Posted: <span id="stat-posts">0</span></div>
-<div>Profiles Visited: <span id="stat-profiles">0</span></div>
+<div id="live-stats" class="live-stats-desktop">
+  <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+  <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+  <div>Likes Given: <span id="stat-likes">0</span></div>
+  <div>Comments Given: <span id="stat-comments">0</span></div>
+  <div>Reposts Done: <span id="stat-reposts">0</span></div>
+  <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+  <div>Reels Viewed: <span id="stat-reels">0</span></div>
+  <div>Stories Viewed: <span id="stat-stories">0</span></div>
+  <div>Posts Posted: <span id="stat-posts">0</span></div>
+  <div>Profiles Visited: <span id="stat-profiles">0</span></div>
 </div>
+
+<!-- ✅ ADD these two new elements inside #app-frame, BEFORE .content-wrapper -->
+
+<div class="stats-toggle-bar" onclick="toggleStats()">Show Stats ▼</div>
+
+<div id="stats-container" class="collapsed">
+  <div class="live-stats-sidebar">
+    <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
+    <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
+    <div>Likes Given: <span id="stat-likes">0</span></div>
+    <div>Comments Given: <span id="stat-comments">0</span></div>
+    <div>Reposts Done: <span id="stat-reposts">0</span></div>
+    <div>Bookmarks: <span id="stat-bookmarks">0</span></div>
+    <div>Reels Viewed: <span id="stat-reels">0</span></div>
+    <div>Stories Viewed: <span id="stat-stories">0</span></div>
+    <div>Posts Posted: <span id="stat-posts">0</span></div>
+    <div>Profiles Visited: <span id="stat-profiles">0</span></div>
+  </div>
+</div>
+
 
 
 <div id="app-frame">
@@ -617,6 +699,18 @@ if (statEl) statEl.textContent = visited + 1;
 });
 
 updateStats();
+function toggleStats() {
+  const container = document.getElementById('stats-container');
+  const toggleBar = document.querySelector('.stats-toggle-bar');
+
+  if (container.classList.contains('collapsed')) {
+    container.classList.remove('collapsed');
+    toggleBar.innerHTML = 'Hide Stats ▲';
+  } else {
+    container.classList.add('collapsed');
+    toggleBar.innerHTML = 'Show Stats ▼';
+  }
+}
 
 lucide.createIcons();
 
