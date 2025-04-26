@@ -387,8 +387,8 @@ padding-bottom: 60px; /* space for bottom nav */
 }
 }
 .kofi-post {
-  border: 2px solid #FFD700;
-  background: linear-gradient(135deg, #fff8dc, #fff);
+  border: 2px solid #f44; /* Your red accent */
+  background: linear-gradient(135deg, #1c1c1c, #2c2c2c);
   border-radius: 12px;
   padding-bottom: 10px;
 }
@@ -397,7 +397,7 @@ padding-bottom: 60px; /* space for bottom nav */
   display: inline-block;
   margin: 10px auto;
   padding: 10px 20px;
-  background-color: #29abe0;
+  background-color: #f44; /* Red background for button */
   color: white;
   border-radius: 25px;
   text-decoration: none;
@@ -407,9 +407,10 @@ padding-bottom: 60px; /* space for bottom nav */
 }
 
 .kofi-button:hover {
-  background-color: #0077b6;
+  background-color: #c33; /* Slightly darker red on hover */
   transform: scale(1.05);
 }
+
 
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -551,11 +552,11 @@ function createKofiPost() {
   post.className = "post kofi-post";
   post.innerHTML = `
     <div class="post-header">
-      <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Ko-fi" style="width:40px; height:40px; border-radius:50%; margin-right:10px;">
+      <div style="font-size: 32px; margin-right: 10px;">☕</div>
       <span>@SupportMe</span>
     </div>
-    <div class="post-image" style="background: linear-gradient(135deg, #fff8dc, #fff); color: #000;">
-      Enjoying the Void? <br> Support it on Ko-fi! ☕
+    <div class="post-image" style="background: linear-gradient(135deg, #1c1c1c, #2c2c2c); color: #fff;">
+      Enjoying the Void? Support it on Ko-fi!
     </div>
     <div class="post-actions">
       <a href="https://ko-fi.com/ethanstelter" target="_blank" class="kofi-button">Support Me</a>
@@ -564,6 +565,7 @@ function createKofiPost() {
 
   feed.appendChild(post);
 }
+
 
 function handleLike(btn) {
 likesGiven++;
