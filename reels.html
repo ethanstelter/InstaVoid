@@ -207,86 +207,12 @@ z-index: 2;
 20% { opacity: 1; }
 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
- @media (max-width: 768px) {
-  #live-stats {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background-color: #1a1a1a;
-    padding: 10px 6px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, auto);
-    font-size: 0.75rem;
-    text-align: center;
-    gap: 4px;
-    border-radius: 0;
-    z-index: 1000;
-  }
-
-  .content-wrapper {
-    padding-top: 130px; /* pushes reels content DOWN below the floating stats bar */
-    scroll-snap-type: y mandatory;
-    overflow-y: auto;
-    flex: 1;
-  }
-
-  #app-frame {
-    width: 100%;
-    background-color: #0f0f0f;
-    border-radius: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-height: 100vh;
-  }
-
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #1a1a1a;
-    border-top: 1px solid #333;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.5rem 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    z-index: 1000;
-  }
-}
-
-.reel {
-  min-height: 100vh; /* FULL SCREEN height */
-  width: 100%;
-  background-color: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  scroll-snap-align: start;
-  border-bottom: 2px solid red; /* TEMP: add red borders to see them show up */
-}
-
-.reel-inner {
-  width: 90%;
-  height: 90%;
-  background-color: #222;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 <body>
- <div class="layout-wrapper">
+<div class="layout-wrapper">
 <div id="live-stats">
 <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
 <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
@@ -300,12 +226,9 @@ z-index: 2;
 <div>Profiles Visited: <span id="stat-profiles">0</span></div>
 </div>
 
-<div id="app-frame">
-<div class="content-wrapper">
-  <div style="height: 130px;"></div> <!-- Spacer to push reels below stats bar -->
-  <div id="reelWrapper" style="display: flex; flex-direction: column;"></div>
-</div>
 
+<div id="app-frame">
+<div class="content-wrapper" id="reelWrapper">
 </div> <!-- closes .content-wrapper -->
 
 <div class="bottom-nav">
@@ -505,14 +428,10 @@ if (statEl) statEl.textContent = visited + 1;
 }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  updateStats();
-  loadInitialReels(10);
-  trackVisibleReels();
-  lucide.createIcons();
-});
-
-
+updateStats();
+loadInitialReels();
+trackVisibleReels();
+lucide.createIcons();
 
 </script>
 
