@@ -218,6 +218,32 @@
       border-color: #f44;
       box-shadow: 0 0 8px #f44;
     }
+    @media (max-width: 768px) {
+
+  #live-stats {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 10px 6px;
+    font-size: 0.75rem;
+    background-color: #1a1a1a;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);
+    text-align: center;
+    border-radius: 0;
+    z-index: 1000;
+    gap: 4px;
+  }
+
+  #profile-content {
+    padding-top: 140px; /* 🔥 Push down profile content below stats bar */
+  }
+
+}
+
   </style>
   <script src="https://unpkg.com/lucide@latest"></script>
 
