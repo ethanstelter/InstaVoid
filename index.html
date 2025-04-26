@@ -336,6 +336,18 @@ transform: translate(-50%, -5px);
 }
 
 }
+  .kofi-button-wrapper {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
+}
+
+/* Ko-fi button image styling */
+.kofi-button-wrapper img {
+  height: 50px;
+  width: auto;
+}
 @keyframes fadeout {
 0% { opacity: 1; }
 80% { opacity: 1; }
@@ -384,6 +396,17 @@ transform: translate(-50%, -5px);
   .main-content {
     padding-bottom: 60px; /* space for bottom nav */
   }
+       .kofi-button-wrapper {
+    /* Example: move it to bottom-center on mobile */
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10px;
+  }
+
+  .kofi-button-wrapper img {
+    height: 40px; /* slightly smaller on mobile */
+  }
+}
 }
 
 </style>
@@ -671,6 +694,12 @@ scrollContainer.addEventListener("scroll", () => {
 </script>
 </div> <!-- closes #app-frame -->
 </div> <!-- closes .layout-wrapper -->
+  <div class="kofi-button-wrapper">
+  <a href="https://ko-fi.com/ethanstelter" target="_blank">
+    <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Support me on Ko-fi" />
+  </a>
+</div>
+
 </body>
 </html>
 
