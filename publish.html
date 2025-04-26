@@ -182,12 +182,12 @@ button:hover {
   margin-right: auto;
 }
 @media (max-width: 768px) {
-  .layout-wrapper {
-    flex-direction: column;
-    align-items: center;
-    margin-top: 140px; /* Push the app-frame under the floating stats bar */
-    height: auto;
-  }
+ .layout-wrapper {
+  flex-direction: column;
+  align-items: center;
+  margin-top: 140px; /* create real space under fixed stats */
+  min-height: 100vh; /* allow scrolling if needed */
+}
 
  #live-stats {
     position: fixed; /* ✅ only mobile gets fixed */
@@ -210,13 +210,14 @@ button:hover {
     transition: transform 0.3s ease-in-out;
   }
   #app-frame {
-    width: 100%;
-    background-color: #0f0f0f;
-    border-radius: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+  width: 100%;
+  background-color: #0f0f0f;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: visible; /* allow content to grow and scroll */
+}
+
 
   .content-wrapper {
     padding-top: 1rem;
