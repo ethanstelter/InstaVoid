@@ -9,17 +9,15 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
-  width: 100%;
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #eeeeee;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  overflow-x: hidden;
-  overflow-y: auto;
+height: 100%;
+overflow: hidden;
+background-color: #eeeeee;
+color: #fff;
+font-family: Arial, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
 }
-
 .layout-wrapper {
 display: flex;
 justify-content: center;
@@ -209,113 +207,6 @@ z-index: 2;
 20% { opacity: 1; }
 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
-   #reelWrapper {
-  display: flex;
-  flex-direction: column;
-}
-@media (max-width: 768px) {
-   html, body {
-  height: auto;
-  width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  display: block;
-  margin: 0;
-  padding: 0;
-}
-
-  /* Stack layout vertically instead of side-by-side */
-  .layout-wrapper {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    height: auto;
-    overflow: hidden;
-  }
-
-  /* Top stats bar, always visible */
-#live-stats {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  margin: 0;
-  padding: 10px 6px;
-  font-size: 0.75rem;
-  display: grid !important;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, auto);
-  text-align: center;
-  gap: 4px;
-  background-color: #1a1a1a;
-  z-index: 1000;
-  border-radius: 0;
-}
-
-  /* Move the app content below the fixed stats bar */
-  #app-frame {
-    width: 100%;
-    margin-top: 140px; /* adjust based on stats bar height */
-    border-radius: 0;
-    background-color: #0f0f0f;
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    min-height: 100vh;
-  }
-
-  /* Scrolling container for reels */
-  .content-wrapper {
-    flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: y mandatory;
-  }
-
-  /* Reels stack vertically and take up screen width */
-  #reelWrapper {
-    display: flex;
-    flex-direction: column;
-  }
-
-.reel {
-  width: 100vw;
-  height: calc(100vh - 170px);
-  scroll-snap-align: start;
-  background-color: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-  /* Bottom nav bar stays pinned */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #1a1a1a;
-    border-top: 1px solid #333;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.5rem 0;
-    z-index: 1000;
-  }
-   body::before {
-  content: "MOBILE VIEW";
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  color: red;
-  z-index: 9999;
-  font-size: 12px;
-}
-
-}
-
-
-
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -337,11 +228,8 @@ z-index: 2;
 
 
 <div id="app-frame">
-<div class="content-wrapper">
-  <div style="height: 130px;"></div> <!-- Spacer so reels don't go under stats -->
-  <div id="reelWrapper"></div> <!-- Reels get inserted here -->
-</div>
-
+<div class="content-wrapper" id="reelWrapper">
+</div> <!-- closes .content-wrapper -->
 
 <div class="bottom-nav">
 <a href="index.html"><i data-lucide="home"></i></a>
@@ -508,27 +396,27 @@ updateStats();
 });
 }
 
-const scrollContainer = document.querySelector(".content-wrapper");
+const reelWrapper = document.getElementById("reelWrapper");
+let scrollCooldown = false;
 
-scrollContainer.addEventListener("scroll", () => {
-  if (!scrollCooldown) {
-    scrollCount++;
-    localStorage.setItem("scrollCount", scrollCount);
-    updateStats();
+reelWrapper.addEventListener("scroll", () => {
+if (!scrollCooldown) {
+scrollCount++;
+localStorage.setItem("scrollCount", scrollCount);
+updateStats();
 
-    scrollCooldown = true;
-    setTimeout(() => {
-      scrollCooldown = false;
-    }, 500);
-  }
+scrollCooldown = true;
+setTimeout(() => {
+scrollCooldown = false;
+}, 500); // Cooldown between scroll counts
+}
 
-  trackVisibleReels();
+trackVisibleReels();
 
-  if (scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 10) {
-    loadInitialReels(5);
-  }
+if (reelWrapper.scrollTop + reelWrapper.clientHeight >= reelWrapper.scrollHeight - 10) {
+loadInitialReels(5);
+}
 });
-
 document.addEventListener("click", function (e) {
 const anchor = e.target.closest("a[href^='user.html?user=']");
 if (anchor) {
@@ -540,14 +428,10 @@ if (statEl) statEl.textContent = visited + 1;
 }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  updateStats();
-  loadInitialReels();
-  trackVisibleReels();
-  lucide.createIcons();
-});
-
-
+updateStats();
+loadInitialReels();
+trackVisibleReels();
+lucide.createIcons();
 
 </script>
 
