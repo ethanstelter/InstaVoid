@@ -493,10 +493,13 @@ if (statEl) statEl.textContent = visited + 1;
 }
 });
 
-updateStats();
-loadInitialReels();
-trackVisibleReels();
-lucide.createIcons();
+document.addEventListener("DOMContentLoaded", () => {
+  updateStats();
+  loadInitialReels();
+  trackVisibleReels();
+  lucide.createIcons();
+});
+
 
 </script>
 
