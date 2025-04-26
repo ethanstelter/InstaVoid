@@ -307,32 +307,34 @@
   .next-button {
     right: 10px;
   }
- .back-button {
-    position: fixed;
-    top: 20px; /* 🔥 Move down a little from top edge */
-    left: 10px;
-    font-size: 1.2rem;
-    z-index: 1001;
-    color: #ccc;
+  .back-button {
+    font-size: 1rem;
+    color: #aaa;
     background: transparent;
     border: none;
     text-decoration: none;
+    z-index: 1001;
   }
 
   .profile {
+    display: flex;
+    align-items: center;
     position: fixed;
-    top: 60px; /* 🔥 Push profile pic and username under back button */
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
+    top: 20px; /* 🔥 push everything down from phone notch */
+    left: 10px;
     z-index: 1001;
   }
 
   .profile img {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    margin-bottom: 4px;
+    margin-right: 8px;
+  }
+    #username {
+    font-size: 1rem;
+    color: #fff;
+    margin-right: 12px;
   }
 }
 
