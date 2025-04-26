@@ -386,6 +386,30 @@ z-index: 1000;
 padding-bottom: 60px; /* space for bottom nav */
 }
 }
+.kofi-post {
+  border: 2px solid #FFD700;
+  background: linear-gradient(135deg, #fff8dc, #fff);
+  border-radius: 12px;
+  padding-bottom: 10px;
+}
+
+.kofi-button {
+  display: inline-block;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background-color: #29abe0;
+  color: white;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.kofi-button:hover {
+  background-color: #0077b6;
+  transform: scale(1.05);
+}
 
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -522,6 +546,24 @@ post.querySelector(".submit-comment").onclick = () => submitFakeComment(post.que
 lucide.createIcons();
 }
 
+function createKofiPost() {
+  const post = document.createElement("div");
+  post.className = "post kofi-post";
+  post.innerHTML = `
+    <div class="post-header">
+      <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Ko-fi" style="width:40px; height:40px; border-radius:50%; margin-right:10px;">
+      <span>@SupportMe</span>
+    </div>
+    <div class="post-image" style="background: linear-gradient(135deg, #fff8dc, #fff); color: #000;">
+      Enjoying the Void? <br> Support it on Ko-fi! ☕
+    </div>
+    <div class="post-actions">
+      <a href="https://ko-fi.com/ethanstelter" target="_blank" class="kofi-button">Support Me</a>
+    </div>
+  `;
+
+  feed.appendChild(post);
+}
 
 function handleLike(btn) {
 likesGiven++;
@@ -604,8 +646,12 @@ notifDropdown.innerHTML = notifications.map(n => `<p>${n}</p>`).join("");
 setInterval(() => Math.random() < 0.25 && pushRandomNotification(), 15000);
 
 for (let i = 0; i < 10; i++) {
-const msg = fakeMessages[i % fakeMessages.length];
-createPost(msg);
+  if ((i + 1) % 10 === 0) {
+    createKofiPost(); // Insert Ko-fi post every 10th
+  } else {
+    const msg = fakeMessages[i % fakeMessages.length];
+    createPost(msg);
+  }
 }
 
 const wrapper = document.querySelector(".content-wrapper");
