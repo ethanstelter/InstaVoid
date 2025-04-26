@@ -207,12 +207,79 @@ z-index: 2;
 20% { opacity: 1; }
 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
+   @media (max-width: 768px) {
+  body {
+    overflow: auto;
+    align-items: flex-start;
+  }
+
+  .layout-wrapper {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  #live-stats {
+    width: 100%;
+    background: #1a1a1a;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 0;
+    margin: 0;
+    position: relative;
+    top: 0;
+    height: auto;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  #live-stats div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #app-frame {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    border-radius: 0;
+  }
+
+  .content-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    padding-top: 10px;
+    scroll-snap-type: y mandatory;
+  }
+
+  .reel {
+    min-height: 500px; /* or whatever height you prefer for reels */
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+  }
+}
+
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 <body>
 <div class="layout-wrapper">
+   <div id="app-frame">
 <div id="live-stats">
 <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
 <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
@@ -227,7 +294,7 @@ z-index: 2;
 </div>
 
 
-<div id="app-frame">
+
 <div class="content-wrapper" id="reelWrapper">
 </div> <!-- closes .content-wrapper -->
 
