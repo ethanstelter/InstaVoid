@@ -275,13 +275,14 @@ gap: 4px;
     padding: 0;
   }
 
-  .reel {
-    scroll-snap-align: start;
-    height: 100vh;
-    min-height: 100vh;
-    width: 100vw;
-    background: #000;
-  }
+ .reel {
+  scroll-snap-align: start;
+  height: calc(100vh - 80px); /* 🔥 Shorten reel height a little */
+  min-height: calc(100vh - 80px);
+  width: 100vw;
+  background: #000;
+}
+
 
   .reel-inner {
     height: 100%;
