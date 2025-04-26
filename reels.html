@@ -91,15 +91,14 @@ font-size: 1.3rem;
 
 /* REELS UI — now flush with content box */
 .reel {
-  scroll-snap-align: start;
-  min-height: 100vh; /* not height: 100% */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #000;
-  position: relative;
+scroll-snap-align: start;
+height: 100%;
+background-color: #000;
+display: flex;
+justify-content: center;
+align-items: center;
+position: relative;
 }
-
 .reel-inner {
 width: 100%;
 height: 100%;
@@ -203,82 +202,17 @@ animation: fadePop 2.5s forwards;
 pointer-events: none;
 z-index: 2;
 }
-   #reelWrapper {
-  display: flex;
-  flex-direction: column;
-}
 @keyframes fadePop {
 0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
 20% { opacity: 1; }
 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
-   @media (max-width: 768px) {
-html, body {
-    height: auto;
-    overflow-y: auto;
-  }
-
-    .layout-wrapper {
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-    min-height: 100vh;
-  }
-
- #live-stats {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background-color: #1a1a1a;
-    padding: 10px 6px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, auto);
-    font-size: 0.75rem;
-    text-align: center;
-    z-index: 1000;
-  }
-
-  #app-frame {
-    width: 100%;
-    background-color: #0f0f0f;
-    border-radius: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: visible;
-    min-height: calc(100vh - 80px);
-  }
-
-  .content-wrapper {
-    padding-bottom: 80px;
-    flex: 1;
-    overflow-y: auto;
-    scroll-snap-type: y mandatory;
-  }
-
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #1a1a1a;
-    border-top: 1px solid #333;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.5rem 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    z-index: 1000;
-  }
-}
-
 </style>
 <script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 <body>
+<div class="layout-wrapper">
 <div id="live-stats">
 <div>Minutes Wasted: <span id="stat-minutes">0</span></div>
 <div>Scrolls Done: <span id="stat-scrolls">0</span></div>
@@ -292,13 +226,9 @@ html, body {
 <div>Profiles Visited: <span id="stat-profiles">0</span></div>
 </div>
 
-<div class="layout-wrapper">
-<div id="app-frame">
-<div class="content-wrapper">
-   <div style="height: 130px;"></div>
-  <div id="reelWrapper"></div>
-</div>
 
+<div id="app-frame">
+<div class="content-wrapper" id="reelWrapper">
 </div> <!-- closes .content-wrapper -->
 
 <div class="bottom-nav">
@@ -498,15 +428,10 @@ if (statEl) statEl.textContent = visited + 1;
 }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
- setTimeout(() => {
-  updateStats();
-  loadInitialReels();
-  trackVisibleReels();
-  lucide.createIcons();
-}, 200);
-});
-
+updateStats();
+loadInitialReels();
+trackVisibleReels();
+lucide.createIcons();
 
 </script>
 
@@ -514,3 +439,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </div> <!-- closes .layout-wrapper -->
 </body>
 </html>
+
