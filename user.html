@@ -141,6 +141,75 @@
       text-decoration: none;
       font-size: 1.3rem;
     }
+     @media (max-width: 768px) {
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100%;
+  background-color: #0f0f0f;
+  overflow-x: hidden; /* only hide sideways scrolling */
+  overflow-y: auto; /* 🔥 allow vertical scrolling */
+}
+  #live-stats {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 10px 6px;
+    font-size: 0.75rem;
+    background-color: #1a1a1a;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);
+    text-align: center;
+    border-radius: 0;
+    z-index: 1000;
+    gap: 4px;
+  }
+
+  #profile-content {
+    padding-top: 500px; /* 🔥 bigger padding pushes content below fixed live stats */
+    background-color: #0f0f0f;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    width: 100%;
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+  }
+.layout-wrapper {
+  display: block; /* 🔥 Stop using flex on mobile */
+  height: auto;
+  min-height: 100vh;
+  width: 100%;
+  padding-top: 370px; /* enough for stats */
+  background-color: #0f0f0f;
+}
+
+#app-frame {
+  display: block; /* 🔥 Stop flex on mobile */
+  height: auto;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #0f0f0f;
+}
+
+
+}
+
   </style>
 </head>
 <body>
