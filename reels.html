@@ -413,6 +413,7 @@ let profiles = parseInt(localStorage.getItem("profilesVisited")) || 0;
 let posts = parseInt(localStorage.getItem("postsPosted")) || 0;
 let stories = parseInt(localStorage.getItem("storiesViewed")) || 0;
 let time = parseInt(localStorage.getItem("secondsWasted")) || 0;
+let normalReelCount = 0; // track only normal reels, not Ko-fi reels
 
 const viewedReels = new Set();
 
@@ -436,6 +437,8 @@ updateStats();
 }, 1000);
 
 function createReel(username, caption) {
+normalReelCount++;
+  
 const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 const reel = document.createElement("div");
 reel.className = "reel";
@@ -461,6 +464,25 @@ inner.innerHTML = `
    </div>`;
 reel.appendChild(inner);
 document.getElementById("reelWrapper").appendChild(reel);
+}
+function createKofiReel() {
+  const reel = document.createElement("div");
+  reel.className = "reel";
+  const inner = document.createElement("div");
+  inner.className = "reel-inner";
+  inner.innerHTML = `
+    <div class="caption-center" style="font-size: 2rem; line-height: 2.5rem;">
+      <div>Enjoying the Void?</div>
+      <div>Support it on Ko-fi!</div>
+    </div>
+    <div style="margin-top: 30px;">
+      <a href="https://ko-fi.com/ethanstelter" target="_blank">
+        <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Buy Me a Coffee at ko-fi.com" style="height: 70px; border: none;">
+      </a>
+    </div>
+  `;
+  reel.appendChild(inner);
+  document.getElementById("reelWrapper").appendChild(reel);
 }
 
 function handleLike(btn) {
@@ -527,12 +549,17 @@ input.closest(".comment-box").style.display = "none";
 
 
 function loadInitialReels(count = 10) {
-for (let i = 0; i < count; i++) {
-const user = usernames[Math.floor(Math.random() * usernames.length)];
-const cap = captions[Math.floor(Math.random() * captions.length)];
-createReel(user, cap);
+  for (let i = 0; i < count; i++) {
+    const user = usernames[Math.floor(Math.random() * usernames.length)];
+    const cap = captions[Math.floor(Math.random() * captions.length)];
+    createReel(user, cap);
+
+    if (normalReelCount % 7 === 0 && normalReelCount !== 0) {
+      createKofiReel();
+    }
+  }
 }
-}
+
 
 function trackVisibleReels() {
 const allReels = document.querySelectorAll(".reel");
