@@ -468,11 +468,12 @@ document.getElementById("reelWrapper").appendChild(reel);
 function createKofiReel() {
   const reel = document.createElement("div");
   reel.className = "reel";
-  reel.style.border = "3px solid #f44"; // 🔥 Thicker border now
-  reel.style.borderRadius = "12px";
-  reel.style.overflow = "hidden";
+  reel.style.width = "100%"; // 🔥 Full width
+  reel.style.height = "100%"; // 🔥 Full height
+  reel.style.border = "3px solid #f44"; // 🔥 Thicker border
+  reel.style.borderRadius = "12px"; // 🔥 Rounded corners
+  reel.style.overflow = "hidden"; 
   reel.style.position = "relative"; 
-  reel.style.margin = "10px 0"; // 🔥 Small vertical margin to separate reels nicely
 
   const inner = document.createElement("div");
   inner.className = "reel-inner";
@@ -481,8 +482,9 @@ function createKofiReel() {
   inner.style.flexDirection = "column";
   inner.style.alignItems = "center";
   inner.style.justifyContent = "center";
-  inner.style.height = "100%";
   inner.style.width = "100%"; // 🔥 Ensure it fills completely
+  inner.style.height = "100%"; 
+  inner.style.padding = "20px";
 
   inner.innerHTML = `
     <div style="text-align: center; font-size: 2rem; line-height: 2.5rem; color: #fff; margin-bottom: 20px;">
@@ -501,6 +503,7 @@ function createKofiReel() {
   reel.appendChild(inner);
   document.getElementById("reelWrapper").appendChild(reel);
 }
+
 
 
 
