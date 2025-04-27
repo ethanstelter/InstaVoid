@@ -468,8 +468,10 @@ document.getElementById("reelWrapper").appendChild(reel);
 function createKofiReel() {
   const reel = document.createElement("div");
   reel.className = "reel";
-  reel.style.border = "2px solid #f44"; // 🔥 Red outline around the full reel
-  reel.style.borderRadius = "12px";
+  reel.style.border = "2px solid #f44"; // 🔥 Red outline
+  reel.style.borderRadius = "12px";     // 🔥 Rounded corners
+  reel.style.overflow = "hidden";       // 🔥 Clip inside so rounded looks perfect
+  reel.style.position = "relative";     // Important for positioning
 
   const inner = document.createElement("div");
   inner.className = "reel-inner";
@@ -479,9 +481,10 @@ function createKofiReel() {
   inner.style.alignItems = "center";
   inner.style.justifyContent = "center";
   inner.style.height = "100%";
+  inner.style.padding = "20px";
 
   inner.innerHTML = `
-    <div class="caption-center" style="position: static; transform: none; text-align: center; font-size: 2rem; line-height: 2.5rem; margin-bottom: 20px; color: #fff;">
+    <div style="text-align: center; font-size: 2rem; line-height: 2.5rem; color: #fff; margin-bottom: 20px;">
       <div>Enjoying the Void?</div>
       <div>Support it on Ko-fi!</div>
     </div>
@@ -497,6 +500,7 @@ function createKofiReel() {
   reel.appendChild(inner);
   document.getElementById("reelWrapper").appendChild(reel);
 }
+
 
 
 
