@@ -662,8 +662,8 @@ scrollCooldown = false;
 // Infinite scroll behavior
 if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
   for (let i = 0; i < 5; i++) {
-    const totalPosts = document.querySelectorAll('.post').length;
-    if ((totalPosts + 1) % 7 === 0) {
+    const normalPosts = document.querySelectorAll('.post:not(.kofi-post)').length;
+    if ((normalPosts + 1) % 7 === 0) {
       createKofiPost();
     } else {
       const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
@@ -671,6 +671,7 @@ if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
     }
   }
 }
+
 
 
 // Track profile clicks across the app
