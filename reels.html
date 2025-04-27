@@ -474,11 +474,15 @@ function createKofiReel() {
 
   const inner = document.createElement("div");
   inner.className = "reel-inner";
-  inner.style.backgroundColor = "#1c1c1c"; // 🔥 Dark gray base
-  inner.style.backgroundImage = "url('https://www.transparenttextures.com/patterns/cartographer.png')"; // Topography-like pattern
-  inner.style.backgroundSize = "cover";
+  inner.style.backgroundColor = "#1c1c1c"; // Dark base
+  inner.style.backgroundImage = `url('data:image/svg+xml;utf8,
+    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+      <path d="M0,50 Q50,100 100,50 T200,50" stroke="%23f44" stroke-width="1" fill="none"/>
+      <path d="M0,100 Q50,150 100,100 T200,100" stroke="%23f44" stroke-width="1" fill="none"/>
+      <path d="M0,150 Q50,200 100,150 T200,150" stroke="%23f44" stroke-width="1" fill="none"/>
+    </svg>')`;
   inner.style.backgroundRepeat = "repeat";
-  inner.style.opacity = "0.95"; // Slight transparency to make it feel clean
+  inner.style.backgroundSize = "400px 400px"; // Size of pattern
   inner.style.display = "flex";
   inner.style.flexDirection = "column";
   inner.style.alignItems = "center";
@@ -504,8 +508,6 @@ function createKofiReel() {
   reel.appendChild(inner);
   document.getElementById("reelWrapper").appendChild(reel);
 }
-
-
 
 function handleLike(btn) {
 likes++;
