@@ -475,16 +475,14 @@ function createKofiReel() {
   const inner = document.createElement("div");
   inner.className = "reel-inner";
   inner.style.backgroundColor = "#1c1c1c"; // Dark background
-  inner.style.backgroundImage = `
-    repeating-radial-gradient(
-      circle at center,
-      #f44 0px,
-      #f44 0.5px,
-      transparent 1px,
-      transparent 40px
-    )
-  `;
-  inner.style.backgroundSize = "50px 50px"; // Bigger spacing between red dots
+  inner.style.backgroundImage = `url('data:image/svg+xml;utf8,
+    <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+      <path d="M0 100 Q150 50 300 100 T600 100" stroke="%23f44" stroke-width="1.5" fill="none" />
+      <path d="M0 200 Q150 150 300 200 T600 200" stroke="%23f44" stroke-width="1.5" fill="none" />
+      <path d="M0 300 Q150 250 300 300 T600 300" stroke="%23f44" stroke-width="1.5" fill="none" />
+      <path d="M0 400 Q150 350 300 400 T600 400" stroke="%23f44" stroke-width="1.5" fill="none" />
+    </svg>')`;
+  inner.style.backgroundSize = "500px 500px";
   inner.style.backgroundRepeat = "repeat";
   inner.style.display = "flex";
   inner.style.flexDirection = "column";
