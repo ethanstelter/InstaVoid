@@ -474,15 +474,15 @@ function createKofiReel() {
 
   const inner = document.createElement("div");
   inner.className = "reel-inner";
-  inner.style.backgroundColor = "#1c1c1c"; // Dark base
+  inner.style.backgroundColor = "#1c1c1c"; // Dark background
   inner.style.backgroundImage = `url('data:image/svg+xml;utf8,
-    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
-      <path d="M0,50 Q50,100 100,50 T200,50" stroke="%23f44" stroke-width="1" fill="none"/>
-      <path d="M0,100 Q50,150 100,100 T200,100" stroke="%23f44" stroke-width="1" fill="none"/>
-      <path d="M0,150 Q50,200 100,150 T200,150" stroke="%23f44" stroke-width="1" fill="none"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+      <path d="M0 40 L40 0" stroke="%23f44" stroke-width="2"/>
+      <path d="M-10 30 L30 -10" stroke="%23f44" stroke-width="2"/>
+      <path d="M10 50 L50 10" stroke="%23f44" stroke-width="2"/>
     </svg>')`;
   inner.style.backgroundRepeat = "repeat";
-  inner.style.backgroundSize = "400px 400px"; // Size of pattern
+  inner.style.backgroundSize = "40px 40px";
   inner.style.display = "flex";
   inner.style.flexDirection = "column";
   inner.style.alignItems = "center";
@@ -508,6 +508,7 @@ function createKofiReel() {
   reel.appendChild(inner);
   document.getElementById("reelWrapper").appendChild(reel);
 }
+
 
 function handleLike(btn) {
 likes++;
