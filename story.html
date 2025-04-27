@@ -436,46 +436,51 @@
         }
 
         function showStory(index) {
-          const slides = document.querySelectorAll(".story-slide");
-          slides.forEach(slide => slide.classList.remove("active"));
-          slides[index].classList.add("active");
-          incrementStat(stats.storiesViewed);
-        }
+  const slides = storySlides; // ✅ use tracked slides
+  slides.forEach(slide => slide.classList.remove("active"));
+  slides[index].classList.add("active");
+  incrementStat(stats.storiesViewed);
+}
 
-        function nextStory() {
-          currentIndex = (currentIndex + 1) % usernames.length;
-          showStory(currentIndex);
-        }
 
-        function prevStory() {
-          currentIndex = (currentIndex - 1 + usernames.length) % usernames.length;
-          showStory(currentIndex);
-        }
+       function nextStory() {
+  currentIndex = (currentIndex + 1) % storySlides.length; // ✅ dynamic length
+  showStory(currentIndex);
+}
 
-        usernames.forEach((username, i) => {
-          const message = messages[i % messages.length];
-          const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+function prevStory() {
+  currentIndex = (currentIndex - 1 + storySlides.length) % storySlides.length; // ✅ dynamic length
+  showStory(currentIndex);
+}
 
-          const slide = document.createElement("div");
-          slide.className = "story-slide";
-          if (i === 0) slide.classList.add("active");
+      const storySlides = []; // Track all slides you generate
 
-        slide.innerHTML = `
-  <a href="user.html?user=${username}" class="story-profile-link" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
-    <img class="avatar" src="${avatar}" alt="avatar">
-    <div class="username">@${username}</div>
-  </a>
-  <div class="message">${message}</div>
-`;
+usernames.forEach((username, i) => {
+  const message = messages[i % messages.length];
+  const avatar = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
 
-          storyWrapper.appendChild(slide);
-        });
-// Insert a special Ko-fi support story
+  const slide = document.createElement("div");
+  slide.className = "story-slide";
+  if (i === 0) slide.classList.add("active");
+
+  slide.innerHTML = `
+    <a href="user.html?user=${username}" class="story-profile-link" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+      <img class="avatar" src="${avatar}" alt="avatar">
+      <div class="username">@${username}</div>
+    </a>
+    <div class="message">${message}</div>
+  `;
+
+  storyWrapper.appendChild(slide);
+  storySlides.push(slide); // ✅ Add to list of slides
+});
+
+// ✅ Now insert the Ko-fi story manually
 const kofiSlide = document.createElement("div");
 kofiSlide.className = "story-slide";
 
 kofiSlide.innerHTML = `
-  <div style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
     <img class="avatar" src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Support Me on Ko-fi">
     <div class="username">@SupportTheVoid</div>
   </div>
@@ -486,6 +491,8 @@ kofiSlide.innerHTML = `
 `;
 
 storyWrapper.appendChild(kofiSlide);
+storySlides.push(kofiSlide); // ✅ Add the Ko-fi slide to slides array
+
 
         
         document.addEventListener("click", function (e) {
