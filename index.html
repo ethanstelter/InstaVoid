@@ -638,13 +638,14 @@ notifDropdown.innerHTML = notifications.map(n => `<p>${n}</p>`).join("");
 setInterval(() => Math.random() < 0.25 && pushRandomNotification(), 15000);
 
 for (let i = 0; i < 10; i++) {
-  if ((normalPostCount + 1) % 7 === 0) {
+  const msg = fakeMessages[i % fakeMessages.length];
+  createPost(msg);
+
+  if (normalPostCount % 7 === 0 && normalPostCount !== 0) {
     createKofiPost();
-  } else {
-    const msg = fakeMessages[i % fakeMessages.length];
-    createPost(msg);
   }
 }
+
 
 
 
@@ -663,16 +664,17 @@ wrapper.addEventListener("scroll", () => {
     }, 500);
   }
 
-  if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
-    for (let i = 0; i < 5; i++) {
-      if ((normalPostCount + 1) % 7 === 0) {
-        createKofiPost();
-      } else {
-        const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-        createPost(msg);
-      }
+if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
+  for (let i = 0; i < 5; i++) {
+    const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+    createPost(msg);
+
+    if (normalPostCount % 7 === 0 && normalPostCount !== 0) {
+      createKofiPost();
     }
   }
+}
+
 });
 
 
