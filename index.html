@@ -393,23 +393,6 @@ padding-bottom: 60px; /* space for bottom nav */
   padding-bottom: 10px;
 }
 
-.kofi-button {
-  display: inline-block;
-  margin: 10px auto;
-  padding: 10px 20px;
-  background-color: #f44; /* Red background for button */
-  color: white;
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.kofi-button:hover {
-  background-color: #c33; /* Slightly darker red on hover */
-  transform: scale(1.05);
-}
 
 
 </style>
@@ -555,16 +538,20 @@ function createKofiPost() {
       <div style="font-size: 32px; margin-right: 10px;">☕</div>
       <span>@SupportMe</span>
     </div>
-    <div class="post-image" style="background: linear-gradient(135deg, #1c1c1c, #2c2c2c); color: #fff;">
-      Enjoying the Void? Support it on Ko-fi!
+    <div class="post-image" style="background: linear-gradient(135deg, #1c1c1c, #2c2c2c); color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 1.3rem; line-height: 1.5;">
+      <div>Enjoying the Void?</div>
+      <div>Support it on Ko-fi!</div>
     </div>
-    <div class="post-actions">
-      <a href="https://ko-fi.com/ethanstelter" target="_blank" class="kofi-button">Support Me</a>
+    <div class="post-actions" style="justify-content: center;">
+      <a href="https://ko-fi.com/ethanstelter" target="_blank">
+        <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Buy Me a Coffee at ko-fi.com" style="height: 36px; border: none;">
+      </a>
     </div>
   `;
 
   feed.appendChild(post);
 }
+
 
 
 function handleLike(btn) {
