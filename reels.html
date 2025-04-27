@@ -611,8 +611,10 @@ scrollCooldown = false;
 trackVisibleReels();
 
 if (reelWrapper.scrollTop + reelWrapper.clientHeight >= reelWrapper.scrollHeight - 10) {
-loadInitialReels(5);
+  loadInitialReels(5);
+  lucide.createIcons(); // 🔥 Re-render icons for the new reels!
 }
+
 });
 document.addEventListener("click", function (e) {
 const anchor = e.target.closest("a[href^='user.html?user=']");
