@@ -466,6 +466,9 @@ let profilesVisited = parseInt(localStorage.getItem("profilesVisited"));
 let postsPosted = parseInt(localStorage.getItem("postsPosted"));
 let notifications = [];
 
+  let normalPostCount = 0;
+
+
 function updateStats() {
 document.getElementById("stat-minutes").textContent = Math.floor(secondsWasted / 60);
 document.getElementById("stat-likes").textContent = likesGiven;
@@ -494,40 +497,40 @@ storiesBar.appendChild(story);
 });
 
 function createPost(message) {
-const post = document.createElement("div");
-post.className = "post";
-const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
-const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
-post.innerHTML = `
-  <div class="post-header">
-    <img src="${avatarUrl}" alt="avatar">
-    <span>@${username}</span>
-  </div>
-  <div class="post-image">${message}</div>
-  <div class="post-actions">
-    <button class="like-btn"><i data-lucide="heart"></i></button>
-    <button class="comment-toggle"><i data-lucide="message-circle"></i></button>
-    <button class="repost-btn"><i data-lucide="repeat"></i></button>
-    <button class="bookmark-btn"><i data-lucide="bookmark"></i></button>
-  </div>
-  <div class="comment-box">
-    <input type="text" placeholder="Say something...">
-    <button class="submit-comment">➤</button>
-  </div>
-`;
+  normalPostCount++; // 👈 Increment only when creating a normal post
 
-// Add to DOM
-feed.appendChild(post);
+  const post = document.createElement("div");
+  post.className = "post";
+  const username = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
+  const avatarUrl = `https://api.dicebear.com/7.x/personas/svg?seed=${username}`;
+  post.innerHTML = `
+    <div class="post-header">
+      <img src="${avatarUrl}" alt="avatar">
+      <span>@${username}</span>
+    </div>
+    <div class="post-image">${message}</div>
+    <div class="post-actions">
+      <button class="like-btn"><i data-lucide="heart"></i></button>
+      <button class="comment-toggle"><i data-lucide="message-circle"></i></button>
+      <button class="repost-btn"><i data-lucide="repeat"></i></button>
+      <button class="bookmark-btn"><i data-lucide="bookmark"></i></button>
+    </div>
+    <div class="comment-box">
+      <input type="text" placeholder="Say something...">
+      <button class="submit-comment">➤</button>
+    </div>
+  `;
 
-// Attach behavior to new buttons
-post.querySelector(".like-btn").onclick = () => handleLike(post.querySelector(".like-btn"));
-post.querySelector(".repost-btn").onclick = () => handleRepost(post.querySelector(".repost-btn"));
-post.querySelector(".bookmark-btn").onclick = () => handleBookmark(post.querySelector(".bookmark-btn"));
-post.querySelector(".comment-toggle").onclick = () => toggleCommentBox(post.querySelector(".comment-toggle"));
-post.querySelector(".submit-comment").onclick = () => submitFakeComment(post.querySelector(".submit-comment"));
+  feed.appendChild(post);
 
-// Activate icons
-lucide.createIcons();
+  // Attach behavior to new buttons
+  post.querySelector(".like-btn").onclick = () => handleLike(post.querySelector(".like-btn"));
+  post.querySelector(".repost-btn").onclick = () => handleRepost(post.querySelector(".repost-btn"));
+  post.querySelector(".bookmark-btn").onclick = () => handleBookmark(post.querySelector(".bookmark-btn"));
+  post.querySelector(".comment-toggle").onclick = () => toggleCommentBox(post.querySelector(".comment-toggle"));
+  post.querySelector(".submit-comment").onclick = () => submitFakeComment(post.querySelector(".submit-comment"));
+
+  lucide.createIcons();
 }
 
 function createKofiPost() {
@@ -635,7 +638,7 @@ notifDropdown.innerHTML = notifications.map(n => `<p>${n}</p>`).join("");
 setInterval(() => Math.random() < 0.25 && pushRandomNotification(), 15000);
 
 for (let i = 0; i < 10; i++) {
-  if ((i + 1) % 7 === 0) {
+  if ((normalPostCount + 1) % 7 === 0) {
     createKofiPost();
   } else {
     const msg = fakeMessages[i % fakeMessages.length];
@@ -644,34 +647,34 @@ for (let i = 0; i < 10; i++) {
 }
 
 
+
 const wrapper = document.querySelector(".content-wrapper");
 let scrollCooldown = false;
 
 wrapper.addEventListener("scroll", () => {
-if (!scrollCooldown) {
-scrollCount++;
-localStorage.setItem("scrollCount", scrollCount);
-updateStats();
+  if (!scrollCooldown) {
+    scrollCount++;
+    localStorage.setItem("scrollCount", scrollCount);
+    updateStats();
 
-scrollCooldown = true;
-setTimeout(() => {
-scrollCooldown = false;
-}, 500); // 0.5 seconds cooldown
-}
+    scrollCooldown = true;
+    setTimeout(() => {
+      scrollCooldown = false;
+    }, 500);
+  }
 
-// Infinite scroll behavior
-if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
-  for (let i = 0; i < 5; i++) {
-    const normalPosts = document.querySelectorAll('.post:not(.kofi-post)').length;
-    if ((normalPosts + 1) % 7 === 0) {
-      createKofiPost();
-    } else {
-      const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-      createPost(msg);
+  if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
+    for (let i = 0; i < 5; i++) {
+      if ((normalPostCount + 1) % 7 === 0) {
+        createKofiPost();
+      } else {
+        const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+        createPost(msg);
+      }
     }
   }
-}
 });
+
 
 
 // Track profile clicks across the app
