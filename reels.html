@@ -470,20 +470,34 @@ function createKofiReel() {
   reel.className = "reel";
   const inner = document.createElement("div");
   inner.className = "reel-inner";
+  inner.style.border = "2px solid #f44"; // 🔥 Red border just like index.html
+  inner.style.borderRadius = "12px";
+  inner.style.background = "linear-gradient(135deg, #1c1c1c, #2c2c2c)";
+  inner.style.padding = "20px 10px";
+  inner.style.display = "flex";
+  inner.style.flexDirection = "column";
+  inner.style.alignItems = "center";
+  inner.style.justifyContent = "center";
+  inner.style.height = "350px"; // Match your post height
+
   inner.innerHTML = `
-    <div class="caption-center" style="font-size: 2rem; line-height: 2.5rem;">
+    <div class="post-header" style="display: flex; align-items: center; margin-bottom: 10px;">
+      <div style="font-size: 40px; margin-right: 10px;">☕</div> <!-- Fake avatar as emoji -->
+      <span style="font-size: 1.5rem; color: #ccc;">@SupportMe</span>
+    </div>
+    <div class="caption-center" style="position: static; transform: none; text-align: center; font-size: 2rem; line-height: 2.5rem; margin-bottom: 20px; color: #fff;">
       <div>Enjoying the Void?</div>
       <div>Support it on Ko-fi!</div>
     </div>
-    <div style="margin-top: 30px;">
-      <a href="https://ko-fi.com/ethanstelter" target="_blank">
-        <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Buy Me a Coffee at ko-fi.com" style="height: 70px; border: none;">
-      </a>
-    </div>
+    <a href="https://ko-fi.com/ethanstelter" target="_blank" style="margin-top: 10px;">
+      <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Buy Me a Coffee at ko-fi.com" style="height: 70px; border: none;">
+    </a>
   `;
+
   reel.appendChild(inner);
   document.getElementById("reelWrapper").appendChild(reel);
 }
+
 
 function handleLike(btn) {
 likes++;
