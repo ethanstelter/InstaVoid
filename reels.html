@@ -468,10 +468,11 @@ document.getElementById("reelWrapper").appendChild(reel);
 function createKofiReel() {
   const reel = document.createElement("div");
   reel.className = "reel";
-  reel.style.border = "2px solid #f44"; // 🔥 Red outline
-  reel.style.borderRadius = "12px";     // 🔥 Rounded corners
-  reel.style.overflow = "hidden";       // 🔥 Clip inside so rounded looks perfect
-  reel.style.position = "relative";     // Important for positioning
+  reel.style.border = "3px solid #f44"; // 🔥 Thicker border now
+  reel.style.borderRadius = "12px";
+  reel.style.overflow = "hidden";
+  reel.style.position = "relative"; 
+  reel.style.margin = "10px 0"; // 🔥 Small vertical margin to separate reels nicely
 
   const inner = document.createElement("div");
   inner.className = "reel-inner";
@@ -481,7 +482,7 @@ function createKofiReel() {
   inner.style.alignItems = "center";
   inner.style.justifyContent = "center";
   inner.style.height = "100%";
-  inner.style.padding = "20px";
+  inner.style.width = "100%"; // 🔥 Ensure it fills completely
 
   inner.innerHTML = `
     <div style="text-align: center; font-size: 2rem; line-height: 2.5rem; color: #fff; margin-bottom: 20px;">
@@ -491,15 +492,16 @@ function createKofiReel() {
     <a href="https://ko-fi.com/ethanstelter" target="_blank" style="margin-top: 10px;">
       <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Buy Me a Coffee at ko-fi.com" style="height: 70px; border: none;">
     </a>
-    <a href="user.html?user=SupportMe" class="user-info" style="position: absolute; bottom: 70px; left: 10px; display: flex; align-items: center; text-decoration: none; color: inherit;">
+    <div class="user-info" style="position: absolute; bottom: 70px; left: 10px; display: flex; align-items: center; color: inherit;">
       <div style="font-size: 32px; margin-right: 10px;">☕</div>
       <div class="username" style="font-size: 0.9rem; color: #ccc;">@SupportMe</div>
-    </a>
+    </div>
   `;
 
   reel.appendChild(inner);
   document.getElementById("reelWrapper").appendChild(reel);
 }
+
 
 
 
