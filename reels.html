@@ -468,23 +468,19 @@ document.getElementById("reelWrapper").appendChild(reel);
 function createKofiReel() {
   const reel = document.createElement("div");
   reel.className = "reel";
+  reel.style.border = "2px solid #f44"; // 🔥 Red outline around the full reel
+  reel.style.borderRadius = "12px";
+
   const inner = document.createElement("div");
   inner.className = "reel-inner";
-  inner.style.border = "2px solid #f44"; // 🔥 Red border just like index.html
-  inner.style.borderRadius = "12px";
   inner.style.background = "linear-gradient(135deg, #1c1c1c, #2c2c2c)";
-  inner.style.padding = "20px 10px";
   inner.style.display = "flex";
   inner.style.flexDirection = "column";
   inner.style.alignItems = "center";
   inner.style.justifyContent = "center";
-  inner.style.height = "350px"; // Match your post height
+  inner.style.height = "100%";
 
   inner.innerHTML = `
-    <div class="post-header" style="display: flex; align-items: center; margin-bottom: 10px;">
-      <div style="font-size: 40px; margin-right: 10px;">☕</div> <!-- Fake avatar as emoji -->
-      <span style="font-size: 1.5rem; color: #ccc;">@SupportMe</span>
-    </div>
     <div class="caption-center" style="position: static; transform: none; text-align: center; font-size: 2rem; line-height: 2.5rem; margin-bottom: 20px; color: #fff;">
       <div>Enjoying the Void?</div>
       <div>Support it on Ko-fi!</div>
@@ -492,11 +488,16 @@ function createKofiReel() {
     <a href="https://ko-fi.com/ethanstelter" target="_blank" style="margin-top: 10px;">
       <img src="https://storage.ko-fi.com/cdn/kofi3.png" alt="Buy Me a Coffee at ko-fi.com" style="height: 70px; border: none;">
     </a>
+    <a href="user.html?user=SupportMe" class="user-info" style="position: absolute; bottom: 70px; left: 10px; display: flex; align-items: center; text-decoration: none; color: inherit;">
+      <div style="font-size: 32px; margin-right: 10px;">☕</div>
+      <div class="username" style="font-size: 0.9rem; color: #ccc;">@SupportMe</div>
+    </a>
   `;
 
   reel.appendChild(inner);
   document.getElementById("reelWrapper").appendChild(reel);
 }
+
 
 
 function handleLike(btn) {
