@@ -635,13 +635,14 @@ notifDropdown.innerHTML = notifications.map(n => `<p>${n}</p>`).join("");
 setInterval(() => Math.random() < 0.25 && pushRandomNotification(), 15000);
 
 for (let i = 0; i < 10; i++) {
-  if ((i + 1) % 10 === 0) {
-    createKofiPost(); // Insert Ko-fi post every 10th
+  if ((i + 1) % 7 === 0) {
+    createKofiPost();
   } else {
     const msg = fakeMessages[i % fakeMessages.length];
     createPost(msg);
   }
 }
+
 
 const wrapper = document.querySelector(".content-wrapper");
 let scrollCooldown = false;
@@ -660,12 +661,17 @@ scrollCooldown = false;
 
 // Infinite scroll behavior
 if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 10) {
-for (let i = 0; i < 5; i++) {
-const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-createPost(msg);
+  for (let i = 0; i < 5; i++) {
+    const totalPosts = document.querySelectorAll('.post').length;
+    if ((totalPosts + 1) % 7 === 0) {
+      createKofiPost();
+    } else {
+      const msg = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+      createPost(msg);
+    }
+  }
 }
-}
-});
+
 
 // Track profile clicks across the app
 document.addEventListener("click", function (e) {
